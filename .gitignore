@@ -3,3 +3,7 @@
 ################################################################################
 
 /IndiePortable/Formatter/bin
+/IndiePortable/Formatter/obj
+/IndiePortable/packages
+/IndiePortable/Collections/obj
+/IndiePortable/Collections/bin

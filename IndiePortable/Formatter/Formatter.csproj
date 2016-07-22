@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E774E698-E2C3-4C82-AF09-4FB00EB5AA35}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IndiePortable.Formatter</RootNamespace>
+    <AssemblyName>IndiePortable.Formatter</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile259</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\IndiePortable.Formatter.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>E:\David\Programmieren\C#\LiveSong_current\LiveSong\LiveSongCodeRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>IndiePortable.Formatter.Key.pfx</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="IndiePortable.Formatter.Key.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BinaryFormatter.cs" />
+    <Compile Include="DataContractSurrogate.cs" />
+    <Compile Include="DeserializationConstructorAttribute.cs" />
+    <Compile Include="FieldData.cs" />
+    <Compile Include="CollectionSurrogate.cs" />
+    <Compile Include="IProtocolFormatter.cs" />
+    <Compile Include="ISerializable.cs" />
+    <Compile Include="ISurrogate.cs" />
+    <Compile Include="ISurrogateSelector.cs" />
+    <Compile Include="MscorlibSurrogates\CultureInfoSurrogate.cs" />
+    <Compile Include="MscorlibSurrogates\DateTimeSurrogate.cs" />
+    <Compile Include="MscorlibSurrogates\GuidSurrogate.cs" />
+    <Compile Include="MscorlibSurrogates\MscorlibSurrogateSelector.cs" />
+    <Compile Include="MscorlibSurrogates\TimeSpanSurrogate.cs" />
+    <Compile Include="ObjectAnalyzer.cs" />
+    <Compile Include="ObjectDataCollection.cs" />
+    <Compile Include="Protocol1_0_0_0\ArrayElement.cs" />
+    <Compile Include="Protocol1_0_0_0\BinaryArrayElement.cs" />
+    <Compile Include="Protocol1_0_0_0\BinaryArrayRepresentation.cs" />
+    <Compile Include="Protocol1_0_0_0\ObjectType.cs" />
+    <Compile Include="PrimitiveType.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Protocol1_0_0_0\BinaryObjectRepresentation.cs" />
+    <Compile Include="Protocol1_0_0_0\BinaryValueRepresentation.cs" />
+    <Compile Include="Protocol1_0_0_0\ProtocolFormatter.cs" />
+    <Compile Include="Protocol1_1_0_0\ObjectPrimitiveType.cs" />
+    <Compile Include="Protocol1_1_0_0\ObjectPropertyPrimitiveValue.cs" />
+    <Compile Include="Protocol1_1_0_0\ObjectPropertyRefValue.cs" />
+    <Compile Include="Protocol1_1_0_0\ObjectPropertyValue.cs" />
+    <Compile Include="Protocol1_1_0_0\PrimitiveByteObject.cs" />
+    <Compile Include="Protocol1_1_0_0\RefByteObject.cs" />
+    <Compile Include="Protocol1_1_0_0\ByteObjectProperty.cs" />
+    <Compile Include="Protocol1_1_0_0\HeaderInformation.cs" />
+    <Compile Include="Protocol1_1_0_0\ByteObjectBase.cs" />
+    <Compile Include="Protocol1_1_0_0\ObjectFormatter.cs" />
+    <Compile Include="Protocol1_1_0_0\ByteObjectHeader.cs" />
+    <Compile Include="Protocol1_1_0_0\ObjectType.cs" />
+    <Compile Include="Protocol1_1_0_0\Package.cs" />
+    <Compile Include="Protocol1_1_0_0\PackagePart.cs" />
+    <Compile Include="Protocol1_1_0_0\ProtocolFormatter.cs" />
+    <Compile Include="ProtocolVersionNotSupportedException.cs" />
+    <Compile Include="SerializableAttribute.cs" />
+    <Compile Include="GraphIterator.cs" />
+    <Compile Include="SerializableSurrogate.cs" />
+    <Compile Include="SerializedAttribute.cs" />
+    <Compile Include="SerializedFieldVersionAttribute.cs" />
+    <Compile Include="SerializedVersionAttribute.cs" />
+    <Compile Include="SerializationTypeInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

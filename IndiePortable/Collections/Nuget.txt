@@ -1,0 +1,8 @@
+﻿cd $(ProjectPath)
+
+nuget spec
+
+--> edit nuspec file
+License (MIT): https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.License.txt
+
+nuget pack Collections.csproj -Prop Configuration=Release              

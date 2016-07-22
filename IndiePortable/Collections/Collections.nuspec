@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>$id$</id>
+        <version>0.2.0</version>
+        <title>$title$</title>
+        <authors>$author$</authors>
+        <owners>$author$</owners>
+        <licenseUrl>https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.License.txt</licenseUrl>
+        <projectUrl>https://www.dropbox.com/sh/qwhowr6749nzkpm/AAC2iKxRTzFd-fHFfyHZjhEOa?dl=0</projectUrl>
+        <iconUrl>https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.Collections.Icon.png</iconUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>$description$</description>
+        <releaseNotes>
+            Improvements:
+            - Better thread synchronization in collections by using semaphores instead of ReaderWriterLocks.
+        
+            Changes:
+            - Every implementation of IObservableList&lt;T&gt; can now be used for initializing a ReadOnlyObservableDynamicArray&lt;T&gt;.
+            - ArrayDictionary key types do not have to implement IComparable&lt;T&gt; any more; they should implement IEquatable&lt;T&gt; instead.
+        </releaseNotes>
+        <copyright>Copyright (c) 2016 by David Eiwen</copyright>
+        <tags>Collections Concurrent Array-based DynamicArray Array Observable</tags>
+    </metadata>
+</package>
