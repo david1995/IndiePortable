@@ -58,12 +58,7 @@ namespace IndiePortable.Collections
         /// <summary>
         /// The <see cref="SemaphoreSlim" /> that handles the thread synchronization for the <see cref="DynamicArray{T}" />.
         /// </summary>
-        private ReaderWriterLockSlim readWriteLock;
-
-        /// <summary>
-        /// The <see cref="SemaphoreSlim" /> that handles the thread synchronization for the <see cref="DynamicArray{T}" />.
-        /// </summary>
-        private SemaphoreSlim semaphore;
+        private readonly SemaphoreSlim semaphore;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicArray{T}" /> class
@@ -632,7 +627,7 @@ namespace IndiePortable.Collections
 
                 for (int n = 0; n < this.Count; n++)
                 {
-                    data.AddValue(n.ToString(), this[n]);
+                    data.AddValue(n.ToString(), this.backing[n]);
                 }
             }
             finally
@@ -689,7 +684,6 @@ namespace IndiePortable.Collections
                 this.backing = null;
                 this.countBacking = 0;
                 this.growthRateBacking = 0d;
-                this.semaphore = default(SemaphoreSlim);
             }
         }
 

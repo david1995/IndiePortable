@@ -38,9 +38,9 @@ namespace IndiePortable.Collections
         where TKey : IEquatable<TKey>
     {
         /// <summary>
-        /// The <see cref="ReaderWriterLockSlim" /> that handles the thread synchronization of the <see cref="ArrayDictionary{TKey, TValue}" />.
+        /// The <see cref="SemaphoreSlim" /> that handles thread synchronization for the <see cref="ArrayDictionary{TKey, TValue}" />.
         /// </summary>
-        private readonly ReaderWriterLockSlim readWriteLock;
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// The entries of the <see cref="ArrayDictionary{TKey, TValue}" /> combined with a hashed key.
@@ -104,7 +104,6 @@ namespace IndiePortable.Collections
 
             this.Capacity = capacity;
             this.countBacking = 0;
-            this.readWriteLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
             this.hashedEntries = new DynamicArray<KeyValuePair<TKey, TValue>>[capacity];
             this.keys = new DynamicArray<TKey>();
             this.keysBacking = new ReadOnlyCollection<TKey>(this.keys);
@@ -323,7 +322,7 @@ namespace IndiePortable.Collections
                 throw new ArgumentNullException(nameof(data));
             }
 
-            this.readWriteLock.EnterReadLock();
+            this.semaphore.Wait();
             try
             {
                 data.AddValue(nameof(this.Count), this.Count);
@@ -337,7 +336,7 @@ namespace IndiePortable.Collections
             }
             finally
             {
-                this.readWriteLock.ExitReadLock();
+                this.semaphore.Release();
             }
         }
 
@@ -412,7 +411,7 @@ namespace IndiePortable.Collections
         /// </returns>
         public bool TrySetValue(TKey key, TValue newValue)
         {
-            this.readWriteLock.EnterWriteLock();
+            this.semaphore.Wait();
             try
             {
                 this.ReplaceItem(key, newValue);
@@ -424,7 +423,7 @@ namespace IndiePortable.Collections
             }
             finally
             {
-                this.readWriteLock.ExitWriteLock();
+                this.semaphore.Release();
             }
         }
 
@@ -476,7 +475,7 @@ namespace IndiePortable.Collections
                 {
                 }
 
-                this.readWriteLock.Dispose();
+                this.semaphore.Dispose();
 
                 this.countBacking = 0;
                 this.hashedEntries = null;
@@ -498,7 +497,7 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected virtual void AddItem(KeyValuePair<TKey, TValue> item)
         {
-            this.readWriteLock.EnterWriteLock();
+            this.semaphore.Wait();
             try
             {
                 // check whether key already exists
@@ -525,7 +524,7 @@ namespace IndiePortable.Collections
             }
             finally
             {
-                this.readWriteLock.ExitWriteLock();
+                this.semaphore.Release();
             }
         }
 
@@ -534,7 +533,7 @@ namespace IndiePortable.Collections
         /// </summary>
         protected virtual void ClearItems()
         {
-            this.readWriteLock.EnterWriteLock();
+            this.semaphore.Wait();
             try
             {
                 for (var n = 0; n < this.countBacking; n++)
@@ -544,7 +543,7 @@ namespace IndiePortable.Collections
             }
             finally
             {
-                this.readWriteLock.ExitWriteLock();
+                this.semaphore.Release();
             }
         }
 
@@ -559,14 +558,14 @@ namespace IndiePortable.Collections
         /// </returns>
         protected virtual bool ContainsKeyItem(TKey key)
         {
-            this.readWriteLock.EnterReadLock();
+            this.semaphore.Wait();
             try
             {
                 return this.Keys.Contains(key);
             }
             finally
             {
-                this.readWriteLock.ExitReadLock();
+                this.semaphore.Release();
             }
         }
         
@@ -590,7 +589,7 @@ namespace IndiePortable.Collections
                 throw new ArgumentNullException(nameof(array));
             }
 
-            this.readWriteLock.EnterReadLock();
+            this.semaphore.Wait();
 
             try
             {
@@ -603,7 +602,7 @@ namespace IndiePortable.Collections
             }
             finally
             {
-                this.readWriteLock.ExitReadLock();
+                this.semaphore.Release();
             }
         }
 
@@ -617,17 +616,7 @@ namespace IndiePortable.Collections
         ///     Returns a value indicating whether the specified <paramref name="item" /> could be found in the <see cref="ArrayDictionary{TKey, TValue}" />.
         /// </returns>
         protected virtual bool ContainsItem(KeyValuePair<TKey, TValue> item)
-        {
-            this.readWriteLock.EnterReadLock();
-            try
-            {
-                return this.Any(i => i.Key?.Equals(item.Key) ?? item.Key?.Equals(i.Key) ?? true);
-            }
-            finally
-            {
-                this.readWriteLock.ExitReadLock();
-            }
-        }
+            => this.Any(i => i.Key?.Equals(item.Key) ?? item.Key?.Equals(i.Key) ?? true);
 
         /// <summary>
         /// Gets the value associated with a specified key.
@@ -642,18 +631,7 @@ namespace IndiePortable.Collections
         ///     Thrown if the specified <paramref name="key" /> could not be found in the <see cref="ArrayDictionary{TKey, TValue}" />.
         /// </exception>
         protected virtual TValue GetItem(TKey key)
-        {
-            this.readWriteLock.EnterReadLock();
-
-            try
-            {
-                return this.First(i => i.Key?.Equals(key) ?? key?.Equals(i.Key) ?? true).Value;
-            }
-            finally
-            {
-                this.readWriteLock.ExitReadLock();
-            }
-        }
+            => this.First(i => i.Key?.Equals(key) ?? key?.Equals(i.Key) ?? true).Value;
 
         /// <summary>
         /// Replaces the value associated with the specified key by a new value.
@@ -666,7 +644,7 @@ namespace IndiePortable.Collections
         /// </param>
         protected virtual void ReplaceItem(TKey key, TValue newValue)
         {
-            this.readWriteLock.EnterWriteLock();
+            this.semaphore.Wait();
             try
             {
                 if (!this.ContainsKeyItem(key))
@@ -688,7 +666,7 @@ namespace IndiePortable.Collections
             }
             catch
             {
-                this.readWriteLock.ExitWriteLock();
+                this.semaphore.Release();
             }
         }
 
@@ -703,7 +681,7 @@ namespace IndiePortable.Collections
         /// </returns>
         protected virtual bool RemoveItem(KeyValuePair<TKey, TValue> item)
         {
-            this.readWriteLock.EnterWriteLock();
+            this.semaphore.Wait();
             try
             {
                 if (!this.ContainsItem(item))
@@ -726,7 +704,7 @@ namespace IndiePortable.Collections
             }
             finally
             {
-                this.readWriteLock.ExitWriteLock();
+                this.semaphore.Release();
             }
         }
 
@@ -741,7 +719,7 @@ namespace IndiePortable.Collections
         /// </returns>
         protected virtual bool RemoveItem(TKey key)
         {
-            this.readWriteLock.EnterWriteLock();
+            this.semaphore.Wait();
             try
             {
                 if (!this.ContainsKeyItem(key))
@@ -764,7 +742,7 @@ namespace IndiePortable.Collections
             }
             finally
             {
-                this.readWriteLock.ExitWriteLock();
+                this.semaphore.Release();
             }
         }
 
@@ -855,7 +833,7 @@ namespace IndiePortable.Collections
             {
                 if (this.currentIndex >= 0)
                 {
-                    this.enumerable.readWriteLock.ExitReadLock();
+                    this.enumerable.semaphore.Wait();
                 }
 
                 this.currentIndex = 0;
@@ -876,7 +854,7 @@ namespace IndiePortable.Collections
             {
                 if (this.currentIndex < 0)
                 {
-                    this.enumerable.readWriteLock.EnterReadLock();
+                    this.enumerable.semaphore.Wait();
                 }
 
                 return ++this.currentIndex < this.enumerable.Count;
@@ -892,7 +870,7 @@ namespace IndiePortable.Collections
             {
                 if (this.currentIndex >= 0)
                 {
-                    this.enumerable.readWriteLock.ExitReadLock();
+                    this.enumerable.semaphore.Release();
                 }
 
                 this.currentIndex = -1;

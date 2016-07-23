@@ -52,7 +52,7 @@ namespace IndiePortable.Collections
         /// <summary>
         /// The <see cref="SemaphoreSlim" /> that synchronizes the thread access on the <see cref="ViewObservableDynamicArray{TIn, TOut}" />.
         /// </summary>
-        private SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// The backing field for the <see cref="Source" /> property.
@@ -68,6 +68,11 @@ namespace IndiePortable.Collections
         /// The <see cref="DynamicArray{T}" /> containing the view models.
         /// </summary>
         private DynamicArray<TOut> viewModels;
+
+        /// <summary>
+        /// The backing field for the <see cref="IsDisposed" /> property.
+        /// </summary>
+        private bool isDisposedBacking;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ViewObservableDynamicArray{TIn, TOut}" /> class.
@@ -136,6 +141,17 @@ namespace IndiePortable.Collections
         ///     Implements <see cref="INotifyCollectionChanged.CollectionChanged" /> implicitly.
         /// </remarks>
         public event NotifyCollectionChangedEventHandler CollectionChanged;
+
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="ViewObservableDynamicArray{TIn, TOut}" /> has been disposed.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the <see cref="ViewObservableDynamicArray{TIn, TOut}" /> has been disposed; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsDisposed
+        {
+            get { return this.isDisposedBacking; }
+        }
 
         /// <summary>
         /// Gets the number of elements in the collection.
@@ -350,17 +366,27 @@ namespace IndiePortable.Collections
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="managed">
+        /// <param name="disposing">
         ///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
         /// </param>
-        protected virtual void Dispose(bool managed)
+        protected virtual void Dispose(bool disposing)
         {
-            this.semaphore.Dispose();
-            if (managed)
+            if (!this.IsDisposed)
             {
+                if (disposing)
+                {
+                }
+
+                this.mapping.Dispose();
+                this.viewModels.Dispose();
+                this.semaphore.Dispose();
+
+                this.CollectionChanged = null;
                 this.sourceBacking = null;
                 this.mapping = null;
-                this.semaphore = null;
+                this.viewModels = null;
+
+                this.isDisposedBacking = true;
             }
         }
 

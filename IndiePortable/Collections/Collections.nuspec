@@ -2,22 +2,34 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>$id$</id>
-        <version>0.2.0</version>
+        <version>0.2.1</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
-        <licenseUrl>https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.License.txt</licenseUrl>
+        <licenseUrl>https://github.com/david1995/IndiePortable/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://www.dropbox.com/sh/qwhowr6749nzkpm/AAC2iKxRTzFd-fHFfyHZjhEOa?dl=0</projectUrl>
         <iconUrl>https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.Collections.Icon.png</iconUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
-            Improvements:
-            - Better thread synchronization in collections by using semaphores instead of ReaderWriterLocks.
-        
-            Changes:
-            - Every implementation of IObservableList&lt;T&gt; can now be used for initializing a ReadOnlyObservableDynamicArray&lt;T&gt;.
-            - ArrayDictionary key types do not have to implement IComparable&lt;T&gt; any more; they should implement IEquatable&lt;T&gt; instead.
+--------------------------------------------------------------------------------------------
+Version 0.2.1
+--------------------------------------------------------------------------------------------
+Bugfixes:
+- Solved an issue when serializing a DynamicArray&lt;T&gt; that caused the whole serialization process to block.
+
+Changes:
+- Changed ArrayDictionary&lt;TKey, TValue&gt;'s and ViewObservableDynamicArray&lt;TIn, TOut&gt;'s synchronization from ReaderWriterLockSlim to SemaphoreSlim
+
+--------------------------------------------------------------------------------------------
+Version 0.2
+--------------------------------------------------------------------------------------------
+Improvements:
+- Better thread synchronization in collections by using semaphores instead of ReaderWriterLocks.
+
+Changes:
+- Every implementation of IObservableList&lt;T&gt; can now be used for initializing a ReadOnlyObservableDynamicArray&lt;T&gt;.
+- ArrayDictionary key types do not have to implement IComparable&lt;T&gt; any more; they should implement IEquatable&lt;T&gt; instead.
         </releaseNotes>
         <copyright>Copyright (c) 2016 by David Eiwen</copyright>
         <tags>Collections Concurrent Array-based DynamicArray Array Observable</tags>
