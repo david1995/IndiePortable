@@ -16,7 +16,7 @@
 Version 0.2.2
 --------------------------------------------------------------------------------------------
 Bugfixes:
-- Solved an issue that does not allow the DynamicArray&lt;T&gt; to be read.
+- Solved an issue that does not allow the DynamicArray&lt;T&gt; to be enumerated.
 
 --------------------------------------------------------------------------------------------
 Version 0.2.1
