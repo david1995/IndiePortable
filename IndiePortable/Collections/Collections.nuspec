@@ -2,16 +2,22 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>$id$</id>
-        <version>0.2.1</version>
+        <version>0.2.2</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
         <licenseUrl>https://github.com/david1995/IndiePortable/blob/master/LICENSE</licenseUrl>
-        <projectUrl>https://www.dropbox.com/sh/qwhowr6749nzkpm/AAC2iKxRTzFd-fHFfyHZjhEOa?dl=0</projectUrl>
+        <projectUrl>https://github.com/david1995/IndiePortable</projectUrl>
         <iconUrl>https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.Collections.Icon.png</iconUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
+--------------------------------------------------------------------------------------------
+Version 0.2.2
+--------------------------------------------------------------------------------------------
+Bugfixes:
+- Solved an issue that does not allow the DynamicArray&lt;T&gt; to be read.
+
 --------------------------------------------------------------------------------------------
 Version 0.2.1
 --------------------------------------------------------------------------------------------

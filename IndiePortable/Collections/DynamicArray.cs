@@ -58,7 +58,7 @@ namespace IndiePortable.Collections
         /// <summary>
         /// The <see cref="SemaphoreSlim" /> that handles the thread synchronization for the <see cref="DynamicArray{T}" />.
         /// </summary>
-        private readonly SemaphoreSlim semaphore;
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicArray{T}" /> class
@@ -128,7 +128,6 @@ namespace IndiePortable.Collections
                 throw new ArgumentOutOfRangeException(nameof(capacity));
             }
             
-            this.semaphore = new SemaphoreSlim(1, 1);
             this.Capacity = capacity;
             this.GrowthRate = growthRate;
             this.countBacking = 0;
@@ -174,7 +173,6 @@ namespace IndiePortable.Collections
                 throw new ArgumentNullException(nameof(items));
             }
             
-            this.semaphore = new SemaphoreSlim(1, 1);
             var count = items.Count();
             var array = count > 0 ? items.ToArray() : new T[8];
             this.countBacking = array.Length;
@@ -200,7 +198,6 @@ namespace IndiePortable.Collections
                 throw new ArgumentNullException(nameof(data));
             }
             
-            this.semaphore = new SemaphoreSlim(1, 1);
             this.Capacity = data.GetValue<int>(nameof(this.Capacity));
             this.GrowthRate = data.GetValue<double>(nameof(this.GrowthRate));
             this.Count = data.GetValue<int>(nameof(this.Count));
@@ -937,7 +934,7 @@ namespace IndiePortable.Collections
             private int currentPosition;
 
 
-            private bool isOver;
+            private bool isSemaphoreHeld;
 
             /// <summary>
             /// Initializes a new instance of the <see cref="Enumerator" /> struct.
@@ -947,9 +944,14 @@ namespace IndiePortable.Collections
             /// </param>
             public Enumerator(DynamicArray<T> array)
             {
+                if (object.ReferenceEquals(array, null))
+                {
+                    throw new ArgumentNullException(nameof(array));
+                }
+
                 this.array = array;
                 this.currentPosition = -1;
-                this.isOver = false;
+                this.isSemaphoreHeld = false;
             }
 
             /// <summary>
@@ -973,7 +975,7 @@ namespace IndiePortable.Collections
                         throw new InvalidOperationException("The IEnumerator has to be moved once to access a value.");
                     }
 
-                    return this.array[this.currentPosition];
+                    return this.array.backing[this.currentPosition];
                 }
             }
 
@@ -1010,14 +1012,14 @@ namespace IndiePortable.Collections
 
             private void Dispose(bool managed)
             {
-                if (this.currentPosition >= 0)
+                if (this.isSemaphoreHeld)
                 {
                     this.array.semaphore.Release();
                 }
                 
                 this.array = null;
                 this.currentPosition = 0;
-                this.isOver = false;
+                this.isSemaphoreHeld = false;
             }
 
             /// <summary>
@@ -1031,16 +1033,17 @@ namespace IndiePortable.Collections
             /// </remarks>
             public bool MoveNext()
             {
-                if (this.currentPosition < 0)
+                if (this.currentPosition < 0 && !this.isSemaphoreHeld)
                 {
                     this.array.semaphore.Wait();
+                    this.isSemaphoreHeld = true;
                 }
 
                 var ret = ++this.currentPosition < this.array.Count;
-                if (!ret && !this.isOver)
+                if (!ret && this.isSemaphoreHeld)
                 {
-                    this.isOver = true;
                     this.array.semaphore.Release();
+                    this.isSemaphoreHeld = false;
                 }
 
                 return ret;
@@ -1055,10 +1058,10 @@ namespace IndiePortable.Collections
             /// </remarks>
             public void Reset()
             {
-                if (this.currentPosition >= 0 && !this.isOver)
+                if (this.isSemaphoreHeld)
                 {
                     this.array.semaphore.Release();
-                    this.isOver = false;
+                    this.isSemaphoreHeld = false;
                 }
 
                 this.currentPosition = -1;

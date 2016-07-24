@@ -7,3 +7,5 @@
 /IndiePortable/packages
 /IndiePortable/Collections/obj
 /IndiePortable/Collections/bin
+/IndiePortable/Collections.Tests/bin/Release
+/IndiePortable/Collections.Tests/obj/Release
