@@ -179,35 +179,6 @@ namespace IndiePortable.Collections
         }
 
         /// <summary>
-        /// Gets the usage percent of the <see cref="ViewObservableDynamicArray{TIn, TOut}" />.
-        /// The range is between 0.0 and 1.0.
-        /// </summary>
-        /// <value>
-        ///     Contains the usage percent of the <see cref="ViewObservableDynamicArray{TIn, TOut}" />.
-        /// </value>
-        /// <remarks>
-        ///     <para>Implements <see cref="IObservableReadOnlyList{T}.UsagePercent" /> implicitly.</para>
-        /// </remarks>
-        public double UsagePercent
-        {
-            get { return this.Source.UsagePercent; }
-        }
-
-        /// <summary>
-        /// Gets the capacity of the <see cref="ViewObservableDynamicArray{TIn, TOut}" />.
-        /// </summary>
-        /// <value>
-        ///     Contains the capacity of the <see cref="ViewObservableDynamicArray{TIn, TOut}" />.
-        /// </value>
-        /// <remarks>
-        ///     <para>Implements <see cref="IObservableReadOnlyList{T}.Capacity" /> implicitly.</para>
-        /// </remarks>
-        public int Capacity
-        {
-            get { return this.Source.Capacity; }
-        }
-
-        /// <summary>
         /// Gets the method callback used for generating the view models.
         /// </summary>
         /// <value>

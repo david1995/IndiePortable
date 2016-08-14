@@ -19,7 +19,7 @@ namespace IndiePortable.Formatter
     /// Provides a serialization surrogate for all types that are marked with the <see cref="DataContractAttribute" /> attribute.
     /// </summary>
     /// <remarks>
-    ///     Implements <see cref="ISurrogate{T}" /> explicitly.
+    ///     Implements <see cref="ISurrogate" /> explicitly.
     /// </remarks>
     public sealed class DataContractSurrogate
         : ISurrogate
@@ -135,7 +135,7 @@ namespace IndiePortable.Formatter
         ///     <para>Thrown when a property does not have a getter and a setter method.</para>
         /// </exception>
         /// <remarks>
-        ///     <para>Implements <see cref="ISurrogate{T}.SetData(T, ObjectDataCollection)" /> explicitly.</para>
+        ///     <para>Implements <see cref="ISurrogate.SetData(ref object, ObjectDataCollection)" /> explicitly.</para>
         ///     <para>
         ///         The type of <paramref name="value" /> must be marked with the <see cref="DataContractAttribute" /> attribute.
         ///         and properties and fields that shall be (de-)serialized must be marked with the <see cref="DataMemberAttribute" /> attribute.

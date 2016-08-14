@@ -27,21 +27,5 @@ namespace IndiePortable.Collections
     public interface IObservableList<T>
         : INotifyCollectionChanged, INotifyPropertyChanged, IList<T>, IList
     {
-        /// <summary>
-        /// Gets the usage percent of the <see cref="IObservableList{T}" />.
-        /// The range is between 0.0 and 1.0.
-        /// </summary>
-        /// <value>
-        ///     Contains the usage percent of the <see cref="IObservableList{T}" />.
-        /// </value>
-        double UsagePercent { get; }
-        
-        /// <summary>
-        /// Gets the capacity of the <see cref="IObservableList{T}" />.
-        /// </summary>
-        /// <value>
-        ///     Contains the capacity of the <see cref="IObservableList{T}" />.
-        /// </value>
-        int Capacity { get; }
     }
 }

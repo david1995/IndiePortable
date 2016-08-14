@@ -82,20 +82,6 @@ namespace IndiePortable.Collections
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
-        /// Gets the capacity of the <see cref="ReadOnlyObservableDynamicArray{T}" />.
-        /// </summary>
-        /// <value>
-        ///     Contains the capacity of the <see cref="ReadOnlyObservableDynamicArray{T}" />.
-        /// </value>
-        /// <remarks>
-        ///     <para>Implements <see cref="IObservableReadOnlyList{T}.Capacity" /> implicitly.</para>
-        /// </remarks>
-        public int Capacity
-        {
-            get { return this.source.Capacity; }
-        }
-
-        /// <summary>
         /// Gets the number of elements in the <see cref="ReadOnlyObservableDynamicArray{T}" />.
         /// </summary>
         /// <value>
@@ -107,21 +93,6 @@ namespace IndiePortable.Collections
         public int Count
         {
             get { return (this.source as IList<T>).Count; }
-        }
-
-        /// <summary>
-        /// Gets the usage percent of the <see cref="ReadOnlyObservableDynamicArray{T}" />.
-        /// </summary>
-        /// <value>
-        ///     Contains the usage percent of the <see cref="ReadOnlyObservableDynamicArray{T}" />.
-        ///     The value range is from 0.0 to 1.0, both inclusive.
-        /// </value>
-        /// <remarks>
-        ///     <para>Implements <see cref="IObservableReadOnlyList{T}.UsagePercent" /> implicitly.</para>
-        /// </remarks>
-        public double UsagePercent
-        {
-            get { return this.source.UsagePercent; }
         }
         
 

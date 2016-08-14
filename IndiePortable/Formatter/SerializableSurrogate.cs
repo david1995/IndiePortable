@@ -19,9 +19,7 @@ namespace IndiePortable.Formatter
     /// Provides a serialization surrogate for all types that are marked with the <see cref="SerializableAttribute" /> attribute
     /// and do not implement <see cref="ISerializable" />.
     /// </summary>
-    /// <remarks>
-    ///     Implements <see cref="ISurrogate{T}" />.
-    /// </remarks>
+    /// <seealso cref="ISurrogate" />
     public sealed class SerializableSurrogate
         : ISurrogate
     {
@@ -41,7 +39,15 @@ namespace IndiePortable.Formatter
             get { return DefaultBacking; }
         }
 
-
+        /// <summary>
+        /// Gets the target type for the <see cref="SerializableSurrogate" />.
+        /// </summary>
+        /// <value>
+        ///     Contains the target type for the <see cref="SerializableSurrogate" />.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="ISurrogate.TargetType" /> implicitly.</para>
+        /// </remarks>
         public Type TargetType { get { return typeof(object); } }
 
         /// <summary>
@@ -64,7 +70,7 @@ namespace IndiePortable.Formatter
         ///     <para>  - the type of <paramref name="value" /> implements the <see cref="ISerializable" /> interface.</para>
         /// </exception>
         /// <remarks>
-        ///     <para>Implements <see cref="ISurrogate.GetData(T, ObjectDataCollection)" /> explicitly.</para>
+        ///     <para>Implements <see cref="ISurrogate.GetData(object, ObjectDataCollection)" /> explicitly.</para>
         ///     <para>
         ///         The type of <paramref name="value" /> must be marked with the <see cref="SerializableAttribute" /> attribute,
         ///         but must not implement the <see cref="ISerializable" /> interface.
@@ -141,7 +147,7 @@ namespace IndiePortable.Formatter
         ///     <para>  - the type of <paramref name="value" /> implements the <see cref="ISerializable" /> interface.</para>
         /// </exception>
         /// <remarks>
-        ///     <para>Implements <see cref="ISurrogate.SetData(T, ObjectDataCollection)" /> explicitly.</para>
+        ///     <para>Implements <see cref="ISurrogate.SetData(ref object, ObjectDataCollection)" /> explicitly.</para>
         ///     <para>
         ///         The type of <paramref name="value" /> must be marked with the <see cref="SerializableAttribute" /> attribute,
         ///         but must not implement the <see cref="ISerializable" /> interface.

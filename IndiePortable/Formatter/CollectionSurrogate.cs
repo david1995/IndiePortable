@@ -96,7 +96,7 @@ namespace IndiePortable.Formatter
         ///     <para>  - <paramref name="data" /> is <c>null</c>.</para>
         /// </exception>
         /// <remarks>
-        ///     Implements <see cref="ISurrogate.SetData(object, ObjectDataCollection)" /> implicitly.
+        ///     Implements <see cref="ISurrogate.SetData(ref object, ObjectDataCollection)" /> implicitly.
         /// </remarks>
         public void SetData(ref object value, ObjectDataCollection data)
         {

@@ -36,6 +36,11 @@ namespace IndiePortable.Collections
         : IEnumerable<T>, IList<T>, ISerializable, IDisposable
     {
         /// <summary>
+        /// The <see cref="SemaphoreSlim" /> that handles the thread synchronization for the <see cref="DynamicArray{T}" />.
+        /// </summary>
+        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+
+        /// <summary>
         /// The backing array for the <see cref="DynamicArray{T}" />.
         /// </summary>
         private T[] backing;
@@ -54,11 +59,6 @@ namespace IndiePortable.Collections
         /// The backing field for the <see cref="Capacity" /> property.
         /// </summary>
         private int capacityBacking;
-
-        /// <summary>
-        /// The <see cref="SemaphoreSlim" /> that handles the thread synchronization for the <see cref="DynamicArray{T}" />.
-        /// </summary>
-        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicArray{T}" /> class
@@ -420,8 +420,21 @@ namespace IndiePortable.Collections
         ///     The items that shall be added.
         /// </param>
         public void AddRange(params T[] items) => this.AddRange((IEnumerable<T>)items);
-
-
+        
+        /// <summary>
+        /// Moves an item in the <see cref="DynamicArray{T}" />.
+        /// </summary>
+        /// <param name="sourceIndex">
+        ///     The index of the item to move.
+        /// </param>
+        /// <param name="destinationIndex">
+        ///     The destination position where the item should be moved.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if:</para>
+        ///     <para>  - <paramref name="sourceIndex" /> is less than <c>0</c> or greater or equals <see cref="Count" />.</para>
+        ///     <para>  - <paramref name="destinationIndex" /> is less than <c>0</c> or greater or equals <see cref="Count" />.</para>
+        /// </exception>
         public void Move(int sourceIndex, int destinationIndex)
             => this.MoveItem(sourceIndex, destinationIndex);
 
@@ -483,7 +496,7 @@ namespace IndiePortable.Collections
             }
             finally
             {
-                semaphore.Release();
+                this.semaphore.Release();
             }
         }
 
@@ -695,10 +708,47 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected virtual void AddItem(T item) => this.InsertItem(this.Count, item);
 
-
+        /// <summary>
+        /// Moves an item in the <see cref="DynamicArray{T}" />.
+        /// </summary>
+        /// <param name="sourceIndex">
+        ///     The index of the item to move.
+        /// </param>
+        /// <param name="destinationIndex">
+        ///     The destination position where the item should be moved.
+        /// </param>
         protected virtual void MoveItem(int sourceIndex, int destinationIndex)
         {
-            throw new NotImplementedException();
+            this.semaphore.Wait();
+
+            try
+            {
+                if (sourceIndex < 0 || sourceIndex >= this.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(sourceIndex));
+                }
+
+                if (destinationIndex < 0 || destinationIndex >= this.Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(destinationIndex));
+                }
+
+                var item = this[sourceIndex];
+                var direction = Math.Sign(destinationIndex - sourceIndex);
+
+                for (var n = sourceIndex;
+                     direction > 0 ? n < destinationIndex : n > destinationIndex;
+                     n += direction)
+                {
+                    this[sourceIndex] = this[sourceIndex + direction];
+                }
+
+                this[destinationIndex] = item;
+            }
+            finally
+            {
+                this.semaphore.Release();
+            }
         }
 
         /// <summary>
@@ -933,7 +983,9 @@ namespace IndiePortable.Collections
             /// </summary>
             private int currentPosition;
 
-
+            /// <summary>
+            /// Determines whether the semaphore of <see cref="array" /> is held by the enumerator.
+            /// </summary>
             private bool isSemaphoreHeld;
 
             /// <summary>
@@ -1009,19 +1061,6 @@ namespace IndiePortable.Collections
                 GC.SuppressFinalize(this);
             }
 
-
-            private void Dispose(bool managed)
-            {
-                if (this.isSemaphoreHeld)
-                {
-                    this.array.semaphore.Release();
-                }
-                
-                this.array = null;
-                this.currentPosition = 0;
-                this.isSemaphoreHeld = false;
-            }
-
             /// <summary>
             /// Advances the <see cref="Enumerator" /> to the next element of the <see cref="DynamicArray{T}" />.
             /// </summary>
@@ -1065,6 +1104,24 @@ namespace IndiePortable.Collections
                 }
 
                 this.currentPosition = -1;
+            }
+
+            /// <summary>
+            /// Releases unmanaged and - optionally - managed resources.
+            /// </summary>
+            /// <param name="managed">
+            ///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            /// </param>
+            private void Dispose(bool managed)
+            {
+                if (this.isSemaphoreHeld)
+                {
+                    this.array.semaphore.Release();
+                }
+                
+                this.array = null;
+                this.currentPosition = 0;
+                this.isSemaphoreHeld = false;
             }
         }
     }

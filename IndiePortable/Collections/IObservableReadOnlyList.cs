@@ -26,21 +26,5 @@ namespace IndiePortable.Collections
     public interface IObservableReadOnlyList<T>
         : INotifyCollectionChanged, IReadOnlyList<T>, IList
     {
-        /// <summary>
-        /// Gets the usage percent of the <see cref="IObservableReadOnlyList{T}" />.
-        /// The range is between 0.0 and 1.0.
-        /// </summary>
-        /// <value>
-        ///     Contains the usage percent of the <see cref="IObservableReadOnlyList{T}" />.
-        /// </value>
-        double UsagePercent { get; }
-
-        /// <summary>
-        /// Gets the capacity of the <see cref="IObservableReadOnlyList{T}" />.
-        /// </summary>
-        /// <value>
-        ///     Contains the capacity of the <see cref="IObservableReadOnlyList{T}" />.
-        /// </value>
-        int Capacity { get; }
     }
 }
