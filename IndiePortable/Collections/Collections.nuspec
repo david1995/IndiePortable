@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>$id$</id>
-        <version>0.2.2</version>
+        <version>0.2.3</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
@@ -12,6 +12,12 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
+--------------------------------------------------------------------------------------------
+Version 0.2.3
+--------------------------------------------------------------------------------------------
+Adds:
+- ObservableListWrapper&lt;T&gt; class. Use it to wrap an existing IList&lt;T&gt; instance making it observable and reacting to collection changes.
+
 --------------------------------------------------------------------------------------------
 Version 0.2.2
 --------------------------------------------------------------------------------------------

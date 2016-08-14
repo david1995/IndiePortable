@@ -39,8 +39,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.2.1.0")]
-[assembly: AssemblyFileVersion("0.2.1.0")]
+[assembly: AssemblyVersion("0.2.3.0")]
+[assembly: AssemblyFileVersion("0.2.3.0")]
 [assembly: InternalsVisibleTo("Collections.Tests, PublicKey=002400000480000094000000060200000024000052534131000400000100010061f787a7613828991dec11fe20fdc28a3f09c13aa09474f61c72d10096d9fb37becde776e6343b74c1d03c9848c3354aa0c609bad8dfed397ca6c399a513dd7475e83c6755f92e12c15bec7e2b7af6188defbb58d08f2c9735e23508eb09a5ef0bb4be1735da63c165cd57c9f5ad3ec57e81134e6266b642e86864c695a99ea8")]
 [assembly: InternalsVisibleTo("IndiePortable.Collections.Explorables, PublicKey=002400000480000094000000060200000024000052534131000400000100010061f787a7613828991dec11fe20fdc28a3f09c13aa09474f61c72d10096d9fb37becde776e6343b74c1d03c9848c3354aa0c609bad8dfed397ca6c399a513dd7475e83c6755f92e12c15bec7e2b7af6188defbb58d08f2c9735e23508eb09a5ef0bb4be1735da63c165cd57c9f5ad3ec57e81134e6266b642e86864c695a99ea8")]
 
