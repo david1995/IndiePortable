@@ -19,7 +19,7 @@ The *IndiePortable Formatter* is built to provide a general purpose serializatio
 
 Although the library currentlyprovides only the `BinaryFormatter` class for (de-)serialization, you can implement your own formatter that uses the (de-)serialization infrastructure included in the library.
 
-*But wouldn't it be nice to support static types as well as circular graphs in JSON?* Yes, it is. I plan to create a format based on JSON as description language and the *IndiePortable `BinaryFormatter`*'s output language as structure. It will be able to stores type information as attributes, e.g. type or field names and thus allow basic type checking during deserialization.
+**But wouldn't it be nice to support static types as well as circular graphs in JSON?** Yes, I agree. I plan to create a format based on JSON as description language and the *IndiePortable `BinaryFormatter`*'s output language as structure. It will be able to stores type information as attributes, e.g. type or field names and thus allow basic type checking during deserialization.
 
 
 ## IndiePortable Collections
