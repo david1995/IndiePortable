@@ -159,9 +159,9 @@ namespace IndiePortable.AdvancedTasks
             private readonly StateTask<T> task;
 
             /// <summary>
-            /// The backing field for the <see cref="HasFinished" /> property.
+            /// The backing field for the <see cref="MustFinish" /> property.
             /// </summary>
-            private bool hasFinishedBacking;
+            private bool mustFinishBacking;
 
 
             public TaskConnection(StateTask<T> task)
@@ -186,20 +186,20 @@ namespace IndiePortable.AdvancedTasks
             public T StateObject => this.task.StateObject;
 
             /// <summary>
-            /// Gets a value indicating whether the <see cref="StateTask{T}" /> has finished.
+            /// Gets a value indicating whether the <see cref="StateTask{T}" /> must finish.
             /// </summary>
             /// <value>
-            ///     <c>true</c> if the <see cref="StateTask{T}" /> has finished; otherwise <c>false</c>.
+            ///     <c>true</c> if the <see cref="StateTask{T}" /> must finish; otherwise <c>false</c>.
             /// </value>
             /// <remarks>
-            ///     <para>Implements <see cref="ITaskConnection{T}.HasFinished" /> implicitly.</para>
+            ///     <para>Implements <see cref="ITaskConnection{T}.MustFinish" /> implicitly.</para>
             /// </remarks>
-            public bool HasFinished => this.hasFinishedBacking;
+            public bool MustFinish => this.mustFinishBacking;
 
             
             public void Stop()
             {
-                this.hasFinishedBacking = true;
+                this.mustFinishBacking = true;
             }
 
 
@@ -218,7 +218,7 @@ namespace IndiePortable.AdvancedTasks
             public void Return()
             {
                 this.waitHandle.Set();
-                this.hasFinishedBacking = true;
+                this.mustFinishBacking = true;
                 this.task.RaiseReturned();
             }
         }

@@ -12,12 +12,12 @@
                 The type of the state object that can be passed to the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" />.
             </typeparam>
         </member>
-        <member name="P:IndiePortable.AdvancedTasks.ITaskConnection`1.HasFinished">
+        <member name="P:IndiePortable.AdvancedTasks.ITaskConnection`1.MustFinish">
             <summary>
-            Gets a value indicating whether the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> has finished.
+            Gets a value indicating whether the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> must finish.
             </summary>
             <value>
-                <c>true</c> if the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> has finished; otherwise <c>false</c>.
+                <c>true</c> if the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> must finish; otherwise <c>false</c>.
             </value>
         </member>
         <member name="P:IndiePortable.AdvancedTasks.ITaskConnection`1.StateObject">
@@ -169,9 +169,9 @@
             Raises the <see cref="E:IndiePortable.AdvancedTasks.StateTask`1.Returned" /> event.
             </summary>
         </member>
-        <member name="F:IndiePortable.AdvancedTasks.StateTask`1.TaskConnection.hasFinishedBacking">
+        <member name="F:IndiePortable.AdvancedTasks.StateTask`1.TaskConnection.mustFinishBacking">
             <summary>
-            The backing field for the <see cref="P:IndiePortable.AdvancedTasks.StateTask`1.TaskConnection.HasFinished" /> property.
+            The backing field for the <see cref="P:IndiePortable.AdvancedTasks.StateTask`1.TaskConnection.MustFinish" /> property.
             </summary>
         </member>
         <member name="P:IndiePortable.AdvancedTasks.StateTask`1.TaskConnection.StateObject">
@@ -185,15 +185,15 @@
                 <para>Implements <see cref="P:IndiePortable.AdvancedTasks.ITaskConnection`1.StateObject" /> implicitly.</para>
             </remarks>
         </member>
-        <member name="P:IndiePortable.AdvancedTasks.StateTask`1.TaskConnection.HasFinished">
+        <member name="P:IndiePortable.AdvancedTasks.StateTask`1.TaskConnection.MustFinish">
             <summary>
-            Gets a value indicating whether the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> has finished.
+            Gets a value indicating whether the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> must finish.
             </summary>
             <value>
-                <c>true</c> if the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> has finished; otherwise <c>false</c>.
+                <c>true</c> if the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> must finish; otherwise <c>false</c>.
             </value>
             <remarks>
-                <para>Implements <see cref="P:IndiePortable.AdvancedTasks.ITaskConnection`1.HasFinished" /> implicitly.</para>
+                <para>Implements <see cref="P:IndiePortable.AdvancedTasks.ITaskConnection`1.MustFinish" /> implicitly.</para>
             </remarks>
         </member>
     </members>

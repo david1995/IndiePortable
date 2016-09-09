@@ -6,9 +6,9 @@
 		<title>$title$</title>
 		<authors>$author$</authors>
 		<owners>$author$</owners>
-		<licenseUrl>https://github.com/david1995/IndiePortable/blob/master/LICENSE</licenseUrl>
+		<licenseUrl>https://github.com/david1995/IndiePortable/raw/master/LICENSE</licenseUrl>
 		<projectUrl>https://github.com/david1995/IndiePortable/tree/master/IndiePortable/AdvancedTasks</projectUrl>
-		<iconUrl>https://github.com/david1995/IndiePortable/tree/master/IndiePortable/AdvancedTasks/Icon.png</iconUrl>
+		<iconUrl>https://raw.githubusercontent.com/david1995/IndiePortable/master/IndiePortable/AdvancedTasks/Icon.png</iconUrl>
 		<requireLicenseAcceptance>true</requireLicenseAcceptance>
 		<description>$description$</description>
 		<releaseNotes>

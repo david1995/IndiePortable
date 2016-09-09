@@ -21,12 +21,12 @@ namespace IndiePortable.AdvancedTasks
     public interface ITaskConnection<T>
     {
         /// <summary>
-        /// Gets a value indicating whether the <see cref="StateTask{T}" /> has finished.
+        /// Gets a value indicating whether the <see cref="StateTask{T}" /> must finish.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if the <see cref="StateTask{T}" /> has finished; otherwise <c>false</c>.
+        ///     <c>true</c> if the <see cref="StateTask{T}" /> must finish; otherwise <c>false</c>.
         /// </value>
-        bool HasFinished { get; }
+        bool MustFinish { get; }
 
         /// <summary>
         /// Gets the state object passed to the <see cref="StateTask{T}" />.
