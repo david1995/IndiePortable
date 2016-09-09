@@ -8,7 +8,7 @@
 // </summary>
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
-namespace AdvancedTasks
+namespace IndiePortable.AdvancedTasks
 {
     using System.Threading.Tasks;
 

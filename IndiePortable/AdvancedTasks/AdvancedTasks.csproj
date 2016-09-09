@@ -8,8 +8,8 @@
     <ProjectGuid>{3EF7714C-555E-4D15-B6C4-C523539E49A3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AdvancedTasks</RootNamespace>
-    <AssemblyName>AdvancedTasks</AssemblyName>
+    <RootNamespace>IndiePortable.AdvancedTasks</RootNamespace>
+    <AssemblyName>IndiePortable.AdvancedTasks</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -32,10 +32,11 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\AdvancedTasks.XML</DocumentationFile>
+    <DocumentationFile>bin\Release\IndiePortable.AdvancedTasks.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Content Include="Icon.png" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ITaskConnection.cs" />

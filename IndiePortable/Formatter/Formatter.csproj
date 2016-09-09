@@ -99,6 +99,9 @@
     <Compile Include="SerializedVersionAttribute.cs" />
     <Compile Include="SerializationTypeInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

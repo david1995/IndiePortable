@@ -6,12 +6,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AdvancedTasks")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("IndiePortable AdvancedTasks Library")]
+[assembly: AssemblyDescription("A library providing advanced task features like communication with tasks and simple exit and waiting methods.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AdvancedTasks")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("David Eiwen")]
+[assembly: AssemblyProduct("IndiePortable AdvancedTasks")]
+[assembly: AssemblyCopyright("Copyright © 2016 by David Eiwen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: NeutralResourcesLanguage("en")]

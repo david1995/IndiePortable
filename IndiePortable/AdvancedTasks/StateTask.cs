@@ -8,7 +8,7 @@
 // </summary>
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
-namespace AdvancedTasks
+namespace IndiePortable.AdvancedTasks
 {
     using System;
     using System.Threading;
@@ -157,11 +157,6 @@ namespace AdvancedTasks
 
 
             private readonly StateTask<T> task;
-
-            /// <summary>
-            /// The backing field for the <see cref="StateObject" /> property.
-            /// </summary>
-            private T stateBacking;
 
             /// <summary>
             /// The backing field for the <see cref="HasFinished" /> property.

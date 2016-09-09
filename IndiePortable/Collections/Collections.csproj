@@ -74,6 +74,9 @@
   <ItemGroup>
     <None Include="IndiePortable.Collections.Key.pfx" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Icon.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
