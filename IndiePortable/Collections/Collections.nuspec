@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>$id$</id>
-        <version>0.2.3</version>
+        <version>0.2.4</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
@@ -12,6 +12,15 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
+--------------------------------------------------------------------------------------------
+Version 0.2.4
+--------------------------------------------------------------------------------------------
+Bugfixes:
+- Fixed a bug causing blocking when an ObservableDynamicArray&lt;T&gt; has been enumerated from a WPF or UWP Gui (#4)
+
+Other:
+- The Nuget packages have been modified in order to not include their symbols in projects that use the packages.
+
 --------------------------------------------------------------------------------------------
 Version 0.2.3
 --------------------------------------------------------------------------------------------

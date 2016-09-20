@@ -36,11 +36,6 @@ namespace IndiePortable.Collections
         : IEnumerable<T>, IList<T>, ISerializable, IDisposable
     {
         /// <summary>
-        /// The <see cref="SemaphoreSlim" /> that handles the thread synchronization for the <see cref="DynamicArray{T}" />.
-        /// </summary>
-        private readonly SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
-
-        /// <summary>
         /// The backing array for the <see cref="DynamicArray{T}" />.
         /// </summary>
         private T[] backing;
@@ -123,7 +118,7 @@ namespace IndiePortable.Collections
             }
 
             // throw exception if capacity is smaller than 0
-            if (capacity < 0)
+            if (capacity < 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(capacity));
             }
@@ -193,7 +188,7 @@ namespace IndiePortable.Collections
         protected DynamicArray(ObjectDataCollection data)
         {
             // throw exception if data is null
-            if (data == null)
+            if (object.ReferenceEquals(data, null))
             {
                 throw new ArgumentNullException(nameof(data));
             }
@@ -206,7 +201,10 @@ namespace IndiePortable.Collections
 
             for (int n = 0; n < this.Count; n++)
             {
-                load[n] = data.GetValue<T>(n.ToString());
+                if (!data.TryGetValue(n.ToString(), out load[n]))
+                {
+                    load[n] = default(T);
+                }
             }
 
             this.backing = load;
@@ -330,10 +328,7 @@ namespace IndiePortable.Collections
         /// <value>
         ///     Contains the usage percent of the <see cref="DynamicArray{T}" />.
         /// </value>
-        public double UsagePercent
-        {
-            get { return (double)this.Count / this.Capacity; }
-        }
+        public double UsagePercent => (double)this.Count / this.Capacity;
 
         /// <summary>
         /// Gets or sets the item at the specified index.
@@ -354,28 +349,24 @@ namespace IndiePortable.Collections
         {
             get
             {
-                try
-                {
-                    return this.GetItem(index);
-                }
-                catch (ArgumentOutOfRangeException exc)
+                if (index < 0 || index >= this.Count)
                 {
                     // throw exception if index is out of range
-                    throw new ArgumentOutOfRangeException($"The value of the {nameof(index)} paramter has been out of range.", exc);
+                    throw new ArgumentOutOfRangeException($"The value of the {nameof(index)} paramter has been out of range.");
                 }
+
+                return this.GetItem(index);
             }
 
             set
             {
-                try
+                if (index < 0 || index >= this.Count)
                 {
-                    this.ReplaceItem(index, value);
+                    // throw exception if index is out of range
+                    throw new ArgumentOutOfRangeException($"The value of the {nameof(index)} paramter has been out of range.");
                 }
-                catch (ArgumentOutOfRangeException exc)
-                {
-                    // throw exception if index is out of range.
-                    throw new ArgumentOutOfRangeException($"The value of the {nameof(index)} paramter has been out of range.", exc);
-                }
+
+                this.ReplaceItem(index, value);
             }
         }
 
@@ -479,25 +470,17 @@ namespace IndiePortable.Collections
         /// </remarks>
         public int IndexOf(T item)
         {
-            this.semaphore.Wait();
-            try
+            for (int n = 0; n < this.countBacking; n++)
             {
-                for (int n = 0; n < this.countBacking; n++)
+                if (object.Equals(this.backing[n], item) || object.ReferenceEquals(this.backing[n], item))
                 {
-                    if (object.Equals(this.backing[n], item) || object.ReferenceEquals(this.backing[n], item))
-                    {
-                        // item found
-                        return n;
-                    }
+                    // item found
+                    return n;
                 }
+            }
 
-                // no item found
-                return -1;
-            }
-            finally
-            {
-                this.semaphore.Release();
-            }
+            // no item found
+            return -1;
         }
 
         /// <summary>
@@ -569,19 +552,7 @@ namespace IndiePortable.Collections
         /// <remarks>
         ///     Implements <see cref="ICollection{T}.Contains(T)" /> implicitly.
         /// </remarks>
-        public bool Contains(T item)
-        {
-            this.semaphore.Wait();
-            try
-            {
-                var ret = this.backing.Contains(item);
-                return ret;
-            }
-            finally
-            {
-                this.semaphore.Release();
-            }
-        }
+        public bool Contains(T item) => this.backing.Contains(item);
 
         /// <summary>
         /// Copies the items of the <see cref="DynamicArray{T}" /> to an <see cref="Array" />.
@@ -595,18 +566,7 @@ namespace IndiePortable.Collections
         /// <remarks>
         ///     Implements <see cref="ICollection{T}.CopyTo(T[], int)" /> implicitly.
         /// </remarks>
-        public void CopyTo(T[] array, int arrayIndex)
-        {
-            this.semaphore.Wait();
-            try
-            {
-                this.backing.CopyTo(array, arrayIndex);
-            }
-            finally
-            {
-                this.semaphore.Release();
-            }
-        }
+        public void CopyTo(T[] array, int arrayIndex) => this.backing.CopyTo(array, arrayIndex);
 
         /// <summary>
         /// Gets the object data of the <see cref="DynamicArray{T}" />.
@@ -628,21 +588,13 @@ namespace IndiePortable.Collections
                 throw new ArgumentNullException(nameof(data));
             }
 
-            this.semaphore.Wait();
-            try
-            {
-                data.AddValue(nameof(this.Capacity), this.Capacity);
-                data.AddValue(nameof(this.Count), this.Count);
-                data.AddValue(nameof(this.GrowthRate), this.GrowthRate);
+            data.AddValue(nameof(this.Capacity), this.Capacity);
+            data.AddValue(nameof(this.Count), this.Count);
+            data.AddValue(nameof(this.GrowthRate), this.GrowthRate);
 
-                for (int n = 0; n < this.Count; n++)
-                {
-                    data.AddValue(n.ToString(), this.backing[n]);
-                }
-            }
-            finally
+            for (int n = 0; n < this.Count; n++)
             {
-                this.semaphore.Release();
+                data.AddValue(n.ToString(), this.backing[n]);
             }
         }
 
@@ -683,13 +635,12 @@ namespace IndiePortable.Collections
         /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
-        /// <param name="managed">
+        /// <param name="disposing">
         ///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
         /// </param>
-        protected virtual void Dispose(bool managed)
+        protected virtual void Dispose(bool disposing)
         {
-            this.semaphore.Dispose();
-            if (managed)
+            if (disposing)
             {
                 this.backing = null;
                 this.countBacking = 0;
@@ -719,36 +670,27 @@ namespace IndiePortable.Collections
         /// </param>
         protected virtual void MoveItem(int sourceIndex, int destinationIndex)
         {
-            this.semaphore.Wait();
-
-            try
+            if (sourceIndex < 0 || sourceIndex >= this.Count)
             {
-                if (sourceIndex < 0 || sourceIndex >= this.Count)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(sourceIndex));
-                }
-
-                if (destinationIndex < 0 || destinationIndex >= this.Count)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(destinationIndex));
-                }
-
-                var item = this[sourceIndex];
-                var direction = Math.Sign(destinationIndex - sourceIndex);
-
-                for (var n = sourceIndex;
-                     direction > 0 ? n < destinationIndex : n > destinationIndex;
-                     n += direction)
-                {
-                    this[sourceIndex] = this[sourceIndex + direction];
-                }
-
-                this[destinationIndex] = item;
+                throw new ArgumentOutOfRangeException(nameof(sourceIndex));
             }
-            finally
+
+            if (destinationIndex < 0 || destinationIndex >= this.Count)
             {
-                this.semaphore.Release();
+                throw new ArgumentOutOfRangeException(nameof(destinationIndex));
             }
+
+            var item = this[sourceIndex];
+            var direction = Math.Sign(destinationIndex - sourceIndex);
+
+            for (var n = sourceIndex;
+                    direction > 0 ? n < destinationIndex : n > destinationIndex;
+                    n += direction)
+            {
+                this[sourceIndex] = this[sourceIndex + direction];
+            }
+
+            this[destinationIndex] = item;
         }
 
         /// <summary>
@@ -773,16 +715,7 @@ namespace IndiePortable.Collections
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            this.semaphore.Wait();
-
-            try
-            {
-                return this.backing[index];
-            }
-            finally
-            {
-                this.semaphore.Release();
-            }
+            return this.backing[index];
         }
 
         /// <summary>
@@ -808,30 +741,21 @@ namespace IndiePortable.Collections
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            this.semaphore.Wait();
-            
-            try
+            // extend array size
+            if (this.Count == this.Capacity)
             {
-                // extend array size
-                if (this.Count == this.Capacity)
-                {
-                    this.Capacity = this.Capacity > 0 ? (int)Math.Ceiling(this.Capacity * this.GrowthRate) : 1;
-                    Array.Resize(ref this.backing, this.Capacity);
-                }
-
-                // move items after index one index back
-                for (int n = this.Count - 1; n >= index; n--)
-                {
-                    this.backing[n + 1] = this.backing[n];
-                }
-
-                // insert item
-                this.backing[index] = item;
+                this.Capacity = this.Capacity > 0 ? (int)Math.Ceiling(this.Capacity * this.GrowthRate) : 1;
+                Array.Resize(ref this.backing, this.Capacity);
             }
-            finally
+
+            // move items after index one index back
+            for (int n = this.Count - 1; n >= index; n--)
             {
-                this.semaphore.Release();
+                this.backing[n + 1] = this.backing[n];
             }
+
+            // insert item
+            this.backing[index] = item;
 
             // increment count
             this.Count++;
@@ -860,16 +784,7 @@ namespace IndiePortable.Collections
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            this.semaphore.Wait();
-
-            try
-            {
-                this.backing[index] = item;
-            }
-            finally
-            {
-                this.semaphore.Release();
-            }
+            this.backing[index] = item;
         }
 
         /// <summary>
@@ -886,28 +801,19 @@ namespace IndiePortable.Collections
         /// </exception>
         protected virtual void RemoveItem(int index)
         {
-            this.semaphore.Wait();
-
-            try
+            // throw exception if index is out of range
+            if (index < 0 || index >= this.Count)
             {
-                // throw exception if index is out of range
-                if (index < 0 || index >= this.Count)
-                {
-                    throw new ArgumentOutOfRangeException(nameof(index));
-                }
-
-                // set index item to default(T)
-                this.backing[index] = default(T);
-
-                // move all items after index to front
-                for (int n = index + 1; n < this.Count; n++)
-                {
-                    this.backing[n - 1] = this.backing[n];
-                }
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
-            finally
+
+            // set index item to default(T)
+            this.backing[index] = default(T);
+
+            // move all items after index to front
+            for (int n = index + 1; n < this.Count; n++)
             {
-                this.semaphore.Release();
+                this.backing[n - 1] = this.backing[n];
             }
 
             this.Count--;
@@ -921,19 +827,10 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected virtual void ResetItems()
         {
-            this.semaphore.Wait();
-
-            try
+            // set items to default value
+            for (int n = 0; n < this.countBacking; n++)
             {
-                // set items to default value
-                for (int n = 0; n < this.countBacking; n++)
-                {
-                    this.backing[n] = default(T);
-                }
-            }
-            finally
-            {
-                this.semaphore.Release();
+                this.backing[n] = default(T);
             }
 
             // reset count
@@ -984,11 +881,6 @@ namespace IndiePortable.Collections
             private int currentPosition;
 
             /// <summary>
-            /// Determines whether the semaphore of <see cref="array" /> is held by the enumerator.
-            /// </summary>
-            private bool isSemaphoreHeld;
-
-            /// <summary>
             /// Initializes a new instance of the <see cref="Enumerator" /> struct.
             /// </summary>
             /// <param name="array">
@@ -1003,7 +895,6 @@ namespace IndiePortable.Collections
 
                 this.array = array;
                 this.currentPosition = -1;
-                this.isSemaphoreHeld = false;
             }
 
             /// <summary>
@@ -1070,23 +961,7 @@ namespace IndiePortable.Collections
             /// <remarks>
             ///     Implements <see cref="IEnumerator.MoveNext()" /> implicitly.
             /// </remarks>
-            public bool MoveNext()
-            {
-                if (this.currentPosition < 0 && !this.isSemaphoreHeld)
-                {
-                    this.array.semaphore.Wait();
-                    this.isSemaphoreHeld = true;
-                }
-
-                var ret = ++this.currentPosition < this.array.Count;
-                if (!ret && this.isSemaphoreHeld)
-                {
-                    this.array.semaphore.Release();
-                    this.isSemaphoreHeld = false;
-                }
-
-                return ret;
-            }
+            public bool MoveNext() =>  ++this.currentPosition < this.array.Count;
 
             /// <summary>
             /// Sets the <see cref="Enumerator" /> to its initial position,
@@ -1097,12 +972,6 @@ namespace IndiePortable.Collections
             /// </remarks>
             public void Reset()
             {
-                if (this.isSemaphoreHeld)
-                {
-                    this.array.semaphore.Release();
-                    this.isSemaphoreHeld = false;
-                }
-
                 this.currentPosition = -1;
             }
 
@@ -1114,14 +983,8 @@ namespace IndiePortable.Collections
             /// </param>
             private void Dispose(bool managed)
             {
-                if (this.isSemaphoreHeld)
-                {
-                    this.array.semaphore.Release();
-                }
-                
                 this.array = null;
                 this.currentPosition = 0;
-                this.isSemaphoreHeld = false;
             }
         }
     }

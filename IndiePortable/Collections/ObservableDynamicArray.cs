@@ -18,6 +18,7 @@ namespace IndiePortable.Collections
     using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
+    using System.Threading;
     using Formatter;
 
     /// <summary>
@@ -38,6 +39,7 @@ namespace IndiePortable.Collections
     public class ObservableDynamicArray<T>
         : DynamicArray<T>, IObservableList<T>, INotifyPropertyChanged, ISerializable
     {
+        private volatile int monitor = 0;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObservableDynamicArray{T}" /> class.
@@ -209,7 +211,12 @@ namespace IndiePortable.Collections
         /// <param name="e">
         ///     Contains additional information for the event handlers.
         /// </param>
-        protected void RaiseCollectionChanged(NotifyCollectionChangedEventArgs e) => this.CollectionChanged?.Invoke(this, e);
+        protected void RaiseCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            this.Lock();
+            this.CollectionChanged?.Invoke(this, e);
+            this.Unlock();
+        }
 
         /// <summary>
         /// Adds an item at the end of the <see cref="ObservableDynamicArray{T}" />.
@@ -222,6 +229,7 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected override void AddItem(T item)
         {
+            this.AssureLock();
             var count = this.Count;
             base.InsertItem(count, item);
             this.RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, count));
@@ -241,6 +249,7 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected override void InsertItem(int index, T item)
         {
+            this.AssureLock();
             base.InsertItem(index, item);
             this.RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
         }
@@ -259,6 +268,7 @@ namespace IndiePortable.Collections
         /// </exception>
         protected override void RemoveItem(int index)
         {
+            this.AssureLock();
             if (index < 0 || index >= this.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
@@ -286,11 +296,12 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected override void ReplaceItem(int index, T item)
         {
+            this.AssureLock();
             if (index < 0 || index >= this.Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
-
+            
             var oldItem = this[index];
 
             base.ReplaceItem(index, item);
@@ -305,9 +316,28 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected override void ResetItems()
         {
+            this.AssureLock();
             base.ResetItems();
             this.RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
+
+
+        protected void AssureLock()
+        {
+            if (this.monitor > 0)
+            {
+                if (this.CollectionChanged?.GetInvocationList().Length > 1)
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+        }
+
+
+        protected void Lock() => ++this.monitor;
+
+
+        protected void Unlock() => --this.monitor;
 
         #region ICollection & IList method implementations
 

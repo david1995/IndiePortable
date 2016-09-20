@@ -35,10 +35,6 @@
     <DocumentationFile>bin\Release\IndiePortable.AdvancedTasks.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <Content Include="Icon.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="ITaskConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StateTask.cs" />
