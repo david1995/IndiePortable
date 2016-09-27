@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-// ----------------------------------------------------------------------------------------------------------------------------------------
+﻿// ----------------------------------------------------------------------------------------------------------------------------------------
 // <copyright file="CultureInfoSurrogate.cs" company="David Eiwen">
 // Copyright © 2016 by David Eiwen
 // </copyright>
@@ -12,6 +10,7 @@ using System.Collections.Generic;
 
 namespace IndiePortable.Formatter.MscorlibSurrogates
 {
+    using System;
     using System.Globalization;
     using System.Linq;
     using System.Reflection;

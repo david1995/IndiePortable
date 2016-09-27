@@ -4,70 +4,109 @@
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>
-// This file contians the ITaskConnection interface.
+// This file contains the ITaskConnection interface.
 // </summary>
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
 namespace IndiePortable.AdvancedTasks
 {
+    using System;
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Represents the connection to a <see cref="StateTask{T}" />.
+    /// Represents the connection to a task.
     /// </summary>
-    /// <typeparam name="T">
-    ///     The type of the state object that can be passed to the <see cref="StateTask{T}" />.
-    /// </typeparam>
-    public interface ITaskConnection<T>
+    public interface ITaskConnection
     {
         /// <summary>
-        /// Gets a value indicating whether the <see cref="StateTask{T}" /> must finish.
+        /// Gets a value indicating whether the <see cref="StateTask" /> must finish.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if the <see cref="StateTask{T}" /> must finish; otherwise <c>false</c>.
+        ///     <c>true</c> if the <see cref="StateTask" /> must finish; otherwise <c>false</c>.
         /// </value>
         bool MustFinish { get; }
 
         /// <summary>
-        /// Gets the state object passed to the <see cref="StateTask{T}" />.
-        /// </summary>
-        /// <value>
-        ///     Contains the state object passed to the <see cref="StateTask{T}" />.
-        /// </value>
-        T StateObject { get; }
-
-        /// <summary>
-        /// Tells the <see cref="StateTask{T}" /> to stop.
+        /// Tells the <see cref="StateTask" /> to stop.
         /// </summary>
         void Stop();
 
         /// <summary>
-        /// Waits until the <see cref="StateTask{T}" /> returns.
-        /// If the <see cref="StateTask{T}" /> has already finished, the call immediately returns.
+        /// Waits until the <see cref="StateTask" /> returns.
+        /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <remarks>
         ///     <para>
-        ///         If the <see cref="Return()" /> method is never called by the task method,
-        ///         calls to the <see cref="WaitForReturn()" /> method will never return.
+        ///         If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
+        ///         is never called by the task method,
+        ///         calls to the <see cref="Await()" /> method will never return.
         ///     </para>
         /// </remarks>
-        void WaitForReturn();
+        void Await();
 
         /// <summary>
-        /// Waits until the <see cref="StateTask{T}" /> returns asynchronously.
-        /// If the <see cref="StateTask{T}" /> has already finished, the call immediately returns.
+        /// Waits until the <see cref="StateTask" /> returns asynchronously.
+        /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
+        /// <returns>
+        ///     Returns the executing <see cref="Task" />.
+        /// </returns>
         /// <remarks>
         ///     <para>
-        ///         If the <see cref="Return()" /> method is never called by the task method,
-        ///         calls to the <see cref="WaitForReturnAsync()" /> method will never return.
+        ///         If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
+        ///         is never called by the task method,
+        ///         calls to the <see cref="AwaitAsync()" /> method will never return.
         ///     </para>
         /// </remarks>
-        Task WaitForReturnAsync();
+        Task AwaitAsync();
 
         /// <summary>
-        /// Signals that the <see cref="StateTask{T}" /> has finished his work.
+        /// Waits until the <see cref="StateTask" /> returns.
+        /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
+        /// </summary>
+        /// <returns>
+        ///     <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        ///     <para>
+        ///         If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
+        ///         is never called by the task method,
+        ///         calls to the <see cref="TryAwait()" /> method will never return.
+        ///     </para>
+        /// </remarks>
+        bool TryAwait();
+
+        /// <summary>
+        /// Waits until the <see cref="StateTask" /> returns.
+        /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
+        /// </summary>
+        /// <returns>
+        ///     <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
+        /// </returns>
+        /// <remarks>
+        ///     <para>
+        ///         If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
+        ///         is never called by the task method,
+        ///         calls to the <see cref="TryAwaitAsync()" /> method will never return.
+        ///     </para>
+        /// </remarks>
+        Task<bool> TryAwaitAsync();
+
+        /// <summary>
+        /// Signals that the <see cref="StateTask" /> has finished his work.
         /// </summary>
         void Return();
+
+        /// <summary>
+        /// Notifies the <see cref="StateTask" /> of a thrown exception.
+        /// </summary>
+        /// <param name="exc">
+        ///     The thrown <see cref="Exception" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="exc" /> is <c>null</c>.</para>
+        /// </exception>
+        void ThrowException(Exception exc);
     }
 }

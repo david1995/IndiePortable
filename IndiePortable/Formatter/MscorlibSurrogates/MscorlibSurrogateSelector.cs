@@ -36,7 +36,8 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
                 new GuidSurrogate(),
                 new CultureInfoSurrogate(),
                 new DateTimeSurrogate(),
-                new TimeSpanSurrogate()
+                new TimeSpanSurrogate(),
+                new UriSurrogate()
             };
         }
 

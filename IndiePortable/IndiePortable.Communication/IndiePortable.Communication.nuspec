@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+    <metadata>
+        <id>$id$</id>
+        <version>0.1.0</version>
+        <title>$title$</title>
+        <authors>$author$</authors>
+        <owners>$author$</owners>
+        <licenseUrl>https://github.com/david1995/IndiePortable/raw/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/david1995/IndiePortable/tree/master/IndiePortable/IndiePortable.Communication</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/david1995/IndiePortable/master/IndiePortable/IndiePortable.Communication/Icon.png</iconUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>$description$</description>
+        <releaseNotes>
+--------------------------------------------------------------------------------------------
+Version 0.1.0
+--------------------------------------------------------------------------------------------
+Initial release
+        </releaseNotes>
+        <copyright>Copyright (c) 2016 by David Eiwen</copyright>
+        <tags>Network Communication Connection</tags>
+    </metadata>
+</package>

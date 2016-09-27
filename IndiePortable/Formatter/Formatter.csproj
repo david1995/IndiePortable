@@ -64,6 +64,7 @@
     <Compile Include="MscorlibSurrogates\GuidSurrogate.cs" />
     <Compile Include="MscorlibSurrogates\MscorlibSurrogateSelector.cs" />
     <Compile Include="MscorlibSurrogates\TimeSpanSurrogate.cs" />
+    <Compile Include="MscorlibSurrogates\UriSurrogate.cs" />
     <Compile Include="ObjectAnalyzer.cs" />
     <Compile Include="ObjectDataCollection.cs" />
     <Compile Include="Protocol1_0_0_0\ArrayElement.cs" />
