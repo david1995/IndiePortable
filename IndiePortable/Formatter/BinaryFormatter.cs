@@ -57,7 +57,7 @@ namespace IndiePortable.Formatter
         /// </summary>
         public BinaryFormatter()
         {
-            this.surrogateSelectorsBacking = new List<ISurrogateSelector>(new[] { new MscorlibSurrogates.MscorlibSurrogateSelector() });
+            this.surrogateSelectorsBacking = new List<ISurrogateSelector>();
             this.UsedProtocolVersion = SupportedFormatters.Max(p => p.ProtocolVersion);
         }
 
@@ -117,6 +117,15 @@ namespace IndiePortable.Formatter
                 this.RaisePropertyChanged();
             }
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinaryFormatter" /> class, including surrogates for the core library.
+        /// </summary>
+        /// <returns>
+        ///     The initialized <see cref="BinaryFormatter" />.
+        /// </returns>
+        public static BinaryFormatter CreateWithCoreSurrogates()
+            => new BinaryFormatter(new[] { new MscorlibSurrogates.MscorlibSurrogateSelector() });
 
         /// <summary>
         /// If a binary value is in big-endian encoding, converts it to little-endian format.

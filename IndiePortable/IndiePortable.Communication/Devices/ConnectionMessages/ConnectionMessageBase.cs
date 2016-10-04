@@ -1,26 +1,21 @@
 ﻿// ----------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="TcpConnectionMessage.cs" company="David Eiwen">
+// <copyright file="ConnectionMessageBase.cs" company="David Eiwen">
 // Copyright © 2016 by David Eiwen
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>
-// This file contians the TcpConnectionMessage class.
+// This file contians the ConnectionMessageBase class.
 // </summary>
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
-namespace IndiePortable.Communication.Tcp
+namespace IndiePortable.Communication.Devices.ConnectionMessages
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Formatter;
-    using Messages;
 
 
     [Serializable]
-    public abstract class TcpConnectionMessage
+    public abstract class ConnectionMessageBase
         : ISerializable
     {
         /// <summary>
@@ -34,16 +29,16 @@ namespace IndiePortable.Communication.Tcp
         private readonly Guid messageIdentifierBacking;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TcpConnectionMessage" /> class.
+        /// Initializes a new instance of the <see cref="ConnectionMessageBase" /> class.
         /// </summary>
-        protected TcpConnectionMessage()
+        protected ConnectionMessageBase()
         {
             this.messageIdentifierBacking = Guid.NewGuid();
             this.sendTimeBacking = DateTime.Now;
         }
 
 
-        protected TcpConnectionMessage(ObjectDataCollection data)
+        protected ConnectionMessageBase(ObjectDataCollection data)
         {
             if (object.ReferenceEquals(data, null))
             {

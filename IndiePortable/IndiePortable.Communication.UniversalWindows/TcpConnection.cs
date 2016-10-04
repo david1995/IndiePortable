@@ -4,26 +4,32 @@
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>
-// This file contians the TcpConnection class.
+// This file contains the TcpConnection class.
 // </summary>
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
-namespace IndiePortable.Communication.NetClassic
+namespace IndiePortable.Communication.UniversalWindows
 {
     using System;
-    using System.Net.Sockets;
-    using System.Threading.Tasks;
-    using Devices;
-    using Formatter;
-    using AdvancedTasks;
-    using Messages;
+    using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
+    using System.Runtime.InteropServices.WindowsRuntime;
+    using System.Text;
     using System.Threading;
+    using System.Threading.Tasks;
+    using AdvancedTasks;
+    using Devices;
     using Devices.ConnectionMessages;
+    using Formatter;
+    using Messages;
     using Tcp;
+    using Windows.Networking.Sockets;
+    using Windows.Storage.Streams;
+    using RTBuffer = Windows.Storage.Streams.Buffer;
 
 
-    public sealed class TcpConnection
+    public sealed partial class TcpConnection
         : IConnection<IPPortAddressInfo>, IDisposable
     {
         /// <summary>
@@ -37,27 +43,30 @@ namespace IndiePortable.Communication.NetClassic
         private readonly IPPortAddressInfo remoteAddressBacking;
 
 
-        private readonly TcpClient client;
-
-
-        private readonly NetworkStream stream;
-
-
-        private readonly SemaphoreSlim streamSemaphore = new SemaphoreSlim(1, 1);
-
-
         private readonly BinaryFormatter formatter = BinaryFormatter.CreateWithCoreSurrogates();
 
 
         private readonly ConnectionMessageDispatcher<IPPortAddressInfo> connectionCache;
 
 
+        private readonly SemaphoreSlim writeSemaphore = new SemaphoreSlim(1, 1);
+
+
+        private readonly StreamSocket socket;
+
+
+        private readonly IInputStream inputStream;
+
+
+        private readonly Stream outputStream;
+
+
         private readonly SemaphoreSlim activationStateSemaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
-        /// Determines whether the <see cref="TcpConnection" /> is disposed.
+        /// The backing field for the  <see cref="IsActivated" /> property.
         /// </summary>
-        private bool isDisposed;
+        private bool isActivatedBacking;
 
         /// <summary>
         /// The backing field for the <see cref="IsConnected" /> property.
@@ -65,39 +74,50 @@ namespace IndiePortable.Communication.NetClassic
         private bool isConnectedBacking;
 
         /// <summary>
-        /// The backing field for the <see cref="IsActivated" /> property.
+        /// Indicates whether the <see cref="TcpConnection" /> is disposed.
         /// </summary>
-        private bool isActivatedBacking;
+        private bool isDisposed;
 
 
         private StateTask messageReaderTask;
 
 
-        public TcpConnection(TcpClient client, IPPortAddressInfo remoteAddress)
+        private DateTime lastKeepAlive;
+
+
+        public TcpConnection(StreamSocket socket, IPPortAddressInfo remoteAddress)
         {
-            if (object.ReferenceEquals(client, null))
+            if (object.ReferenceEquals(socket, null))
             {
-                throw new ArgumentNullException(nameof(client));
+                throw new ArgumentNullException(nameof(socket));
             }
 
             if (object.ReferenceEquals(remoteAddress, null))
             {
                 throw new ArgumentNullException(nameof(remoteAddress));
             }
-
-            this.cacheBacking = new MessageDispatcher(this);
-            this.connectionCache = new ConnectionMessageDispatcher<IPPortAddressInfo>(this);
-            this.connectionCache.AddMessageHandler(new ConnectionMessageHandler<ConnectionContentMessage>(c => this.RaiseMessageReceived(c.Content)));
-
-            this.client = client;
+            
+            this.socket = socket;
             this.remoteAddressBacking = remoteAddress;
-            this.isConnectedBacking = true;
+            this.inputStream = this.socket.InputStream;
+            this.outputStream = this.socket.OutputStream.AsStreamForWrite();
 
-            this.stream = this.client.GetStream();
+            this.connectionCache = new ConnectionMessageDispatcher<IPPortAddressInfo>(this);
+
+            this.handlerDisconnect = new ConnectionMessageHandler<ConnectionDisconnectRequest>(this.HandleDisconnect);
+            this.handlerKeepAlive = new ConnectionMessageHandler<ConnectionMessageKeepAlive>(this.HandleKeepAlive);
+            this.handlerContent = new ConnectionMessageHandler<ConnectionContentMessage>(this.HandleContent);
+
+            this.connectionCache.AddMessageHandler(this.handlerDisconnect);
+            this.connectionCache.AddMessageHandler(this.handlerKeepAlive);
+            this.connectionCache.AddMessageHandler(this.handlerContent);
+
+            this.isConnectedBacking = true;
+            this.lastKeepAlive = DateTime.Now;
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="TcpConnection"/> class.
+        /// Finalizes an instance of the <see cref="TcpConnection" /> class.
         /// </summary>
         ~TcpConnection()
         {
@@ -105,19 +125,21 @@ namespace IndiePortable.Communication.NetClassic
         }
 
 
-        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
-
-
         public event EventHandler<ConnectionMessageReceivedEventArgs> ConnectionMessageReceived;
+
+        /// <summary>
+        /// Raised when a <see cref="MessageBase" /> object has been received.
+        /// </summary>
+        public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
 
         public MessageDispatcher Cache => this.cacheBacking;
 
 
-        public bool IsConnected => this.isConnectedBacking;
-
-
         public bool IsActivated => this.isActivatedBacking;
+
+
+        public bool IsConnected => this.isConnectedBacking;
 
 
         public IPPortAddressInfo RemoteAddress => this.remoteAddressBacking;
@@ -145,11 +167,38 @@ namespace IndiePortable.Communication.NetClassic
 
         public void Disconnect()
         {
+            if (!this.IsActivated || this.isDisposed || !this.IsConnected)
+            {
+                throw new InvalidOperationException();
+            }
+
             var rq = new ConnectionDisconnectRequest();
             this.SendConnectionMessage(rq);
             this.connectionCache.Wait<ConnectionDisconnectRequest, ConnectionDisconnectResponse>(rq);
-
             this.isConnectedBacking = false;
+            this.messageReaderTask.Stop();
+            this.Dispose();
+        }
+
+
+        public void Disconnect(TimeSpan timeout)
+        {
+            if (timeout <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(timeout));
+            }
+
+            if (!this.IsActivated || this.isDisposed || !this.IsConnected)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var rq = new ConnectionDisconnectRequest();
+            this.SendConnectionMessage(rq);
+            this.connectionCache.Wait<ConnectionDisconnectRequest, ConnectionDisconnectResponse>(rq, timeout);
+            this.isConnectedBacking = false;
+            this.messageReaderTask.Stop();
+            this.Dispose();
         }
 
         /// <summary>
@@ -172,24 +221,9 @@ namespace IndiePortable.Communication.NetClassic
                 throw new ArgumentNullException(nameof(message));
             }
 
-            if (!this.IsActivated)
-            {
-                throw new InvalidOperationException($"The {nameof(TcpConnection)} must be activated in order to send a message.");
-            }
-            
-            try
-            {
-                this.SendConnectionMessage(new ConnectionContentMessage(message));
-            }
-            catch (ObjectDisposedException)
-            {
-            }
-            catch (SocketException)
-            {
-            }
+            this.SendConnectionMessage(new ConnectionContentMessage(message));
         }
-        
-        // TODO: add messages for encryption and kind of CryptoManager class
+
 
         public async Task SendMessageAsync(MessageBase message)
         {
@@ -198,21 +232,7 @@ namespace IndiePortable.Communication.NetClassic
                 throw new ArgumentNullException(nameof(message));
             }
 
-            if (!this.IsActivated)
-            {
-                throw new InvalidOperationException($"The {nameof(TcpConnection)} must be activated in order to send a message.");
-            }
-
-            try
-            {
-                await this.SendConnectionMessageAsync(new ConnectionContentMessage(message));
-            }
-            catch (ObjectDisposedException)
-            {
-            }
-            catch (SocketException)
-            {
-            }
+            await this.SendConnectionMessageAsync(new ConnectionContentMessage(message));
         }
 
 
@@ -228,25 +248,29 @@ namespace IndiePortable.Communication.NetClassic
                 throw new ArgumentNullException(nameof(message));
             }
 
-            using (var ms = new MemoryStream())
+            using (var str = new MemoryStream())
             {
-                ms.Seek(sizeof(int), SeekOrigin.Begin);
-                this.formatter.Serialize(ms, message);
+                // make place for length prefix
+                str.Seek(sizeof(int), SeekOrigin.Begin);
 
-                ms.Seek(0, SeekOrigin.Begin);
-                var msgLengthBytes = BitConverter.GetBytes(ms.Length - sizeof(int));
-                ms.Write(msgLengthBytes, 0, sizeof(int));
-                ms.Seek(0, SeekOrigin.Begin);
+                // serialize message into stream
+                this.formatter.Serialize(str, message);
+                
+                // write length of message
+                str.Seek(0, SeekOrigin.Begin);
+                var lengthBytes = BitConverter.GetBytes((int)str.Length - sizeof(int));
+                str.Write(lengthBytes, 0, sizeof(int));
+                str.Seek(0, SeekOrigin.Begin);
 
-                this.streamSemaphore.Wait();
+                this.writeSemaphore.Wait();
                 try
                 {
-                    ms.CopyTo(this.stream);
-                    this.stream.Flush();
+                    str.CopyTo(this.outputStream);
+                    this.outputStream.Flush();
                 }
                 finally
                 {
-                    this.streamSemaphore.Release();
+                    this.writeSemaphore.Release();
                 }
             }
         }
@@ -263,26 +287,30 @@ namespace IndiePortable.Communication.NetClassic
             {
                 throw new ArgumentNullException(nameof(message));
             }
-
-            using (var ms = new MemoryStream())
+            
+            using (var str = new MemoryStream())
             {
-                ms.Seek(sizeof(int), SeekOrigin.Begin);
-                await Task.Factory.StartNew(() => this.formatter.Serialize(ms, message));
+                // make place for length prefix
+                str.Seek(sizeof(int), SeekOrigin.Begin);
 
-                ms.Seek(0, SeekOrigin.Begin);
-                var msgLengthBytes = BitConverter.GetBytes(ms.Length - sizeof(int));
-                await ms.WriteAsync(msgLengthBytes, 0, sizeof(int));
-                ms.Seek(0, SeekOrigin.Begin);
+                // serialize message into stream
+                await Task.Factory.StartNew(() => this.formatter.Serialize(str, message));
 
-                this.streamSemaphore.Wait();
+                // write length of message
+                str.Seek(0, SeekOrigin.Begin);
+                var lengthBytes = BitConverter.GetBytes((int)str.Length - sizeof(int));
+                await str.WriteAsync(lengthBytes, 0, sizeof(int));
+                str.Seek(0, SeekOrigin.Begin);
+
+                await this.writeSemaphore.WaitAsync();
                 try
                 {
-                    await ms.CopyToAsync(this.stream);
-                    await this.stream.FlushAsync();
+                    await str.CopyToAsync(this.outputStream);
+                    await this.outputStream.FlushAsync();
                 }
                 finally
                 {
-                    this.streamSemaphore.Release();
+                    this.writeSemaphore.Release();
                 }
             }
         }
@@ -292,13 +320,8 @@ namespace IndiePortable.Communication.NetClassic
         /// </summary>
         /// <param name="message">
         ///     The <see cref="MessageBase" /> that has been received.
-        ///     Must not be <c>null</c>.
         /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
-        /// </exception>
-        private void RaiseMessageReceived(MessageBase message)
-            => this.MessageReceived?.Invoke(this, new MessageReceivedEventArgs(message));
+        private void RaiseMessageReceived(MessageBase message) => this.MessageReceived?.Invoke(this, new MessageReceivedEventArgs(message));
 
         /// <summary>
         /// Raises the <see cref="ConnectionMessageReceived" /> event.
@@ -306,9 +329,6 @@ namespace IndiePortable.Communication.NetClassic
         /// <param name="message">
         ///     The <see cref="ConnectionMessageBase" /> that has been received.
         /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
-        /// </exception>
         private void RaiseConnectionMessageReceived(ConnectionMessageBase message)
             => this.ConnectionMessageReceived?.Invoke(this, new ConnectionMessageReceivedEventArgs(message));
 
@@ -326,17 +346,18 @@ namespace IndiePortable.Communication.NetClassic
                 {
                 }
 
-                this.messageReaderTask?.Stop();
-
+                this.activationStateSemaphore.Wait();
                 this.activationStateSemaphore.Dispose();
 
-                this.streamSemaphore.Wait();
-                this.stream.Dispose();
-                this.streamSemaphore.Dispose();
+                this.writeSemaphore.Wait();
+                this.writeSemaphore.Dispose();
 
-                this.cacheBacking.Dispose();
-                this.client.Client.Close();
-                this.client.Close();
+                this.socket.Dispose();
+                this.outputStream.Dispose();
+
+                this.Cache.Dispose();
+                this.connectionCache.Dispose();
+
                 this.isDisposed = true;
             }
         }
@@ -353,23 +374,30 @@ namespace IndiePortable.Communication.NetClassic
             {
                 while (!taskConnection.MustFinish)
                 {
-                    if (this.client.Available >= sizeof(int))
+                    var lengthBuffer = new RTBuffer(sizeof(int));
+                    await this.inputStream.ReadAsync(lengthBuffer, sizeof(int), InputStreamOptions.Partial);
+
+                    if (lengthBuffer.Length == sizeof(int))
                     {
-                        // read the length of the message
-                        var lengthBytes = new byte[sizeof(int)];
-                        await this.stream.ReadAsync(lengthBytes, 0, sizeof(int));
+                        // get the length of the message
+                        var lengthBytes = lengthBuffer.ToArray();
                         var length = BitConverter.ToInt32(lengthBytes, 0);
 
                         // fill the buffer with actual message
-                        var buffer = new byte[length];
-                        var currentLength = 0;
+                        var messageBuffer = new byte[length];
+                        var currentLength = 0U;
 
                         while (currentLength < length)
                         {
-                            currentLength += await this.stream.ReadAsync(buffer, currentLength, length - currentLength);
+                            var leftLength = (uint)(length - currentLength);
+                            var tempBuffer = new RTBuffer(leftLength);
+                            await this.inputStream.ReadAsync(tempBuffer, leftLength, InputStreamOptions.Partial);
+
+                            tempBuffer.CopyTo(0, messageBuffer, (int)currentLength, (int)tempBuffer.Length);
+                            currentLength += tempBuffer.Length;
                         }
 
-                        using (var bufferStream = new MemoryStream(buffer, false))
+                        using (var bufferStream = new MemoryStream(messageBuffer, false))
                         {
                             ConnectionMessageBase message;
                             if (this.formatter.TryDeserialize(bufferStream, out message))

@@ -1,24 +1,25 @@
 ﻿// ----------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="IMessageDispatcher.cs" company="David Eiwen">
+// <copyright file="IConnectionMessageHandler.cs" company="David Eiwen">
 // Copyright © 2016 by David Eiwen
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>
-// This file contains the IMessageDispatcher interface.
+// This file contains the IConnectionMessageHandler interface.
 // </summary>
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
 namespace IndiePortable.Communication.Devices
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using ConnectionMessages;
 
 
-
-    public interface IMessageDispatcher
+    public interface IConnectionMessageHandler
     {
+
+        Type MessageType { get; }
+
+
+        void HandleMessage(ConnectionMessageBase message);
     }
 }

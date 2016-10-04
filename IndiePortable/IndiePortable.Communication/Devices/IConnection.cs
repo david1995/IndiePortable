@@ -23,6 +23,9 @@ namespace IndiePortable.Communication.Devices
         where TAddress : IAddressInfo
     {
 
+        event EventHandler<ConnectionMessageReceivedEventArgs> ConnectionMessageReceived;
+
+
         bool IsConnected { get; }
 
 

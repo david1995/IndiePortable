@@ -1,14 +1,14 @@
 ﻿// ----------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="TcpContentMessage.cs" company="David Eiwen">
+// <copyright file="ConnectionContentMessage.cs" company="David Eiwen">
 // Copyright © 2016 by David Eiwen
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>
-// This file contains the TcpContentMessage class.
+// This file contains the ConnectionContentMessage class.
 // </summary>
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
-namespace IndiePortable.Communication.Tcp
+namespace IndiePortable.Communication.Devices.ConnectionMessages
 {
     using System;
     using Formatter;
@@ -16,8 +16,8 @@ namespace IndiePortable.Communication.Tcp
 
 
     [Serializable]
-    public class TcpContentMessage
-        : TcpConnectionMessage
+    public class ConnectionContentMessage
+        : ConnectionMessageBase
     {
         /// <summary>
         /// The backing field for the <see cref="Content" /> property.
@@ -25,7 +25,7 @@ namespace IndiePortable.Communication.Tcp
         private readonly MessageBase contentBacking;
 
 
-        public TcpContentMessage(MessageBase content)
+        public ConnectionContentMessage(MessageBase content)
         {
             if (object.ReferenceEquals(content, null))
             {
@@ -36,12 +36,12 @@ namespace IndiePortable.Communication.Tcp
         }
 
 
-        protected TcpContentMessage()
+        protected ConnectionContentMessage()
         {
         }
 
 
-        protected TcpContentMessage(ObjectDataCollection data)
+        protected ConnectionContentMessage(ObjectDataCollection data)
             : base(data)
         {
             if (!data.TryGetValue(nameof(this.Content), out this.contentBacking))

@@ -10,6 +10,9 @@
 
 namespace IndiePortable.Communication.Devices
 {
+    /// <summary>
+    /// Represents an address.
+    /// </summary>
     public interface IAddressInfo
     {
     }

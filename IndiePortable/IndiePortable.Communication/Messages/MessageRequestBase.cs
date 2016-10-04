@@ -11,10 +11,6 @@
 namespace IndiePortable.Communication.Messages
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Formatter;
 
     /// <summary>
@@ -30,19 +26,33 @@ namespace IndiePortable.Communication.Messages
         /// Initializes a new instance of the <see cref="MessageRequestBase" /> class.
         /// </summary>
         /// <remarks>
-        ///     <para>This constructor is only intended for formatters to create an emtpy <see cref="MessageRequestBase" />.</para>
+        ///     <para>This constructor is only intended for formatters to create an empty <see cref="MessageRequestBase" />.</para>
         /// </remarks>
         protected MessageRequestBase()
         {
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageRequestBase"/> class.
+        /// </summary>
+        /// <param name="data">
+        ///     The <see cref="ObjectDataCollection" /> populated with data for the <see cref="MessageBase" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+        /// </exception>
         protected MessageRequestBase(ObjectDataCollection data)
             : base(data)
         {
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageRequestBase"/> class.
+        /// </summary>
+        /// <param name="messageIdentifier">
+        ///     The identifier of the <see cref="MessageRequestBase" />.
+        /// </param>
         protected MessageRequestBase(Guid messageIdentifier)
             : base(messageIdentifier)
         {

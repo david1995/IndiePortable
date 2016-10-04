@@ -1,39 +1,40 @@
 ﻿// ----------------------------------------------------------------------------------------------------------------------------------------
-// <copyright file="TcpMessageReceivedEventArgs.cs" company="David Eiwen">
+// <copyright file="ConnectionMessageReceivedEventArgs.cs" company="David Eiwen">
 // Copyright © 2016 by David Eiwen
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>
-// This file contains the TcpMessageReceivedEventArgs class.
+// This file contains the ConnectionMessageReceivedEventArgs class.
 // </summary>
 // ----------------------------------------------------------------------------------------------------------------------------------------
 
-namespace IndiePortable.Communication.Tcp
+namespace IndiePortable.Communication.Devices
 {
     using System;
+    using ConnectionMessages;
 
     /// <summary>
-    /// Provides data for an event concerning <see cref="TcpConnectionMessage" /> instances.
+    /// Provides data for an event concerning <see cref="ConnectionMessage" /> instances.
     /// </summary>
     /// <seealso cref="EventArgs" />
-    public class TcpMessageReceivedEventArgs
+    public class ConnectionMessageReceivedEventArgs
         : EventArgs
     {
         /// <summary>
         /// The backing field for the <see cref="Message" /> property.
         /// </summary>
-        private readonly TcpConnectionMessage messageBacking;
+        private readonly ConnectionMessageBase messageBacking;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TcpMessageReceivedEventArgs" /> class.
+        /// Initializes a new instance of the <see cref="ConnectionMessageReceivedEventArgs" /> class.
         /// </summary>
         /// <param name="message">
-        ///     The <see cref="TcpConnectionMessage" /> that has been received.
+        ///     The <see cref="ConnectionMessage" /> that has been received.
         /// </param>
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
         /// </exception>
-        public TcpMessageReceivedEventArgs(TcpConnectionMessage message)
+        public ConnectionMessageReceivedEventArgs(ConnectionMessageBase message)
         {
             if (object.ReferenceEquals(message, null))
             {
@@ -44,11 +45,11 @@ namespace IndiePortable.Communication.Tcp
         }
 
         /// <summary>
-        /// Gets the <see cref="TcpConnectionMessage" /> that has been received.
+        /// Gets the <see cref="ConnectionMessage" /> that has been received.
         /// </summary>
         /// <value>
-        ///     Contains the <see cref="TcpConnectionMessage" /> that has been received.
+        ///     Contains the <see cref="ConnectionMessage" /> that has been received.
         /// </value>
-        public TcpConnectionMessage Message => this.messageBacking;
+        public ConnectionMessageBase Message => this.messageBacking;
     }
 }

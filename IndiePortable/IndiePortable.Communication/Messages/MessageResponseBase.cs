@@ -55,7 +55,7 @@ namespace IndiePortable.Communication.Messages
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageResponse" /> class.
+        /// Initializes a new instance of the <see cref="MessageResponseBase{T}" /> class.
         /// </summary>
         /// <param name="requestIdentifier">
         ///     The <see cref="Guid" /> of the request <see cref="MessageBase" />.

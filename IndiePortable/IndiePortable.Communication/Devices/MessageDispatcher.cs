@@ -252,7 +252,7 @@ namespace IndiePortable.Communication.Devices
             }
         }
 
-        // TODO: comment methods, maybe implement kind of Request
+        // TODO: comment methods, maybe implement kind of TRsp Request<TRq, TRsp>(TRq) method
 
         public async Task<TResponse> WaitAsync<TRequest, TResponse>(TRequest request, TimeSpan timeout)
             where TRequest : MessageRequestBase

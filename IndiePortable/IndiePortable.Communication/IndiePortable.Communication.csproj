@@ -45,12 +45,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Devices\ConnectionMessageDispatcher.cs" />
+    <Compile Include="Devices\ConnectionMessageHandler.cs" />
+    <Compile Include="Devices\ConnectionMessageReceivedEventArgs.cs" />
+    <Compile Include="Devices\ConnectionMessages\ConnectionContentMessage.cs" />
+    <Compile Include="Devices\ConnectionMessages\ConnectionDisconnectRequest.cs" />
+    <Compile Include="Devices\ConnectionMessages\ConnectionDisconnectResponse.cs" />
+    <Compile Include="Devices\ConnectionMessages\ConnectionMessageBase.cs" />
+    <Compile Include="Devices\ConnectionMessages\ConnectionMessageKeepAlive.cs" />
+    <Compile Include="Devices\ConnectionMessages\ConnectionMessageRequestBase.cs" />
+    <Compile Include="Devices\ConnectionMessages\ConnectionMessageResponseBase.cs" />
     <Compile Include="Devices\ConnectionReceivedEventArgs.cs" />
     <Compile Include="Devices\IAddressInfo.cs" />
     <Compile Include="Devices\IConnection.cs" />
     <Compile Include="Devices\IConnectionListener.cs" />
+    <Compile Include="Devices\IConnectionMessageHandler.cs" />
     <Compile Include="Devices\IIntervalTransmitter.cs" />
-    <Compile Include="Devices\IMessageDispatcher.cs" />
     <Compile Include="Devices\IMessageHandler.cs" />
     <Compile Include="Devices\IMessageHandler.Generic.cs" />
     <Compile Include="Devices\IMessageReceiver.cs" />
@@ -66,6 +76,7 @@
     <Compile Include="Messages\MessageResponseBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
