@@ -23,7 +23,7 @@ namespace IndiePortable.Communication.NetClassic
     using Tcp;
 
 
-    public sealed class TcpConnection
+    public sealed partial class TcpConnection
         : IConnection<IPPortAddressInfo>, IDisposable
     {
         /// <summary>
@@ -73,6 +73,9 @@ namespace IndiePortable.Communication.NetClassic
         private StateTask messageReaderTask;
 
 
+        private DateTime lastKeepAlive;
+
+
         public TcpConnection(TcpClient client, IPPortAddressInfo remoteAddress)
         {
             if (object.ReferenceEquals(client, null))
@@ -87,7 +90,12 @@ namespace IndiePortable.Communication.NetClassic
 
             this.cacheBacking = new MessageDispatcher(this);
             this.connectionCache = new ConnectionMessageDispatcher<IPPortAddressInfo>(this);
-            this.connectionCache.AddMessageHandler(new ConnectionMessageHandler<ConnectionContentMessage>(c => this.RaiseMessageReceived(c.Content)));
+
+            this.handlerContent = new ConnectionMessageHandler<ConnectionContentMessage>(this.HandleContent);
+            this.handlerDisconnect = new ConnectionMessageHandler<ConnectionDisconnectRequest>(this.HandleDisconnect);
+
+            this.connectionCache.AddMessageHandler(this.handlerContent);
+            this.connectionCache.AddMessageHandler(this.handlerDisconnect);
 
             this.client = client;
             this.remoteAddressBacking = remoteAddress;
