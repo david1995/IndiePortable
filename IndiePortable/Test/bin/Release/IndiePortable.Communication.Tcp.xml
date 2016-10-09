@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IndiePortable.Communication.Tcp</name>
+    </assembly>
+    <members>
+        <member name="F:IndiePortable.Communication.Tcp.IPPortAddressInfo.addressBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.Tcp.IPPortAddressInfo.Address" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.Tcp.IPPortAddressInfo.portBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.Tcp.IPPortAddressInfo.Port" /> property.
+            </summary>
+        </member>
+    </members>
+</doc>

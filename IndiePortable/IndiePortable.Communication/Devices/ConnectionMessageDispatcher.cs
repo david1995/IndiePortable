@@ -42,7 +42,19 @@ namespace IndiePortable.Communication.Devices
         /// </summary>
         private bool isDisposed;
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionMessageDispatcher{TAddress}" /> class.
+        /// </summary>
+        /// <param name="connection">
+        ///     The <see cref="IConnection{TAddress}" /> receiving the messages.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="connection" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <para>Thrown if <paramref name="connection" /> is either activated or not connected.</para>
+        /// </exception>
         public ConnectionMessageDispatcher(IConnection<TAddress> connection)
         {
             if (object.ReferenceEquals(connection, null))
@@ -60,7 +72,7 @@ namespace IndiePortable.Communication.Devices
         }
 
         /// <summary>
-        /// Finalizes an instance of the <see cref="ConnectionMessageDispatcher" /> class.
+        /// Finalizes an instance of the <see cref="ConnectionMessageDispatcher{TAddress}" /> class.
         /// </summary>
         ~ConnectionMessageDispatcher()
         {
@@ -282,19 +294,19 @@ namespace IndiePortable.Communication.Devices
             private readonly TRequest requestMessageBacking;
 
             /// <summary>
-            /// The <see cref="AutoResetEvent" /> wait handle blocking the <see cref="Wait{TRequest, TResponse}()" />
-            /// and the <see cref="WaitAsync{TRequest, TResponse}" /> method.
+            /// The <see cref="AutoResetEvent" /> wait handle blocking the <see cref="Wait()" />
+            /// and the <see cref="WaitAsync()" /> method.
             /// </summary>
             private readonly AutoResetEvent waitHandle;
 
             /// <summary>
-            /// The <see cref="IMessageResponse" /> that has been received,
+            /// The <see cref="Messages.IMessageResponse" /> that has been received,
             /// or <c>null</c> if no response has been received yet.
             /// </summary>
             private TResponse response;
 
             /// <summary>
-            /// Initializes a new instance of the <see cref="WaitingTask" /> class.
+            /// Initializes a new instance of the <see cref="WaitingTask{TRequest, TResponse}" /> class.
             /// </summary>
             /// <param name="request">
             ///     The request <typeparamref name="TRequest" />.
@@ -303,7 +315,6 @@ namespace IndiePortable.Communication.Devices
             /// <exception cref="ArgumentNullException">
             ///     <para>Thrown if:</para>
             ///     <para>  - <paramref name="request" /> is <c>null</c>.</para>
-            ///     <para>  - <paramref name="source" /> is <c>null</c>.</para>
             /// </exception>
             internal WaitingTask(TRequest request)
             {
@@ -318,7 +329,7 @@ namespace IndiePortable.Communication.Devices
 
 
             /// <summary>
-            /// Finalizes an instance of the <see cref="WaitingTask" /> class.
+            /// Finalizes an instance of the <see cref="WaitingTask{TRequest, TResponse}" /> class.
             /// </summary>
             ~WaitingTask()
             {
@@ -329,10 +340,10 @@ namespace IndiePortable.Communication.Devices
             internal TRequest RequestMessage => this.requestMessageBacking;
 
             /// <summary>
-            /// Gets or sets a value indicating whether the <see cref="WaitingTask" />is disposed.
+            /// Gets or sets a value indicating whether the <see cref="WaitingTask{TRequest, TResponse}" />is disposed.
             /// </summary>
             /// <value>
-            ///     <c>true</c> if the <see cref="WaitingTask" /> is disposed; otherwise, <c>false</c>.
+            ///     <c>true</c> if the <see cref="WaitingTask{TRequest, TResponse}" /> is disposed; otherwise, <c>false</c>.
             /// </value>
             internal bool IsDisposed { get; private set; }
 

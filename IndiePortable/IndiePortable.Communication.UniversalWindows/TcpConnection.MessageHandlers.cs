@@ -13,7 +13,7 @@ namespace IndiePortable.Communication.UniversalWindows
     using System;
     using Devices;
     using Devices.ConnectionMessages;
-
+    using EncryptedConnection;
 
     public partial class TcpConnection
     {
@@ -25,6 +25,9 @@ namespace IndiePortable.Communication.UniversalWindows
 
 
         private readonly ConnectionMessageHandler<ConnectionContentMessage> handlerContent;
+
+
+        private readonly ConnectionMessageHandler<ConnectionEncryptRequest> handlerEncryptionRequest;
 
 
         private void HandleDisconnect(ConnectionDisconnectRequest req)
@@ -45,7 +48,10 @@ namespace IndiePortable.Communication.UniversalWindows
                 throw new ArgumentNullException(nameof(message));
             }
 
-            this.lastKeepAlive = DateTime.Now;
+            if (this.keepAliveSemaphore.CurrentCount == 0)
+            {
+                this.keepAliveSemaphore.Release();
+            }
         }
 
 
@@ -57,6 +63,17 @@ namespace IndiePortable.Communication.UniversalWindows
             }
 
             this.RaiseMessageReceived(message.Content);
+        }
+
+
+        private void HandleEncryptionRequest(ConnectionEncryptRequest rq)
+        {
+            if (object.ReferenceEquals(rq, null))
+            {
+                throw new ArgumentNullException(nameof(rq));
+            }
+
+            this.SendConnectionMessage(new ConnectionEncryptResponse(this.cryptoManager.LocalPublicKey, rq));
         }
     }
 }

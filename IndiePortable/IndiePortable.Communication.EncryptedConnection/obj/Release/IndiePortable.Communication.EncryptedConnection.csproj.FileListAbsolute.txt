@@ -1,0 +1,15 @@
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.EncryptedConnection.XML
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.EncryptedConnection.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.EncryptedConnection.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Formatter.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Collections.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Formatter.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Formatter.xml
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.xml
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Collections.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Collections.xml
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.csprojResolveAssemblyReference.cache
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.pdb

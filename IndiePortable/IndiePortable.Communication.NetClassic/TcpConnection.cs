@@ -21,10 +21,11 @@ namespace IndiePortable.Communication.NetClassic
     using System.Threading;
     using Devices.ConnectionMessages;
     using Tcp;
+    using EncryptedConnection;
 
 
     public sealed partial class TcpConnection
-        : IConnection<IPPortAddressInfo>, IDisposable
+        : ICryptableConnection<IPPortAddressInfo>, IDisposable
     {
         /// <summary>
         /// The backing field for the <see cref="Cache" /> property.
@@ -54,6 +55,12 @@ namespace IndiePortable.Communication.NetClassic
 
         private readonly SemaphoreSlim activationStateSemaphore = new SemaphoreSlim(1, 1);
 
+
+        private readonly SemaphoreSlim keepAliveSemaphore = new SemaphoreSlim(1, 1);
+
+
+        private readonly RsaCryptoManager cryptoManager = new RsaCryptoManager();
+
         /// <summary>
         /// Determines whether the <see cref="TcpConnection" /> is disposed.
         /// </summary>
@@ -69,13 +76,39 @@ namespace IndiePortable.Communication.NetClassic
         /// </summary>
         private bool isActivatedBacking;
 
+        /// <summary>
+        /// The backing field for the <see cref="IsSessionEncrypted" /> property.
+        /// </summary>
+        private bool isSessionEncryptedBacking;
+
 
         private StateTask messageReaderTask;
 
 
-        private DateTime lastKeepAlive;
+        private StateTask keepAliveCheckerTask;
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpConnection"/> class.
+        /// </summary>
+        /// <param name="client">
+        ///     The <see cref="TcpClient" /> providing I/O operations for the <see cref="TcpConnection" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="remoteAddress">
+        ///     The address of the remote host.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if:</para>
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <description><paramref name="client" /> is <c>null</c>.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description><paramref name="remoteAddress" /> is <c>null</c>.</description>
+        ///         </item>
+        ///     </list>
+        /// </exception>
         public TcpConnection(TcpClient client, IPPortAddressInfo remoteAddress)
         {
             if (object.ReferenceEquals(client, null))
@@ -91,11 +124,13 @@ namespace IndiePortable.Communication.NetClassic
             this.cacheBacking = new MessageDispatcher(this);
             this.connectionCache = new ConnectionMessageDispatcher<IPPortAddressInfo>(this);
 
-            this.handlerContent = new ConnectionMessageHandler<ConnectionContentMessage>(this.HandleContent);
             this.handlerDisconnect = new ConnectionMessageHandler<ConnectionDisconnectRequest>(this.HandleDisconnect);
+            this.handlerKeepAlive = new ConnectionMessageHandler<ConnectionMessageKeepAlive>(this.HandleKeepAlive);
+            this.handlerContent = new ConnectionMessageHandler<ConnectionContentMessage>(this.HandleContent);
 
-            this.connectionCache.AddMessageHandler(this.handlerContent);
             this.connectionCache.AddMessageHandler(this.handlerDisconnect);
+            this.connectionCache.AddMessageHandler(this.handlerKeepAlive);
+            this.connectionCache.AddMessageHandler(this.handlerContent);
 
             this.client = client;
             this.remoteAddressBacking = remoteAddress;
@@ -112,25 +147,94 @@ namespace IndiePortable.Communication.NetClassic
             this.Dispose(false);
         }
 
-
+        /// <summary>
+        /// Raised when a <see cref="MessageBase" /> object has been received.
+        /// </summary>
+        /// <remarks>
+        ///     <para>Implements <see cref="IMessageReceiver.MessageReceived" /> implicitly.</para>
+        /// </remarks>
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
-
+        /// <summary>
+        /// Raised when a <see cref="ConnectionMessageBase" /> has been received.
+        /// </summary>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.ConnectionMessageReceived" /> implicitly.</para>
+        /// </remarks>
         public event EventHandler<ConnectionMessageReceivedEventArgs> ConnectionMessageReceived;
 
-
+        /// <summary>
+        /// Gets the <see cref="MessageDispatcher" /> acting as a message cache.
+        /// </summary>
+        /// <value>
+        ///     Contains the <see cref="MessageDispatcher" /> acting as a message cache.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="IMessageReceiver.Cache" /> implicitly.</para>
+        /// </remarks>
         public MessageDispatcher Cache => this.cacheBacking;
 
-
-        public bool IsConnected => this.isConnectedBacking;
-
-
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="TcpConnection" /> is activated.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> if the <see cref="TcpConnection" /> is activated; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        ///     <para>
+        ///         Messages can only be sent or received if <see cref="IsActivated" /> is <c>true</c>.
+        ///         Otherwise, an <see cref="InvalidOperationException" /> will be thrown.
+        ///     </para>
+        ///     <para>Implements <see cref="IConnection{TAddress}.IsActivated" /> implicitly.</para>
+        /// </remarks>
         public bool IsActivated => this.isActivatedBacking;
 
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="TcpConnection" /> is connected to the other end.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the <see cref="TcpConnection" /> is connected; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.IsConnected" /> implicitly.</para>
+        /// </remarks>
+        public bool IsConnected => this.isConnectedBacking;
 
+        /// <summary>
+        /// Gets a value indicating whether the current connection session is session encrypted.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the current connection session is encrypted; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="ICryptableConnection{TAddress}.IsSessionEncrypted" /> implicitly.</para>
+        /// </remarks>
+        public bool IsSessionEncrypted => this.isSessionEncryptedBacking;
+
+        /// <summary>
+        /// Gets the remote address of the other connection end.
+        /// </summary>
+        /// <value>
+        ///     Contains the remote address of the other connection end.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.RemoteAddress" /> implicitly.</para>
+        /// </remarks>
         public IPPortAddressInfo RemoteAddress => this.remoteAddressBacking;
 
-
+        /// <summary>
+        /// Activates the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>
+        ///         Thrown if the <see cref="TcpConnection" /> has already been activated.
+        ///         Check the <see cref="IsActivated" /> property.
+        ///     </para>
+        /// </exception>
+        /// <remarks>
+        ///     <para>Call this method to allow incoming and outgoing messages to be sent or received.</para>
+        ///     <para>Implements <see cref="IConnection{TAddress}.Activate()" /> implicitly.</para>
+        /// </remarks>
         public void Activate()
         {
             this.activationStateSemaphore.Wait();
@@ -142,6 +246,7 @@ namespace IndiePortable.Communication.NetClassic
                 }
 
                 this.messageReaderTask = new StateTask(this.MessageReader);
+                this.keepAliveCheckerTask = new StateTask(this.KeepAliveChecker);
                 this.isActivatedBacking = true;
             }
             finally
@@ -150,14 +255,85 @@ namespace IndiePortable.Communication.NetClassic
             }
         }
 
-
+        /// <summary>
+        /// Disconnects the two end points.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if one of the following conditions is true:</para>
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <description>The <see cref="IsActivated" /> property is <c>false</c>.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>The <see cref="TcpConnection" /> is disposed.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>The <see cref="IsConnected" /> property is <c>false</c>.</description>
+        ///         </item>
+        ///     </list>
+        /// </exception>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.Disconnect()" /> implicitly.</para>
+        /// </remarks>
         public void Disconnect()
         {
+            if (!this.IsConnected || this.isDisposed || !this.IsActivated)
+            {
+                throw new InvalidOperationException();
+            }
+
             var rq = new ConnectionDisconnectRequest();
             this.SendConnectionMessage(rq);
             this.connectionCache.Wait<ConnectionDisconnectRequest, ConnectionDisconnectResponse>(rq);
 
             this.isConnectedBacking = false;
+            this.messageReaderTask.Stop();
+            this.Dispose();
+        }
+        
+        /// <summary>
+        /// Disconnects the two end points.
+        /// </summary>
+        /// <param name="timeout">
+        ///     The duration that shall be waited until a disconnect response has been received.
+        ///     Must be greater than <see cref="TimeSpan.Zero" />.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="TimeSpan.Zero" />.</para>
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if one of the following conditions is true:</para>
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <description>The <see cref="IsActivated" /> property is <c>false</c>.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>The <see cref="TcpConnection" /> is disposed.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>The <see cref="IsConnected" /> property is <c>false</c>.</description>
+        ///         </item>
+        ///     </list>
+        /// </exception>
+        public void Disconnect(TimeSpan timeout)
+        {
+            if (timeout <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(timeout));
+            }
+
+            if (!this.IsConnected || this.isDisposed || !this.IsActivated)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var rq = new ConnectionDisconnectRequest();
+            this.SendConnectionMessage(rq);
+            this.connectionCache.Wait<ConnectionDisconnectRequest, ConnectionDisconnectResponse>(rq, timeout);
+
+            this.isConnectedBacking = false;
+            this.messageReaderTask.Stop();
+            this.Dispose();
         }
 
         /// <summary>
@@ -172,7 +348,23 @@ namespace IndiePortable.Communication.NetClassic
             GC.SuppressFinalize(this);
         }
 
-
+        /// <summary>
+        /// Sends a <see cref="MessageBase" /> object through the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <param name="message">
+        ///     The <see cref="MessageBase" /> that shall be sent.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>
+        ///         Thrown if the <see cref="TcpConnection" /> has not been activated.
+        ///         Check the <see cref="IsActivated" /> property. If it is <c>false</c>,
+        ///         call the <see cref="Activate()" /> method before sending a message.
+        ///     </para>
+        /// </exception>
         public void SendMessage(MessageBase message)
         {
             if (object.ReferenceEquals(message, null))
@@ -196,9 +388,28 @@ namespace IndiePortable.Communication.NetClassic
             {
             }
         }
-        
-        // TODO: add messages for encryption and kind of CryptoManager class
 
+        // TODO: add messages for encryption and kind of CryptoManager class
+        /// <summary>
+        /// Asynchronously sends a <see cref="MessageBase" /> object through the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <param name="message">
+        ///     The <see cref="MessageBase" /> that shall be sent.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <returns>
+        /// The task processing the method.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>
+        ///         Thrown if the <see cref="TcpConnection" /> has not been activated.
+        ///         Check the <see cref="IsActivated" /> property. If it is <c>false</c>,
+        ///         call the <see cref="Activate()" /> method before sending a message.
+        ///     </para>
+        /// </exception>
         public async Task SendMessageAsync(MessageBase message)
         {
             if (object.ReferenceEquals(message, null))
@@ -223,7 +434,72 @@ namespace IndiePortable.Communication.NetClassic
             }
         }
 
+        /// <summary>
+        /// Starts the encryption session for the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the session is already encrypted. Check the <see cref="IsSessionEncrypted" /> property.</para>
+        /// </exception>
+        public void StartEncryptionSession()
+        {
+            if (this.IsSessionEncrypted)
+            {
+                throw new InvalidOperationException();
+            }
 
+            var rq = new ConnectionEncryptRequest(this.cryptoManager.LocalPublicKey);
+            this.SendConnectionMessage(rq);
+            var rsp = this.connectionCache.Wait<ConnectionEncryptRequest, ConnectionEncryptResponse>(rq, TimeSpan.FromSeconds(5));
+            if (object.ReferenceEquals(rsp, null))
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.cryptoManager.StartSession(rsp.PublicKey);
+            this.isSessionEncryptedBacking = true;
+        }
+
+        /// <summary>
+        /// Asynchronously starts the encryption session for the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <returns>
+        ///     The task representing the method.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the session is already encrypted. Check the <see cref="IsSessionEncrypted" /> property.</para>
+        /// </exception>
+        public async Task StartEncryptionSessionAsync()
+        {
+            if (this.IsSessionEncrypted)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var rq = new ConnectionEncryptRequest(this.cryptoManager.LocalPublicKey);
+            await this.SendConnectionMessageAsync(rq);
+            var rsp = await this.connectionCache.WaitAsync<ConnectionEncryptRequest, ConnectionEncryptResponse>(rq, TimeSpan.FromSeconds(5));
+            if (object.ReferenceEquals(rsp, null))
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.cryptoManager.StartSession(rsp.PublicKey);
+            this.isSessionEncryptedBacking = true;
+        }
+        
+        /// <summary>
+        /// Sends a connection message.
+        /// </summary>
+        /// <param name="message">
+        ///     The <see cref="ConnectionMessageBase" /> that shall be sent.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the <see cref="TcpConnection" /> is not activated. Check the <see cref="IsActivated" /> property.</para>
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
         private void SendConnectionMessage(ConnectionMessageBase message)
         {
             if (!this.IsActivated)
@@ -238,14 +514,20 @@ namespace IndiePortable.Communication.NetClassic
 
             using (var ms = new MemoryStream())
             {
-                ms.Seek(sizeof(int), SeekOrigin.Begin);
-                this.formatter.Serialize(ms, message);
+                using (var encStream = new MemoryStream())
+                {
+                    this.formatter.Serialize(encStream, message);
+
+                    var encryptedBytes = this.IsSessionEncrypted
+                                       ? this.cryptoManager.Encrypt(encStream.ToArray())
+                                       : encStream.ToArray();
+
+                    var msgLengthBytes = BitConverter.GetBytes(encryptedBytes.Length);
+                    ms.Write(msgLengthBytes, 0, sizeof(int));
+                    ms.Write(encryptedBytes, 0, encryptedBytes.Length);
+                }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                var msgLengthBytes = BitConverter.GetBytes(ms.Length - sizeof(int));
-                ms.Write(msgLengthBytes, 0, sizeof(int));
-                ms.Seek(0, SeekOrigin.Begin);
-
                 this.streamSemaphore.Wait();
                 try
                 {
@@ -259,7 +541,22 @@ namespace IndiePortable.Communication.NetClassic
             }
         }
 
-
+        /// <summary>
+        /// Sends a connection message asynchonously.
+        /// </summary>
+        /// <param name="message">
+        ///     The <see cref="ConnectionMessageBase" /> that shall be sent.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <returns>
+        ///     The running task.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the <see cref="TcpConnection" /> is not activated. Check the <see cref="IsActivated" /> property.</para>
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
         private async Task SendConnectionMessageAsync(ConnectionMessageBase message)
         {
             if (!this.IsActivated)
@@ -274,15 +571,21 @@ namespace IndiePortable.Communication.NetClassic
 
             using (var ms = new MemoryStream())
             {
-                ms.Seek(sizeof(int), SeekOrigin.Begin);
-                await Task.Factory.StartNew(() => this.formatter.Serialize(ms, message));
+                using (var encStream = new MemoryStream())
+                {
+                    await Task.Factory.StartNew(() => this.formatter.Serialize(encStream, message));
+
+                    var encryptedBytes = this.IsSessionEncrypted
+                                       ? this.cryptoManager.Encrypt(encStream.ToArray())
+                                       : encStream.ToArray();
+
+                    var msgLengthBytes = BitConverter.GetBytes(encryptedBytes.Length);
+                    await ms.WriteAsync(msgLengthBytes, 0, sizeof(int));
+                    await ms.WriteAsync(encryptedBytes, 0, encryptedBytes.Length);
+                }
 
                 ms.Seek(0, SeekOrigin.Begin);
-                var msgLengthBytes = BitConverter.GetBytes(ms.Length - sizeof(int));
-                await ms.WriteAsync(msgLengthBytes, 0, sizeof(int));
-                ms.Seek(0, SeekOrigin.Begin);
-
-                this.streamSemaphore.Wait();
+                await this.streamSemaphore.WaitAsync();
                 try
                 {
                     await ms.CopyToAsync(this.stream);
@@ -335,12 +638,15 @@ namespace IndiePortable.Communication.NetClassic
                 }
 
                 this.messageReaderTask?.Stop();
+                this.keepAliveCheckerTask?.Stop();
 
                 this.activationStateSemaphore.Dispose();
 
                 this.streamSemaphore.Wait();
                 this.stream.Dispose();
                 this.streamSemaphore.Dispose();
+
+                this.cryptoManager?.Dispose();
 
                 this.cacheBacking.Dispose();
                 this.client.Client.Close();
@@ -403,6 +709,40 @@ namespace IndiePortable.Communication.NetClassic
             }
 
             taskConnection.Return();
+        }
+
+
+        private void KeepAliveChecker(ITaskConnection connection)
+        {
+            if (object.ReferenceEquals(connection, null))
+            {
+                throw new ArgumentNullException(nameof(connection));
+            }
+
+            try
+            {
+                while (!connection.MustFinish)
+                {
+                    if (!this.keepAliveSemaphore.Wait(TimeSpan.FromSeconds(10d)))
+                    {
+                        this.Disconnect();
+                        connection.Stop();
+                    }
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+            catch (TaskCanceledException)
+            {
+            }
+            catch (Exception exc)
+            {
+                connection.ThrowException(exc);
+                return;
+            }
+
+            connection.Return();
         }
     }
 }

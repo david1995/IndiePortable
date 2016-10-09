@@ -1,0 +1,336 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IndiePortable.Communication.UniversalWindows</name>
+    </assembly>
+    <members>
+        <member name="T:IndiePortable.Communication.UniversalWindows.TcpConnection">
+            <summary>
+            Represents a connection between two TCP end points.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.IConnection`1" />
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.cacheBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.Cache" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.remoteAddressBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.RemoteAddress" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.formatter">
+            <summary>
+            The <see cref="T:IndiePortable.Formatter.BinaryFormatter" /> used to serialize and deserialize messages.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.outputStream">
+            <summary>
+            The <see cref="T:System.IO.Stream" /> serving as output.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.isActivatedBacking">
+            <summary>
+            The backing field for the  <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsActivated" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.isConnectedBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsConnected" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.isDisposed">
+            <summary>
+            Indicates whether the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is disposed.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.isSessionEncryptedBacking">
+            <summary>
+            The backing filed for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsSessionEncrypted" /> property.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.#ctor(Windows.Networking.Sockets.StreamSocket,IndiePortable.Communication.Tcp.IPPortAddressInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection"/> class.
+            </summary>
+            <param name="socket">
+                The <see cref="T:Windows.Networking.Sockets.StreamSocket" /> providing I/O operations for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
+                Must not be <c>null</c>.
+            </param>
+            <param name="remoteAddress">
+                The address of the remote host.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if:</para>
+                <list type="bullet">
+                    <item>
+                        <description><paramref name="socket" /> is <c>null</c>.</description>
+                    </item>
+                    <item>
+                        <description><paramref name="remoteAddress" /> is <c>null</c>.</description>
+                    </item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> class.
+            </summary>
+        </member>
+        <member name="E:IndiePortable.Communication.UniversalWindows.TcpConnection.ConnectionMessageReceived">
+            <summary>
+            Raised when a <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> has been received.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="E:IndiePortable.Communication.Devices.IConnection`1.ConnectionMessageReceived" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="E:IndiePortable.Communication.UniversalWindows.TcpConnection.MessageReceived">
+            <summary>
+            Raised when a <see cref="T:IndiePortable.Communication.Messages.MessageBase" /> object has been received.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="E:IndiePortable.Communication.Devices.IMessageReceiver.MessageReceived" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.Cache">
+            <summary>
+            Gets the <see cref="T:IndiePortable.Communication.Devices.MessageDispatcher" /> acting as a message cache for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
+            </summary>
+            <value>
+                Contains the <see cref="T:IndiePortable.Communication.Devices.MessageDispatcher" /> acting as a message cache for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
+            </value>
+            <remarks>
+                <para>Implements <see cref="P:IndiePortable.Communication.Devices.IMessageReceiver.Cache" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsActivated">
+            <summary>
+            Gets a value indicating whether the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is activated.
+            </summary>
+            <value>
+                <c>true</c> if the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is activated; otherwise, <c>false</c>.
+            </value>
+            <remarks>
+                <para>
+                    Messages can only be sent or received if <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsActivated" /> is <c>true</c>.
+                    Otherwise, an <see cref="T:System.InvalidOperationException" /> will be thrown.
+                </para>
+                <para>Implements <see cref="P:IndiePortable.Communication.Devices.IConnection`1.IsActivated" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsConnected">
+            <summary>
+            Gets a value indicating whether the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is connected to the other end.
+            </summary>
+            <value>
+                <c>true</c> if the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is connected; otherwise, <c>false</c>.
+            </value>
+            <remarks>
+                <para>Implements <see cref="P:IndiePortable.Communication.Devices.IConnection`1.IsConnected" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.RemoteAddress">
+            <summary>
+            Gets the remote address of the other connection end.
+            </summary>
+            <value>
+                Contains the remote address of the other connection end.
+            </value>
+            <remarks>
+                <para>Implements <see cref="P:IndiePortable.Communication.Devices.IConnection`1.RemoteAddress" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.Activate">
+            <summary>
+            Activates the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> has already been activated.</para>
+            </exception>
+            <remarks>
+                <para>Implements <see cref="M:IndiePortable.Communication.Devices.IConnection`1.Activate" /> implicitly.</para>
+                <para>Call this method to allow incoming and outgoing messages to be sent or received.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.Disconnect">
+            <summary>
+            Disconnects the two end points.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if one of the following conditions is true:</para>
+                <list type="bullet">
+                    <item>
+                        <description>The <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsActivated" /> property is <c>false</c>.</description>
+                    </item>
+                    <item>
+                        <description>The <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is disposed.</description>
+                    </item>
+                    <item>
+                        <description>The <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsConnected" /> property is <c>false</c>.</description>
+                    </item>
+                </list>
+            </exception>
+            <remarks>
+                <para>Implements <see cref="M:IndiePortable.Communication.Devices.IConnection`1.Disconnect" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.Disconnect(System.TimeSpan)">
+            <summary>
+            Disconnects the two end points.
+            </summary>
+            <param name="timeout">
+                The duration that shall be waited until a disconnect response has been received.
+                Must be greater than <see cref="F:System.TimeSpan.Zero" />.
+            </param>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="F:System.TimeSpan.Zero" />.</para>
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if one of the following conditions is true:</para>
+                <list type="bullet">
+                    <item>
+                        <description>The <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsActivated" /> property is <c>false</c>.</description>
+                    </item>
+                    <item>
+                        <description>The <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is disposed.</description>
+                    </item>
+                    <item>
+                        <description>The <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsConnected" /> property is <c>false</c>.</description>
+                    </item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.SendMessage(IndiePortable.Communication.Messages.MessageBase)">
+            <summary>
+            Sends a <see cref="T:IndiePortable.Communication.Messages.MessageBase" /> object to the other connection end.
+            </summary>
+            <param name="message">
+                The <see cref="T:IndiePortable.Communication.Messages.MessageBase" /> that shall be sent.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.SendMessageAsync(IndiePortable.Communication.Messages.MessageBase)">
+            <summary>
+            Sends a <see cref="T:IndiePortable.Communication.Messages.MessageBase" /> object asynchronously to the other connection end.
+            </summary>
+            <param name="message">
+                The <see cref="T:IndiePortable.Communication.Messages.MessageBase" /> that shall be sent.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                The task processing the method.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.SendConnectionMessage(IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase)">
+            <summary>
+            Sends a connection message.
+            </summary>
+            <param name="message">
+                The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> that shall be sent.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is not activated. Check the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsActivated" /> property.</para>
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.SendConnectionMessageAsync(IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase)">
+            <summary>
+            Sends a connection message asynchonously.
+            </summary>
+            <param name="message">
+                The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> that shall be sent.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                The running task.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> is not activated. Check the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsActivated" /> property.</para>
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.RaiseMessageReceived(IndiePortable.Communication.Messages.MessageBase)">
+            <summary>
+            Raises the <see cref="E:IndiePortable.Communication.UniversalWindows.TcpConnection.MessageReceived" /> event.
+            </summary>
+            <param name="message">
+                The <see cref="T:IndiePortable.Communication.Messages.MessageBase" /> that has been received.
+            </param>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.RaiseConnectionMessageReceived(IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase)">
+            <summary>
+            Raises the <see cref="E:IndiePortable.Communication.UniversalWindows.TcpConnection.ConnectionMessageReceived" /> event.
+            </summary>
+            <param name="message">
+                The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> that has been received.
+            </param>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing">
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.localPublicKeyBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.LocalPublicKey" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.remotePublicKey">
+            <summary>
+            The remote public key information.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.isDisposed">
+            <summary>
+            Indicates whether the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager" /> is disposed.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager" /> class.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing">
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            </param>
+        </member>
+    </members>
+</doc>

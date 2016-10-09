@@ -1,0 +1,328 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IndiePortable.Communication.EncryptedConnection</name>
+    </assembly>
+    <members>
+        <member name="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest">
+            <summary>
+            Represents an encryption request.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase" />
+        </member>
+        <member name="F:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest.publicKeyBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest.PublicKey" /> property.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest.#ctor(IndiePortable.Communication.EncryptedConnection.PublicKeyInfo)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" /> class.
+            </summary>
+            <param name="publicKey">
+                The <see cref="T:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo" /> of the local connection end.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="publicKey" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" /> class from being created.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" /> class.
+            </summary>
+            <param name="data">
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> containing the data to populate the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" />.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>
+                    Thrown if <paramref name="data" /> does not contain the necessary information
+                    to build the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" />.
+                </para>
+            </exception>
+        </member>
+        <member name="P:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest.PublicKey">
+            <summary>
+            Gets the public key to encrypt the messages.
+            </summary>
+            <value>
+                Contains the public key to encrypt the message.
+            </value>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)">
+            <summary>
+            Populates a specified <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> instance with data
+            from the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" /> instance.
+            </summary>
+            <param name="data">
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that shall be populated.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse">
+            <summary>
+            Represents the response to a <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" /> message.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageResponseBase`1" />
+        </member>
+        <member name="F:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse.publicKeyBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse.PublicKey" /> property.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse.#ctor(IndiePortable.Communication.EncryptedConnection.PublicKeyInfo,IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse"/> class.
+            </summary>
+            <param name="publicKey">
+                The public key of the responding connection end.
+                Must not be <c>null</c>.
+            </param>
+            <param name="request">
+                The request message that shall be responded to.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="publicKey" /> is <c>null</c>.</item>
+                    <item><paramref name="request" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse.#ctor">
+            <summary>
+            Prevents a default instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse"/> class from being created.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse"/> class.
+            </summary>
+            <param name="data">
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that is used
+                to populate the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse" /> instance.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if <paramref name="data" /> does not contain the necessary information.</para>
+            </exception>
+        </member>
+        <member name="P:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse.PublicKey">
+            <summary>
+            Gets the public key of the responding connection end.
+            </summary>
+            <value>
+                Contains the public key of the responding connection end.
+            </value>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)">
+            <summary>
+            Populates a specified <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> instance
+            with data from the <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptResponse" /> instance.
+            </summary>
+            <param name="data">
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that shall be populated.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> class.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> class.
+            </summary>
+        </member>
+        <member name="P:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.IsSessionStarted">
+            <summary>
+            Gets a value indicating whether the <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> has started an encryption session,
+            when overriden in a derived class.
+            </summary>
+            <value>
+                <c>true</c> if the <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> has started an encryption session; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.LocalPublicKey">
+            <summary>
+            Gets the public key of the local client, when overriden in a derived class.
+            </summary>
+            <value>
+                Contains the public key of the local client.
+            </value>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.StartSession(`0)">
+            <summary>
+            When overriden in a derived class, starts an encryption session.
+            </summary>
+            <param name="remotePublicKey">
+                The public key of the remote client.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the encryption session has already been started.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.Encrypt(System.Byte[])">
+            <summary>
+            When overriden in a derived class, encrypts the specified data by using the specified algorithm.
+            </summary>
+            <param name="data">
+                The data that shall be encrypted.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                The encrypted data.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.Decrypt(System.Byte[])">
+            <summary>
+            When overriden in a derived class, decrypts the specified data by using the specified algorithm.
+            </summary>
+            <param name="data">
+                The data that shall be encrypted.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                The decrypted data.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.Dispose(System.Boolean)">
+            <summary>
+            When overriden in a derived class, releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing">
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            </param>
+        </member>
+        <member name="T:IndiePortable.Communication.EncryptedConnection.ICryptableConnection`1">
+            <summary>
+            Represents an <see cref="T:IndiePortable.Communication.Devices.IConnection`1" /> that supports encryption.
+            </summary>
+            <typeparam name="TAddress">
+                The type of the addresses.
+            </typeparam>
+            <seealso cref="T:IndiePortable.Communication.Devices.IConnection`1" />
+        </member>
+        <member name="P:IndiePortable.Communication.EncryptedConnection.ICryptableConnection`1.IsSessionEncrypted">
+            <summary>
+            Gets a value indicating whether the current connection session is session encrypted.
+            </summary>
+            <value>
+                <c>true</c> if the current connection session is encrypted; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ICryptableConnection`1.StartEncryptionSession">
+            <summary>
+            Starts the encryption session for the <see cref="T:IndiePortable.Communication.EncryptedConnection.ICryptableConnection`1" />.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.ICryptableConnection`1.StartEncryptionSessionAsync">
+            <summary>
+            Asynchronously starts the encryption session for the <see cref="T:IndiePortable.Communication.EncryptedConnection.ICryptableConnection`1" />.
+            </summary>
+            <returns>
+                The task representing the method.
+            </returns>
+        </member>
+        <member name="T:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo">
+            <summary>
+            Represents a public key.
+            </summary>
+            <seealso cref="T:IndiePortable.Formatter.ISerializable" />
+        </member>
+        <member name="F:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.exponentBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.Exponent" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.modulusBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.Modulus" /> property.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.#ctor(System.Byte[],System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo"/> struct.
+            </summary>
+            <param name="exponent">
+                The public key's exponent.
+                Must not be <c>null</c>.
+            </param>
+            <param name="modulus">
+                The public key's modulus.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if one of these conditions is fulfilled:</para>
+                <list type="bullet">
+                    <item><paramref name="exponent" /> is <c>null</c>.</item>
+                    <item><paramref name="modulus" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+        </member>
+        <member name="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.Exponent">
+            <summary>
+            Gets the exponent of the public key.
+            </summary>
+            <value>
+                Contains the exponent of the public key.
+            </value>
+        </member>
+        <member name="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.Modulus">
+            <summary>
+            Gets the modulus of the public key.
+            </summary>
+            <value>
+                Contains the modulus of the public key.
+            </value>
+        </member>
+        <member name="M:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)">
+            <summary>
+            Populates a specified <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> instance with data from the <see cref="T:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo" /> instance.
+            </summary>
+            <param name="data">
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that shall be populated.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+            <remarks>
+                <para>Implements <see cref="M:IndiePortable.Formatter.ISerializable.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)" /> implicitly.</para>
+            </remarks>
+        </member>
+    </members>
+</doc>

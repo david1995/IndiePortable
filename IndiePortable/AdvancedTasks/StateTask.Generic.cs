@@ -31,11 +31,13 @@ namespace IndiePortable.AdvancedTasks
         /// <summary>
         /// Represents the communication connection to the <see cref="StateTask{T}" />.
         /// </summary>
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         private readonly ITaskConnection<T> connection;
 
         /// <summary>
         /// The <see cref="Task" /> that is wrapped by the <see cref="StateTask{T}" />.
-        /// </summary> 
+        /// </summary>
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         private readonly Task task;
 
         /// <summary>
@@ -48,26 +50,29 @@ namespace IndiePortable.AdvancedTasks
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if <paramref name="method" /> is <c>null</c>.</para>
         /// </exception>
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public StateTask(Action<ITaskConnection<T>> method)
         {
         }
-        
+
         /// <summary>
         /// Raised when the <see cref="StateTask{T}" /> has returned.
         /// </summary>
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public event EventHandler Returned
         {
             add { throw new NotImplementedException(); }
 
             remove { throw new NotImplementedException(); }
         }
-        
+
         /// <summary> 
         /// Gets or sets the state object that is passed to the <see cref="StateTask{T}" />. 
         /// </summary> 
         /// <value> 
         ///     Contains the state object that is passed to the <see cref="StateTask{T}" />. 
         /// </value> 
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public T StateObject
         {
             get { throw new NotImplementedException(); }
@@ -78,6 +83,7 @@ namespace IndiePortable.AdvancedTasks
         /// <summary>
         /// Signals the <see cref="StateTask{T}" /> to stop.
         /// </summary>
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public void Stop()
         {
             throw new NotImplementedException();
@@ -93,6 +99,7 @@ namespace IndiePortable.AdvancedTasks
         ///         calls to the <see cref="StopAndWait()" /> method will never return. 
         ///     </para> 
         /// </remarks> 
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public void StopAndWait()
         {
             throw new NotImplementedException();
@@ -108,6 +115,7 @@ namespace IndiePortable.AdvancedTasks
         ///         calls to the <see cref="StopAndWaitAsync()" /> method will never return. 
         ///     </para> 
         /// </remarks> 
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public Task StopAndWaitAsync()
         {
             throw new NotImplementedException();
@@ -123,6 +131,7 @@ namespace IndiePortable.AdvancedTasks
         ///         calls to the <see cref="WaitForReturn()" /> method will never return. 
         ///     </para> 
         /// </remarks> 
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public void WaitForReturn()
         {
             throw new NotImplementedException();
@@ -138,14 +147,10 @@ namespace IndiePortable.AdvancedTasks
         ///         calls to the <see cref="WaitForReturnAsync()" /> method will never return. 
         ///     </para> 
         /// </remarks> 
+        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public Task WaitForReturnAsync()
         {
             throw new NotImplementedException();
         }
-
-        /// <summary> 
-        /// Raises the <see cref="Returned" /> event. 
-        /// </summary> 
-        protected void RaiseReturned() => this.Returned?.Invoke(this, EventArgs.Empty);
     }
 }

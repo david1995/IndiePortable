@@ -1156,7 +1156,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                 // get generic type definition of CollectionSurrogate<T> and make new generic type with content type
                 var genericCollectionSurrogateType = typeof(CollectionSurrogate<>);
                 var collectionSurrogateType = genericCollectionSurrogateType.MakeGenericType(contentType);
-                dynamic defaultSurrogate = collectionSurrogateType.GetTypeInfo().GetDeclaredField("Default").GetValue(null);
+                ISurrogate defaultSurrogate = (ISurrogate)collectionSurrogateType.GetTypeInfo().GetDeclaredField("Default").GetValue(null);
                 defaultSurrogate.SetData((dynamic)value, valueData);
             }
             else

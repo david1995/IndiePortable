@@ -11,26 +11,30 @@
 namespace IndiePortable.Communication.UniversalWindows
 {
     using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices.WindowsRuntime;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using AdvancedTasks;
     using Devices;
     using Devices.ConnectionMessages;
+    using EncryptedConnection;
     using Formatter;
     using Messages;
     using Tcp;
     using Windows.Networking.Sockets;
+    using Windows.Security.Cryptography.Core;
     using Windows.Storage.Streams;
     using RTBuffer = Windows.Storage.Streams.Buffer;
 
-
+    /// <summary>
+    /// Represents a connection between two TCP end points.
+    /// </summary>
+    /// <seealso cref="Devices.IConnection{TAddress}" />
+    /// <seealso cref="IDisposable" />
     public sealed partial class TcpConnection
-        : IConnection<IPPortAddressInfo>, IDisposable
+        : ICryptableConnection<IPPortAddressInfo>, IDisposable
     {
         /// <summary>
         /// The backing field for the <see cref="Cache" /> property.
@@ -42,7 +46,9 @@ namespace IndiePortable.Communication.UniversalWindows
         /// </summary>
         private readonly IPPortAddressInfo remoteAddressBacking;
 
-
+        /// <summary>
+        /// The <see cref="BinaryFormatter" /> used to serialize and deserialize messages.
+        /// </summary>
         private readonly BinaryFormatter formatter = BinaryFormatter.CreateWithCoreSurrogates();
 
 
@@ -52,12 +58,20 @@ namespace IndiePortable.Communication.UniversalWindows
         private readonly SemaphoreSlim writeSemaphore = new SemaphoreSlim(1, 1);
 
 
+        private readonly SemaphoreSlim keepAliveSemaphore = new SemaphoreSlim(1, 1);
+
+
+        private readonly RsaCryptoManager cryptoManager = new RsaCryptoManager();
+
+
         private readonly StreamSocket socket;
 
 
         private readonly IInputStream inputStream;
 
-
+        /// <summary>
+        /// The <see cref="Stream" /> serving as output.
+        /// </summary>
         private readonly Stream outputStream;
 
 
@@ -78,13 +92,39 @@ namespace IndiePortable.Communication.UniversalWindows
         /// </summary>
         private bool isDisposed;
 
+        /// <summary>
+        /// The backing filed for the <see cref="IsSessionEncrypted" /> property.
+        /// </summary>
+        private bool isSessionEncryptedBacking;
+
 
         private StateTask messageReaderTask;
 
+        
+        private StateTask keepAliveCheckerTask;
 
-        private DateTime lastKeepAlive;
-
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpConnection"/> class.
+        /// </summary>
+        /// <param name="socket">
+        ///     The <see cref="StreamSocket" /> providing I/O operations for the <see cref="TcpConnection" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="remoteAddress">
+        ///     The address of the remote host.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if:</para>
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <description><paramref name="socket" /> is <c>null</c>.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description><paramref name="remoteAddress" /> is <c>null</c>.</description>
+        ///         </item>
+        ///     </list>
+        /// </exception>
         public TcpConnection(StreamSocket socket, IPPortAddressInfo remoteAddress)
         {
             if (object.ReferenceEquals(socket, null))
@@ -102,6 +142,8 @@ namespace IndiePortable.Communication.UniversalWindows
             this.inputStream = this.socket.InputStream;
             this.outputStream = this.socket.OutputStream.AsStreamForWrite();
 
+            this.cacheBacking = new MessageDispatcher(this);
+
             this.connectionCache = new ConnectionMessageDispatcher<IPPortAddressInfo>(this);
 
             this.handlerDisconnect = new ConnectionMessageHandler<ConnectionDisconnectRequest>(this.HandleDisconnect);
@@ -113,7 +155,6 @@ namespace IndiePortable.Communication.UniversalWindows
             this.connectionCache.AddMessageHandler(this.handlerContent);
 
             this.isConnectedBacking = true;
-            this.lastKeepAlive = DateTime.Now;
         }
 
         /// <summary>
@@ -124,27 +165,83 @@ namespace IndiePortable.Communication.UniversalWindows
             this.Dispose(false);
         }
 
-
+        /// <summary>
+        /// Raised when a <see cref="ConnectionMessageBase" /> has been received.
+        /// </summary>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.ConnectionMessageReceived" /> implicitly.</para>
+        /// </remarks>
         public event EventHandler<ConnectionMessageReceivedEventArgs> ConnectionMessageReceived;
 
         /// <summary>
         /// Raised when a <see cref="MessageBase" /> object has been received.
         /// </summary>
+        /// <remarks>
+        ///     <para>Implements <see cref="IMessageReceiver.MessageReceived" /> implicitly.</para>
+        /// </remarks>
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
 
-
+        /// <summary>
+        /// Gets the <see cref="MessageDispatcher" /> acting as a message cache for the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <value>
+        ///     Contains the <see cref="MessageDispatcher" /> acting as a message cache for the <see cref="TcpConnection" />.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="IMessageReceiver.Cache" /> implicitly.</para>
+        /// </remarks>
         public MessageDispatcher Cache => this.cacheBacking;
 
-
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="TcpConnection" /> is activated.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the <see cref="TcpConnection" /> is activated; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        ///     <para>
+        ///         Messages can only be sent or received if <see cref="IsActivated" /> is <c>true</c>.
+        ///         Otherwise, an <see cref="InvalidOperationException" /> will be thrown.
+        ///     </para>
+        ///     <para>Implements <see cref="IConnection{TAddress}.IsActivated" /> implicitly.</para>
+        /// </remarks>
         public bool IsActivated => this.isActivatedBacking;
 
-
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="TcpConnection" /> is connected to the other end.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the <see cref="TcpConnection" /> is connected; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.IsConnected" /> implicitly.</para>
+        /// </remarks>
         public bool IsConnected => this.isConnectedBacking;
 
 
+        public bool IsSessionEncrypted => this.isSessionEncryptedBacking;
+
+        /// <summary>
+        /// Gets the remote address of the other connection end.
+        /// </summary>
+        /// <value>
+        ///     Contains the remote address of the other connection end.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.RemoteAddress" /> implicitly.</para>
+        /// </remarks>
         public IPPortAddressInfo RemoteAddress => this.remoteAddressBacking;
 
-
+        /// <summary>
+        /// Activates the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the <see cref="TcpConnection" /> has already been activated.</para>
+        /// </exception>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.Activate()" /> implicitly.</para>
+        ///     <para>Call this method to allow incoming and outgoing messages to be sent or received.</para>
+        /// </remarks>
         public void Activate()
         {
             this.activationStateSemaphore.Wait();
@@ -156,6 +253,7 @@ namespace IndiePortable.Communication.UniversalWindows
                 }
 
                 this.messageReaderTask = new StateTask(this.MessageReader);
+                this.keepAliveCheckerTask = new StateTask(this.KeepAliveChecker);
                 this.isActivatedBacking = true;
             }
             finally
@@ -164,23 +262,52 @@ namespace IndiePortable.Communication.UniversalWindows
             }
         }
 
+        /// <summary>
+        /// Disconnects the two end points.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if one of the following conditions is true:</para>
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <description>The <see cref="IsActivated" /> property is <c>false</c>.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>The <see cref="TcpConnection" /> is disposed.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>The <see cref="IsConnected" /> property is <c>false</c>.</description>
+        ///         </item>
+        ///     </list>
+        /// </exception>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.Disconnect()" /> implicitly.</para>
+        /// </remarks>
+        public void Disconnect() => this.Disconnect(TimeSpan.FromSeconds(5d));
 
-        public void Disconnect()
-        {
-            if (!this.IsActivated || this.isDisposed || !this.IsConnected)
-            {
-                throw new InvalidOperationException();
-            }
-
-            var rq = new ConnectionDisconnectRequest();
-            this.SendConnectionMessage(rq);
-            this.connectionCache.Wait<ConnectionDisconnectRequest, ConnectionDisconnectResponse>(rq);
-            this.isConnectedBacking = false;
-            this.messageReaderTask.Stop();
-            this.Dispose();
-        }
-
-
+        /// <summary>
+        /// Disconnects the two end points.
+        /// </summary>
+        /// <param name="timeout">
+        ///     The duration that shall be waited until a disconnect response has been received.
+        ///     Must be greater than <see cref="TimeSpan.Zero" />.
+        /// </param>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="TimeSpan.Zero" />.</para>
+        /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if one of the following conditions is true:</para>
+        ///     <list type="bullet">
+        ///         <item>
+        ///             <description>The <see cref="IsActivated" /> property is <c>false</c>.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>The <see cref="TcpConnection" /> is disposed.</description>
+        ///         </item>
+        ///         <item>
+        ///             <description>The <see cref="IsConnected" /> property is <c>false</c>.</description>
+        ///         </item>
+        ///     </list>
+        /// </exception>
         public void Disconnect(TimeSpan timeout)
         {
             if (timeout <= TimeSpan.Zero)
@@ -193,12 +320,22 @@ namespace IndiePortable.Communication.UniversalWindows
                 throw new InvalidOperationException();
             }
 
-            var rq = new ConnectionDisconnectRequest();
-            this.SendConnectionMessage(rq);
-            this.connectionCache.Wait<ConnectionDisconnectRequest, ConnectionDisconnectResponse>(rq, timeout);
-            this.isConnectedBacking = false;
-            this.messageReaderTask.Stop();
-            this.Dispose();
+            try
+            {
+                this.keepAliveCheckerTask.Stop();
+                var rq = new ConnectionDisconnectRequest();
+                this.SendConnectionMessage(rq);
+                this.connectionCache.Wait<ConnectionDisconnectRequest, ConnectionDisconnectResponse>(rq, timeout);
+            }
+            catch (IOException)
+            {
+            }
+            finally
+            {
+                this.messageReaderTask.Stop();
+                this.isConnectedBacking = false;
+                this.Dispose();
+            }
         }
 
         /// <summary>
@@ -214,6 +351,55 @@ namespace IndiePortable.Communication.UniversalWindows
         }
 
 
+        public void StartEncryptionSession()
+        {
+            if (this.IsSessionEncrypted)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var rq = new ConnectionEncryptRequest(this.cryptoManager.LocalPublicKey);
+            this.SendConnectionMessage(rq);
+            var rsp = this.connectionCache.Wait<ConnectionEncryptRequest, ConnectionEncryptResponse>(rq, TimeSpan.FromSeconds(5));
+            if (object.ReferenceEquals(rsp, null))
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.cryptoManager.StartSession(rsp.PublicKey);
+            this.isSessionEncryptedBacking = true;
+        }
+
+
+        public async Task StartEncryptionSessionAsync()
+        {
+            if (this.IsSessionEncrypted)
+            {
+                throw new InvalidOperationException();
+            }
+
+            var rq = new ConnectionEncryptRequest(this.cryptoManager.LocalPublicKey);
+            await this.SendConnectionMessageAsync(rq);
+            var rsp = await this.connectionCache.WaitAsync<ConnectionEncryptRequest, ConnectionEncryptResponse>(rq, TimeSpan.FromSeconds(5));
+            if (object.ReferenceEquals(rsp, null))
+            {
+                throw new InvalidOperationException();
+            }
+
+            this.cryptoManager.StartSession(rsp.PublicKey);
+            this.isSessionEncryptedBacking = true;
+        }
+
+        /// <summary>
+        /// Sends a <see cref="MessageBase" /> object to the other connection end.
+        /// </summary>
+        /// <param name="message">
+        ///     The <see cref="MessageBase" /> that shall be sent.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
         public void SendMessage(MessageBase message)
         {
             if (object.ReferenceEquals(message, null))
@@ -224,7 +410,19 @@ namespace IndiePortable.Communication.UniversalWindows
             this.SendConnectionMessage(new ConnectionContentMessage(message));
         }
 
-
+        /// <summary>
+        /// Sends a <see cref="MessageBase" /> object asynchronously to the other connection end.
+        /// </summary>
+        /// <param name="message">
+        ///     The <see cref="MessageBase" /> that shall be sent.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <returns>
+        ///     The task processing the method.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
         public async Task SendMessageAsync(MessageBase message)
         {
             if (object.ReferenceEquals(message, null))
@@ -234,8 +432,20 @@ namespace IndiePortable.Communication.UniversalWindows
 
             await this.SendConnectionMessageAsync(new ConnectionContentMessage(message));
         }
-
-
+        
+        /// <summary>
+        /// Sends a connection message.
+        /// </summary>
+        /// <param name="message">
+        ///     The <see cref="ConnectionMessageBase" /> that shall be sent.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the <see cref="TcpConnection" /> is not activated. Check the <see cref="IsActivated" /> property.</para>
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
         private void SendConnectionMessage(ConnectionMessageBase message)
         {
             if (!this.IsActivated)
@@ -275,7 +485,22 @@ namespace IndiePortable.Communication.UniversalWindows
             }
         }
 
-
+        /// <summary>
+        /// Sends a connection message asynchonously.
+        /// </summary>
+        /// <param name="message">
+        ///     The <see cref="ConnectionMessageBase" /> that shall be sent.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <returns>
+        ///     The running task.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the <see cref="TcpConnection" /> is not activated. Check the <see cref="IsActivated" /> property.</para>
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
         private async Task SendConnectionMessageAsync(ConnectionMessageBase message)
         {
             if (!this.IsActivated)
@@ -402,7 +627,18 @@ namespace IndiePortable.Communication.UniversalWindows
                             ConnectionMessageBase message;
                             if (this.formatter.TryDeserialize(bufferStream, out message))
                             {
-                                this.RaiseConnectionMessageReceived(message);
+                                new Task(() => this.RaiseConnectionMessageReceived(message)).Start();
+                            }
+                            else
+                            {
+                                // if deserialization fails, "reset" connection by consuming all bytes in the socket buffer
+                                RTBuffer clearBuffer;
+                                do
+                                {
+                                    clearBuffer = new RTBuffer(sizeof(long));
+                                    await this.inputStream.ReadAsync(lengthBuffer, sizeof(long), InputStreamOptions.Partial);
+                                }
+                                while (clearBuffer.Length == sizeof(long));
                             }
                         }
                     }
@@ -423,6 +659,40 @@ namespace IndiePortable.Communication.UniversalWindows
             }
 
             taskConnection.Return();
+        }
+
+
+        private void KeepAliveChecker(ITaskConnection connection)
+        {
+            if (object.ReferenceEquals(connection, null))
+            {
+                throw new ArgumentNullException(nameof(connection));
+            }
+
+            try
+            {
+                while (!connection.MustFinish)
+                {
+                    if (!this.keepAliveSemaphore.Wait(TimeSpan.FromSeconds(10d)))
+                    {
+                        this.Disconnect();
+                        connection.Stop();
+                    }
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+            }
+            catch (TaskCanceledException)
+            {
+            }
+            catch (Exception exc)
+            {
+                connection.ThrowException(exc);
+                return;
+            }
+
+            connection.Return();
         }
     }
 }

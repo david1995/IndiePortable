@@ -13,7 +13,14 @@ namespace IndiePortable.Communication.Devices
     using System;
     using ConnectionMessages;
 
-
+    /// <summary>
+    /// Represents a handler for a connection message.
+    /// </summary>
+    /// <typeparam name="T">
+    ///     The type of the connection message.
+    ///     Must derive from <see cref="ConnectionMessageBase" />.
+    /// </typeparam>
+    /// <seealso cref="IConnectionMessageHandler" />
     public class ConnectionMessageHandler<T>
         : IConnectionMessageHandler
         where T : ConnectionMessageBase
@@ -21,7 +28,16 @@ namespace IndiePortable.Communication.Devices
 
         private Action<T> messageHandler;
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionMessageHandler{T}"/> class.
+        /// </summary>
+        /// <param name="messageHandler">
+        ///     The method handling the message.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="System.ArgumentNullException">
+        ///     <para>Thrown if <paramref name="messageHandler" /> is <c>null</c>.</para>
+        /// </exception>
         public ConnectionMessageHandler(Action<T> messageHandler)
         {
             if (object.ReferenceEquals(messageHandler, null))

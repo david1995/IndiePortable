@@ -10,9 +10,14 @@
 
 namespace IndiePortable.Communication.Devices.ConnectionMessages
 {
+    using System;
     using Formatter;
 
-
+    /// <summary>
+    /// Represents a request connection message.
+    /// This class is abstract.
+    /// </summary>
+    /// <seealso cref="ConnectionMessageBase" />
     [Serializable]
     public abstract class ConnectionMessageRequestBase
         : ConnectionMessageBase
@@ -24,7 +29,20 @@ namespace IndiePortable.Communication.Devices.ConnectionMessages
         {
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConnectionMessageRequestBase"/> class.
+        /// </summary>
+        /// <param name="data">
+        ///     The <see cref="ObjectDataCollection" /> that is used
+        ///     to populate the <see cref="ConnectionMessageRequestBase" /> instance.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <para>Thrown if <paramref name="data" /> does not contain the necessary information.</para>
+        /// </exception>
         protected ConnectionMessageRequestBase(ObjectDataCollection data)
             : base(data)
         {
