@@ -11,6 +11,7 @@
 namespace IndiePortable.Communication.NetClassic
 {
     using System;
+    using System.IO;
     using System.Security.Cryptography;
     using EncryptedConnection;
 
@@ -33,13 +34,13 @@ namespace IndiePortable.Communication.NetClassic
         private readonly RSACryptoServiceProvider localRSA;
 
 
-        private readonly AesCryptoServiceProvider aesSymmetricCrypter;
+        private readonly AesCryptoServiceProvider aesSymmetricEncrypter;
+
+
+        private readonly AesCryptoServiceProvider aesSymmetricDecrypter;
 
 
         private readonly ICryptoTransform aesEncryptor;
-
-
-        private readonly ICryptoTransform aesDecryptor;
 
         /// <summary>
         /// The backing field for the <see cref="LocalPublicKey" /> property.
@@ -68,14 +69,30 @@ namespace IndiePortable.Communication.NetClassic
         {
             this.localRSA = new RSACryptoServiceProvider(4096);
             this.remoteRSA = new RSACryptoServiceProvider(4096);
-            this.aesSymmetricCrypter = new AesCryptoServiceProvider();
-            this.aesSymmetricCrypter.GenerateKey();
-            this.aesEncryptor = this.aesSymmetricCrypter.CreateEncryptor();
-            this.aesDecryptor = this.aesSymmetricCrypter.CreateDecryptor();
-
-            var param = this.localRSA.ExportParameters(false);
-            this.localPublicKeyBacking = new PublicKeyInfo(param.Exponent, param.Modulus);
+            this.aesSymmetricEncrypter = new AesCryptoServiceProvider();
+            this.aesSymmetricEncrypter.GenerateKey();
+            this.aesEncryptor = this.aesSymmetricEncrypter.CreateEncryptor();
             
+            this.localPublicKeyBacking = new PublicKeyInfo(this.localRSA.ExportCspBlob(false));
+        }
+
+
+        public RsaCryptoManager(byte[] rsaKeyPairBlob)
+        {
+            if (object.ReferenceEquals(rsaKeyPairBlob, null))
+            {
+                throw new ArgumentNullException(nameof(rsaKeyPairBlob));
+            }
+
+            this.localRSA = new RSACryptoServiceProvider(4096);
+            this.localRSA.ImportCspBlob(rsaKeyPairBlob);
+            this.remoteRSA = new RSACryptoServiceProvider(4096);
+
+            this.aesSymmetricEncrypter = new AesCryptoServiceProvider();
+            this.aesSymmetricEncrypter.GenerateKey();
+            this.aesEncryptor = this.aesSymmetricEncrypter.CreateEncryptor();
+
+            this.localPublicKeyBacking = new PublicKeyInfo(this.localRSA.ExportCspBlob(false));
         }
 
         /// <summary>
@@ -117,14 +134,7 @@ namespace IndiePortable.Communication.NetClassic
             }
 
             this.remotePublicKey = remotePublicKey;
-
-            this.remoteRSA.ImportParameters(
-                new RSAParameters
-                {
-                    Exponent = this.remotePublicKey.Exponent,
-                    Modulus = this.remotePublicKey.Modulus
-                });
-
+            this.remoteRSA.ImportCspBlob(this.remotePublicKey.KeyBlob);
             this.isSessionStartedBacking = true;
         }
 
@@ -147,9 +157,38 @@ namespace IndiePortable.Communication.NetClassic
             {
                 throw new ArgumentNullException(nameof(data));
             }
+            
+            using (var memstr = new MemoryStream())
+            {
+                // encrypt aes key
+                var aesEncryptedKey = this.localRSA.Encrypt(this.aesSymmetricEncrypter.Key, false);
 
-            // TODO: implement additional use of AES
-            return this.aesEncryptor.TransformFinalBlock(data, 0, data.Length);
+                var aesEncryptedLength = BitConverter.GetBytes(aesEncryptedKey.Length);
+
+                // write rsa-encrypted aes key
+                memstr.Write(aesEncryptedLength, 0, sizeof(int));
+                memstr.Write(aesEncryptedKey, 0, aesEncryptedKey.Length);
+
+                using (var tempstr = new MemoryStream())
+                {
+                    using (var crstream = new CryptoStream(tempstr, this.aesEncryptor, CryptoStreamMode.Write))
+                    {
+                        // write aes-encrypted content
+                        crstream.Write(data, 0, data.Length);
+                        crstream.Flush();
+                        crstream.FlushFinalBlock();
+
+                        // content length
+                        var contentEncryptedLengthBytes = BitConverter.GetBytes((int)tempstr.Length);
+                        memstr.Write(contentEncryptedLengthBytes, 0, sizeof(int));
+
+                        // write content
+                        tempstr.CopyTo(memstr);
+
+                        return memstr.ToArray();
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -171,8 +210,44 @@ namespace IndiePortable.Communication.NetClassic
             {
                 throw new ArgumentNullException(nameof(data));
             }
+            
+            using (var memstr = new MemoryStream(data, false))
+            {
+                // aes key length
+                var aesLengthBytes = new byte[sizeof(int)];
+                memstr.Read(aesLengthBytes, 0, sizeof(int));
+                var aesLength = BitConverter.ToInt32(aesLengthBytes, 0);
 
-            return this.localRSA.Decrypt(data, false);
+                // aes key encrypted
+                var aesKeyEncryptedBytes = new byte[aesLength];
+                var aesKeyDecryptedBytes = this.localRSA.Decrypt(aesKeyEncryptedBytes, false);
+
+                // create aes key instance
+                this.aesSymmetricDecrypter.Key = aesKeyDecryptedBytes;
+                using (var aesDecryptor = this.aesSymmetricDecrypter.CreateDecryptor())
+                {
+                    // read content length
+                    var contentLengthBytes = new byte[sizeof(int)];
+                    memstr.Read(contentLengthBytes, 0, sizeof(int));
+                    var contentLength = BitConverter.ToInt32(contentLengthBytes, 0);
+
+                    // read content
+                    var contentEncryptedBytes = new byte[contentLength];
+                    memstr.Read(contentEncryptedBytes, 0, contentLength);
+
+                    // decrypt content
+                    using (var tempstr = new MemoryStream(contentEncryptedBytes, false))
+                    {
+                        using (var crstream = new CryptoStream(tempstr, aesDecryptor, CryptoStreamMode.Read))
+                        {
+                            var decryptedContent = new byte[contentLength];
+                            crstream.Read(decryptedContent, 0, contentLength);
+
+                            return decryptedContent;
+                        }
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -191,9 +266,8 @@ namespace IndiePortable.Communication.NetClassic
 
                 this.localRSA.Dispose();
                 this.remoteRSA.Dispose();
-                this.aesDecryptor.Dispose();
                 this.aesEncryptor.Dispose();
-                this.aesSymmetricCrypter.Dispose();
+                this.aesSymmetricEncrypter.Dispose();
 
                 this.isDisposed = true;
             }

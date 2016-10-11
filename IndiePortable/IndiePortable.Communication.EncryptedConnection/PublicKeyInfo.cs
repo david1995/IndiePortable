@@ -22,47 +22,32 @@ namespace IndiePortable.Communication.EncryptedConnection
         : ISerializable
     {
         /// <summary>
-        /// The backing field for the <see cref="Exponent" /> property.
+        /// The backing field for the <see cref="KeyBlob" /> property.
         /// </summary>
-        private readonly byte[] exponentBacking;
-
-        /// <summary>
-        /// The backing field for the <see cref="Modulus" /> property.
-        /// </summary>
-        private readonly byte[] modulusBacking;
+        private readonly byte[] keyBlobBacking;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PublicKeyInfo"/> struct.
         /// </summary>
-        /// <param name="exponent">
-        ///     The public key's exponent.
-        ///     Must not be <c>null</c>.
-        /// </param>
-        /// <param name="modulus">
-        ///     The public key's modulus.
+        /// <param name="keyBlob">
+        ///     The public key formatted in a CAPI-compatible CSP format.
         ///     Must not be <c>null</c>.
         /// </param>
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if one of these conditions is fulfilled:</para>
         ///     <list type="bullet">
-        ///         <item><paramref name="exponent" /> is <c>null</c>.</item>
+        ///         <item><paramref name="keyBlob" /> is <c>null</c>.</item>
         ///         <item><paramref name="modulus" /> is <c>null</c>.</item>
         ///     </list>
         /// </exception>
-        public PublicKeyInfo(byte[] exponent, byte[] modulus)
+        public PublicKeyInfo(byte[] keyBlob)
         {
-            if (object.ReferenceEquals(exponent, null))
+            if (object.ReferenceEquals(keyBlob, null))
             {
-                throw new ArgumentNullException(nameof(exponent));
+                throw new ArgumentNullException(nameof(keyBlob));
             }
 
-            if (object.ReferenceEquals(modulus, null))
-            {
-                throw new ArgumentNullException(nameof(modulus));
-            }
-
-            this.exponentBacking = exponent;
-            this.modulusBacking = modulus;
+            this.keyBlobBacking = keyBlob;
         }
 
 
@@ -73,28 +58,19 @@ namespace IndiePortable.Communication.EncryptedConnection
                 throw new ArgumentNullException(nameof(data));
             }
 
-            if (!data.TryGetValue(nameof(this.Exponent), out this.exponentBacking) ||
-                !data.TryGetValue(nameof(this.Modulus), out this.modulusBacking))
+            if (!data.TryGetValue(nameof(this.KeyBlob), out this.keyBlobBacking))
             {
                 throw new ArgumentException();
             }
         }
 
         /// <summary>
-        /// Gets the exponent of the public key.
+        /// Gets the public key formatted in a CAPI-compatible CSP format.
         /// </summary>
         /// <value>
-        ///     Contains the exponent of the public key.
+        ///     Contains the public key formatted in a CAPI-compatible CSP format.
         /// </value>
-        public byte[] Exponent => this.exponentBacking;
-
-        /// <summary>
-        /// Gets the modulus of the public key.
-        /// </summary>
-        /// <value>
-        ///     Contains the modulus of the public key.
-        /// </value>
-        public byte[] Modulus => this.modulusBacking;
+        public byte[] KeyBlob => this.keyBlobBacking;
 
         /// <summary>
         /// Populates a specified <see cref="ObjectDataCollection" /> instance with data from the <see cref="PublicKeyInfo" /> instance.
@@ -116,8 +92,7 @@ namespace IndiePortable.Communication.EncryptedConnection
                 throw new ArgumentNullException(nameof(data));
             }
 
-            data.AddValue(nameof(this.Exponent), this.Exponent);
-            data.AddValue(nameof(this.Modulus), this.Modulus);
+            data.AddValue(nameof(this.KeyBlob), this.KeyBlob);
         }
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
+using IndiePortable.Communication.EncryptedConnection;
 using IndiePortable.Communication.UniversalWindows;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -28,23 +30,24 @@ namespace TestApp
         public MainPage()
         {
             this.InitializeComponent();
-            var crypto = new RsaCryptoManager();
+            RsaCryptoManager crypto;
+            if (File.Exists(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat")))
+            {
+                crypto = new RsaCryptoManager(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat")));
+            }
+            else
+            {
+                crypto = new RsaCryptoManager();
+                File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat"), crypto.LocalPublicKey.KeyBlob);
+            }
 
-            File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "pk-asn.dat"), crypto.LocalKey.ExportPublicKey(CryptographicPublicKeyBlobType.Pkcs1RsaPublicKey).ToArray());
+            var remotePublicKey = new PublicKeyInfo(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-netclassic.dat")));
+            crypto.StartSession(remotePublicKey);
 
-            var remoteModulus = File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "modulus.dat"));
-            var remoteExponent = File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "exponent.dat"));
+            var data = Encoding.UTF8.GetBytes("This is an en-/decryption test between an UWP and a .Net Framework app.");
 
-            crypto.StartSession(new IndiePortable.Communication.EncryptedConnection.PublicKeyInfo(remoteExponent, remoteModulus));
-
-            var key = crypto.RemoteKey.ExportPublicKey(Windows.Security.Cryptography.Core.CryptographicPublicKeyBlobType.Pkcs1RsaPublicKey);
-
-            this.tb.Text = $@"
-Modulus: {string.Join("", crypto.LocalPublicKey.Modulus.Select(b => b.ToString("x2")))}
-Length: {crypto.LocalPublicKey.Modulus.Length * 8} bits
-
-Exponent: {string.Join("", crypto.LocalPublicKey.Exponent.Select(b => b.ToString("x2")))}
-Length: {crypto.LocalPublicKey.Exponent.Length * 8} bits";
+            var encryptedData = crypto.Encrypt(data);
+            File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "encrypted.dat"), encryptedData);
         }
     }
 }

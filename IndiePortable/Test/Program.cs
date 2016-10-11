@@ -12,18 +12,22 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            var mgr = new RsaCryptoManager();
-            Console.WriteLine($"Modulus: {string.Join(string.Empty, mgr.LocalPublicKey.Modulus)}");
-            Console.WriteLine($"\nLength: {mgr.LocalPublicKey.Modulus.Length} byte(s) ({mgr.LocalPublicKey.Modulus.Length * 8} bits)\n\n");
+            RsaCryptoManager mgr;
+            if (File.Exists("Key-NetClassic.dat"))
+            {
+                mgr = new RsaCryptoManager(File.ReadAllBytes("Key-NetClassic.dat"));
+            }
+            else
+            {
+                mgr = new RsaCryptoManager();
+                File.WriteAllBytes("Key-NetClassic.dat", mgr.LocalPublicKey.KeyBlob);
+            }
 
-            File.WriteAllBytes("modulus.dat", mgr.LocalPublicKey.Modulus);
-
-            Console.WriteLine($"Exponent: {string.Join(string.Empty, mgr.LocalPublicKey.Exponent)}");
-            Console.WriteLine($"\nLength: {mgr.LocalPublicKey.Exponent.Length} byte(s) ({mgr.LocalPublicKey.Exponent.Length * 8} bits)\n\n");
-
-            File.WriteAllBytes("exponent.dat", mgr.LocalPublicKey.Exponent);
-
+            Console.WriteLine($"Key Blob: {string.Join(string.Empty, mgr.LocalPublicKey.KeyBlob)}");
+            Console.WriteLine($"\nLength: {mgr.LocalPublicKey.KeyBlob.Length} byte(s) ({mgr.LocalPublicKey.KeyBlob.Length * 8} bits)\n\n");
+            
             Console.ReadLine();
+
             mgr.Dispose();
         }
     }
