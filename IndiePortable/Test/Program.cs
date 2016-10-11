@@ -40,13 +40,16 @@ namespace Test
 
             var encData = File.ReadAllBytes("encrypted.dat");
             var decData = mgr.Decrypt(encData);
-            var f = BinaryFormatter.CreateWithCoreSurrogates();
 
-            using (var str = new MemoryStream(decData, false))
-            {
-                var obj = f.Deserialize<PublicKeyInfo>(str);
-                Console.WriteLine(string.Join(" ", obj.KeyBlob.Select(b => b.ToString("x2"))));
-            }
+            ////using (var str = new MemoryStream(decData, false))
+            ////{
+            ////    var f = BinaryFormatter.CreateWithCoreSurrogates();
+            ////    var obj = f.Deserialize<PublicKeyInfo>(str);
+            ////    Console.WriteLine(string.Join(" ", obj.KeyBlob.Select(b => b.ToString("x2"))));
+            ////}
+
+            var result = Encoding.UTF8.GetString(decData);
+            Console.WriteLine(result);
             
             Console.ReadLine();
 

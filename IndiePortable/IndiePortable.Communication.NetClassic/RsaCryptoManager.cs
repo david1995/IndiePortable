@@ -12,6 +12,7 @@ namespace IndiePortable.Communication.NetClassic
 {
     using System;
     using System.IO;
+    using System.Linq;
     using System.Security.Cryptography;
     using EncryptedConnection;
 
@@ -259,6 +260,15 @@ namespace IndiePortable.Communication.NetClassic
                 memstr.Read(aesIVEncryptedBytes, 0, aesIVLength);
                 var aesIVBytes = this.localRSA.Decrypt(aesIVEncryptedBytes, true);
 
+                // aes raw length
+                var aesRawLengthLengthBytes = new byte[sizeof(int)];
+                memstr.Read(aesRawLengthLengthBytes, 0, sizeof(int));
+                var aesRawLengthLength = BitConverter.ToInt32(aesRawLengthLengthBytes, 0);
+
+                var aesRawLengthBytes = new byte[aesRawLengthLength];
+                memstr.Read(aesRawLengthBytes, 0, aesRawLengthLength);
+                var aesRawLength = BitConverter.ToInt32(this.localRSA.Decrypt(aesRawLengthBytes, true), 0);
+
                 // create aes key instance
                 this.aesSymmetricDecrypter.Key = aesKeyDecryptedBytes;
                 this.aesSymmetricDecrypter.IV = aesIVBytes;
@@ -281,7 +291,7 @@ namespace IndiePortable.Communication.NetClassic
                             var decryptedContent = new byte[contentLength];
                             crstream.Read(decryptedContent, 0, contentLength);
 
-                            return decryptedContent;
+                            return decryptedContent.Take(aesRawLength).ToArray();
                         }
                     }
                 }

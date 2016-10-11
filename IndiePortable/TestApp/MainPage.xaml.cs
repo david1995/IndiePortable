@@ -48,10 +48,13 @@ namespace TestApp
 
             using (var memstr = new MemoryStream())
             {
-                var f = BinaryFormatter.CreateWithCoreSurrogates();
-                f.Serialize(memstr, new PublicKeyInfo(new byte[] { 0xff, 0xff, 0xff, 0x7f }));
-                var encryptedData = crypto.Encrypt(memstr.ToArray());
+                ////var f = BinaryFormatter.CreateWithCoreSurrogates();
+                ////f.Serialize(memstr, new PublicKeyInfo(new byte[] { 0xff, 0xff, 0xff, 0x7f }));
 
+                var str = Encoding.UTF8.GetBytes("The test of a communication between UWP and .NET Framework.");
+                memstr.Write(str, 0, str.Length);
+
+                var encryptedData = crypto.Encrypt(memstr.ToArray());
                 File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "encrypted.dat"), encryptedData);
             }
         }

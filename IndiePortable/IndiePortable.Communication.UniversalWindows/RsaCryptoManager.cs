@@ -174,6 +174,8 @@ namespace IndiePortable.Communication.UniversalWindows
                 throw new ArgumentNullException(nameof(data));
             }
 
+            var rawLength = data.Length;
+            var rawLengthBytes = BitConverter.GetBytes(rawLength);
             NormalizeLength(ref data, (int)this.aesProvider.BlockLength);
 
             var buffer = CryptographicBuffer.CreateFromByteArray(data);
@@ -202,6 +204,10 @@ namespace IndiePortable.Communication.UniversalWindows
 
                 var aesIVEncryptedLengthBytes = BitConverter.GetBytes(aesIVEncrypted.Length);
 
+                // encrypt raw length
+                var rawLengthEncryptedBytes = CryptographicEngine.Encrypt(this.remoteRsaPublicKey, rawLengthBytes.AsBuffer(), null).ToArray();
+                var rawLengthEncryptedLength = BitConverter.GetBytes(rawLengthEncryptedBytes.Length);
+
                 // write rsa-encrypted aes key
                 memstr.Write(aesKeyLength, 0, sizeof(int));
                 memstr.Write(aesEncryptedKey, 0, aesEncryptedKey.Length);
@@ -209,6 +215,10 @@ namespace IndiePortable.Communication.UniversalWindows
                 // write rsa-encrypted iv
                 memstr.Write(aesIVEncryptedLengthBytes, 0, sizeof(int));
                 memstr.Write(aesIVEncrypted, 0, aesIVEncrypted.Length);
+
+                // write rsa-encrypted raw length
+                memstr.Write(rawLengthEncryptedLength, 0, sizeof(int));
+                memstr.Write(rawLengthEncryptedBytes, 0, rawLengthEncryptedBytes.Length);
 
                 // write aes-encrypted content
                 memstr.Write(aesEncryptedLength, 0, sizeof(int));
