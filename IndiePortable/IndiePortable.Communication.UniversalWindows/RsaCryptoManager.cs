@@ -42,7 +42,7 @@ namespace IndiePortable.Communication.UniversalWindows
         private readonly CryptographicKey aesSendKey;
 
 
-        private readonly CryptographicKey aesReceiveKey;
+        private readonly byte[] aesEncryptionKeyBytes;
 
         /// <summary>
         /// The backing field for the <see cref="LocalPublicKey" /> property.
@@ -72,14 +72,17 @@ namespace IndiePortable.Communication.UniversalWindows
         /// </summary>
         public RsaCryptoManager()
         {
-            this.remoteRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaPkcs1);
+            this.remoteRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaOaepSha1);
 
-            this.aesProvider = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbc);
+            this.aesProvider = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbcPkcs7);
 
             // get local key pair
-            var localRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaPkcs1);
-            this.rsaLocalKeyPair = localRSA.CreateKeyPair(4096);
-            this.aesProvider.CreateSymmetricKey(CryptographicBuffer.GenerateRandom(256));
+            var localRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaOaepSha1);
+            this.rsaLocalKeyPair = localRSA.CreateKeyPair(1024);
+
+            var aesKeyBuffer = CryptographicBuffer.GenerateRandom(32);
+            this.aesEncryptionKeyBytes = aesKeyBuffer.ToArray();
+            this.aesSendKey = this.aesProvider.CreateSymmetricKey(aesKeyBuffer);
 
             this.localPublicKeyBacking = new PublicKeyInfo(this.rsaLocalKeyPair.ExportPublicKey(CryptographicPublicKeyBlobType.Capi1PublicKey).ToArray());
         }
@@ -94,13 +97,13 @@ namespace IndiePortable.Communication.UniversalWindows
 
             this.remoteRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaPkcs1);
 
-            this.aesProvider = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbc);
+            this.aesProvider = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbcPkcs7);
 
             // get local key pair
             var localRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaPkcs1);
             this.rsaLocalKeyPair = localRSA.ImportKeyPair(localRsaKeyPairBlob.AsBuffer(), CryptographicPrivateKeyBlobType.Capi1PrivateKey);
 
-            this.aesProvider.CreateSymmetricKey(CryptographicBuffer.GenerateRandom(256));
+            this.aesProvider.CreateSymmetricKey(CryptographicBuffer.GenerateRandom(32));
 
             this.localPublicKeyBacking = new PublicKeyInfo(this.rsaLocalKeyPair.ExportPublicKey(CryptographicPublicKeyBlobType.Capi1PublicKey).ToArray());
         }
@@ -171,23 +174,41 @@ namespace IndiePortable.Communication.UniversalWindows
                 throw new ArgumentNullException(nameof(data));
             }
 
+            NormalizeLength(ref data, (int)this.aesProvider.BlockLength);
+
             var buffer = CryptographicBuffer.CreateFromByteArray(data);
-            var dataAesEncrypted = CryptographicEngine.Encrypt(this.aesSendKey, buffer, null).ToArray();
+            var iv = CryptographicBuffer.GenerateRandom(16);
+            
+            var dataAesEncrypted = CryptographicEngine.Encrypt(this.aesSendKey, buffer, iv).ToArray();
             using (var memstr = new MemoryStream())
             {
-                // encrypt aes key
-                var aesKey = CryptographicEngine.Encrypt(
-                    this.remoteRsaPublicKey,
-                    this.aesSendKey.Export(CryptographicPrivateKeyBlobType.Capi1PrivateKey),
-                    null).ToArray();
+                var aesKey = this.aesEncryptionKeyBytes;
 
-                var aesKeyLength = BitConverter.GetBytes(aesKey.Length);
+                // encrypt aes key
+                var aesEncryptedKey = CryptographicEngine.Encrypt(
+                    this.remoteRsaPublicKey,
+                    aesKey.AsBuffer(),
+                    null).ToArray();
+                
+                var aesKeyLength = BitConverter.GetBytes(aesEncryptedKey.Length);
 
                 var aesEncryptedLength = BitConverter.GetBytes(dataAesEncrypted.Length);
 
+                // encrypt aes iv
+                var aesIVEncrypted = CryptographicEngine.Encrypt(
+                    this.remoteRsaPublicKey,
+                    iv,
+                    null).ToArray();
+
+                var aesIVEncryptedLengthBytes = BitConverter.GetBytes(aesIVEncrypted.Length);
+
                 // write rsa-encrypted aes key
                 memstr.Write(aesKeyLength, 0, sizeof(int));
-                memstr.Write(aesKey, 0, aesKey.Length);
+                memstr.Write(aesEncryptedKey, 0, aesEncryptedKey.Length);
+
+                // write rsa-encrypted iv
+                memstr.Write(aesIVEncryptedLengthBytes, 0, sizeof(int));
+                memstr.Write(aesIVEncrypted, 0, aesIVEncrypted.Length);
 
                 // write aes-encrypted content
                 memstr.Write(aesEncryptedLength, 0, sizeof(int));
@@ -262,6 +283,23 @@ namespace IndiePortable.Communication.UniversalWindows
                 }
 
                 this.isDisposed = true;
+            }
+        }
+
+
+        private static void NormalizeLength(ref byte[] data, int blockSize)
+        {
+            if (object.ReferenceEquals(data, null))
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+            
+            if (data.Length % blockSize != 0)
+            {
+                var m = data.Length / blockSize;
+                var r = blockSize * (m + 1);
+
+                Array.Resize(ref data, r);
             }
         }
     }

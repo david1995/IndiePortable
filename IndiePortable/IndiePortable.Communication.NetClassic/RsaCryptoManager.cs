@@ -67,11 +67,16 @@ namespace IndiePortable.Communication.NetClassic
         /// </summary>
         public RsaCryptoManager()
         {
-            this.localRSA = new RSACryptoServiceProvider(4096);
-            this.remoteRSA = new RSACryptoServiceProvider(4096);
+            this.localRSA = new RSACryptoServiceProvider(1024);
+            this.remoteRSA = new RSACryptoServiceProvider(1024);
+
             this.aesSymmetricEncrypter = new AesCryptoServiceProvider();
             this.aesSymmetricEncrypter.GenerateKey();
             this.aesEncryptor = this.aesSymmetricEncrypter.CreateEncryptor();
+
+            this.aesSymmetricDecrypter = new AesCryptoServiceProvider();
+            this.aesSymmetricDecrypter.Mode = CipherMode.CBC;
+            this.aesSymmetricDecrypter.Padding = PaddingMode.None;
             
             this.localPublicKeyBacking = new PublicKeyInfo(this.localRSA.ExportCspBlob(false));
         }
@@ -84,13 +89,17 @@ namespace IndiePortable.Communication.NetClassic
                 throw new ArgumentNullException(nameof(rsaKeyPairBlob));
             }
 
-            this.localRSA = new RSACryptoServiceProvider(4096);
+            this.localRSA = new RSACryptoServiceProvider(1024);
             this.localRSA.ImportCspBlob(rsaKeyPairBlob);
-            this.remoteRSA = new RSACryptoServiceProvider(4096);
+            this.remoteRSA = new RSACryptoServiceProvider(1024);
 
             this.aesSymmetricEncrypter = new AesCryptoServiceProvider();
             this.aesSymmetricEncrypter.GenerateKey();
             this.aesEncryptor = this.aesSymmetricEncrypter.CreateEncryptor();
+
+            this.aesSymmetricDecrypter = new AesCryptoServiceProvider();
+            this.aesSymmetricDecrypter.Mode = CipherMode.CBC;
+            this.aesSymmetricDecrypter.Padding = PaddingMode.None;
 
             this.localPublicKeyBacking = new PublicKeyInfo(this.localRSA.ExportCspBlob(false));
         }
@@ -113,6 +122,23 @@ namespace IndiePortable.Communication.NetClassic
         ///     <para>Overrides <see cref="CryptoManagerBase{T}.LocalPublicKey" />.</para>
         /// </remarks>
         public override PublicKeyInfo LocalPublicKey => this.localPublicKeyBacking;
+
+
+        public void ExportLocalKeyPair(Stream output)
+        {
+            if (object.ReferenceEquals(output, null))
+            {
+                throw new ArgumentNullException(nameof(output));
+            }
+
+            if (!output.CanWrite)
+            {
+                throw new ArgumentException();
+            }
+
+            var data = this.localRSA.ExportCspBlob(true);
+            output.Write(data, 0, data.Length);
+        }
 
         /// <summary>
         /// Starts an encryption session.
@@ -161,7 +187,7 @@ namespace IndiePortable.Communication.NetClassic
             using (var memstr = new MemoryStream())
             {
                 // encrypt aes key
-                var aesEncryptedKey = this.localRSA.Encrypt(this.aesSymmetricEncrypter.Key, false);
+                var aesEncryptedKey = this.localRSA.Encrypt(this.aesSymmetricEncrypter.Key, true);
 
                 var aesEncryptedLength = BitConverter.GetBytes(aesEncryptedKey.Length);
 
@@ -220,10 +246,22 @@ namespace IndiePortable.Communication.NetClassic
 
                 // aes key encrypted
                 var aesKeyEncryptedBytes = new byte[aesLength];
-                var aesKeyDecryptedBytes = this.localRSA.Decrypt(aesKeyEncryptedBytes, false);
+                memstr.Read(aesKeyEncryptedBytes, 0, aesLength);
+                var aesKeyDecryptedBytes = this.localRSA.Decrypt(aesKeyEncryptedBytes, true);
+
+                // aes iv length
+                var aesIVLengthBytes = new byte[sizeof(int)];
+                memstr.Read(aesIVLengthBytes, 0, sizeof(int));
+                var aesIVLength = BitConverter.ToInt32(aesIVLengthBytes, 0);
+
+                // aes iv
+                var aesIVEncryptedBytes = new byte[aesIVLength];
+                memstr.Read(aesIVEncryptedBytes, 0, aesIVLength);
+                var aesIVBytes = this.localRSA.Decrypt(aesIVEncryptedBytes, true);
 
                 // create aes key instance
                 this.aesSymmetricDecrypter.Key = aesKeyDecryptedBytes;
+                this.aesSymmetricDecrypter.IV = aesIVBytes;
                 using (var aesDecryptor = this.aesSymmetricDecrypter.CreateDecryptor())
                 {
                     // read content length

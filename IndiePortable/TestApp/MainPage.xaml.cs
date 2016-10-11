@@ -6,8 +6,10 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using IndiePortable.Communication.EncryptedConnection;
 using IndiePortable.Communication.UniversalWindows;
+using IndiePortable.Formatter;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage;
 using Windows.UI.Xaml;
@@ -31,23 +33,27 @@ namespace TestApp
         {
             this.InitializeComponent();
             RsaCryptoManager crypto;
-            if (File.Exists(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat")))
-            {
-                crypto = new RsaCryptoManager(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat")));
-            }
-            else
-            {
-                crypto = new RsaCryptoManager();
-                File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat"), crypto.LocalPublicKey.KeyBlob);
-            }
+            ////if (File.Exists(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat")))
+            ////{
+            ////    crypto = new RsaCryptoManager(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat")));
+            ////}
+            ////else
+            ////{
+            crypto = new RsaCryptoManager();
+            File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat"), crypto.LocalPublicKey.KeyBlob);
+            ////}
 
             var remotePublicKey = new PublicKeyInfo(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-netclassic.dat")));
             crypto.StartSession(remotePublicKey);
 
-            var data = Encoding.UTF8.GetBytes("This is an en-/decryption test between an UWP and a .Net Framework app.");
+            using (var memstr = new MemoryStream())
+            {
+                var f = BinaryFormatter.CreateWithCoreSurrogates();
+                f.Serialize(memstr, new PublicKeyInfo(new byte[] { 0xff, 0xff, 0xff, 0x7f }));
+                var encryptedData = crypto.Encrypt(memstr.ToArray());
 
-            var encryptedData = crypto.Encrypt(data);
-            File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "encrypted.dat"), encryptedData);
+                File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "encrypted.dat"), encryptedData);
+            }
         }
     }
 }
