@@ -87,7 +87,19 @@ namespace IndiePortable.Communication.UniversalWindows
             this.localPublicKeyBacking = new PublicKeyInfo(this.rsaLocalKeyPair.ExportPublicKey(CryptographicPublicKeyBlobType.Capi1PublicKey).ToArray());
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RsaCryptoManager" /> class.
+        /// </summary>
+        /// <param name="localRsaKeyPairBlob">
+        ///     The local key pair stored in a byte array formatted with the legacy Cryptographic API format.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="localRsaKeyPairBlob" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="CryptographicException">
+        ///     <para>Thrown if <paramref name="localRsaKeyPairBlob" /> is not formatted properly or does not have a proper length.</para>
+        /// </exception>
         public RsaCryptoManager(byte[] localRsaKeyPairBlob)
         {
             if (object.ReferenceEquals(localRsaKeyPairBlob, null))
@@ -95,12 +107,12 @@ namespace IndiePortable.Communication.UniversalWindows
                 throw new ArgumentNullException(nameof(localRsaKeyPairBlob));
             }
 
-            this.remoteRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaPkcs1);
+            this.remoteRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaOaepSha1);
 
             this.aesProvider = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbcPkcs7);
 
             // get local key pair
-            var localRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaPkcs1);
+            var localRSA = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.RsaOaepSha1);
             this.rsaLocalKeyPair = localRSA.ImportKeyPair(localRsaKeyPairBlob.AsBuffer(), CryptographicPrivateKeyBlobType.Capi1PrivateKey);
 
             this.aesProvider.CreateSymmetricKey(CryptographicBuffer.GenerateRandom(32));
@@ -167,8 +179,16 @@ namespace IndiePortable.Communication.UniversalWindows
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
         /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the session has not been started. Check the <see cref="IsSessionStarted" /> property.</para>
+        /// </exception>
         public override byte[] Encrypt(byte[] data)
         {
+            if (!this.IsSessionStarted)
+            {
+                throw new InvalidOperationException();
+            }
+
             if (object.ReferenceEquals(data, null))
             {
                 throw new ArgumentNullException(nameof(data));
@@ -241,8 +261,16 @@ namespace IndiePortable.Communication.UniversalWindows
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
         /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the session has not been started. Check the <see cref="IsSessionStarted" /> property.</para>
+        /// </exception>
         public override byte[] Decrypt(byte[] data)
         {
+            if (!this.IsSessionStarted)
+            {
+                throw new InvalidOperationException();
+            }
+
             if (object.ReferenceEquals(data, null))
             {
                 throw new ArgumentNullException(nameof(data));
@@ -257,10 +285,35 @@ namespace IndiePortable.Communication.UniversalWindows
 
                 // aes key encrypted
                 var aesKeyEncryptedBytes = new byte[aesLength];
+                memstr.Read(aesKeyEncryptedBytes, 0, aesLength);
                 var aesKeyDecryptedBuffer = CryptographicEngine.Decrypt(this.rsaLocalKeyPair, aesKeyEncryptedBytes.AsBuffer(), null);
 
+                // aes iv length
+                var aesIVLengthBytes = new byte[sizeof(int)];
+                memstr.Read(aesIVLengthBytes, 0, sizeof(int));
+                var aesIVLength = BitConverter.ToInt32(aesIVLengthBytes, 0);
+
+                // aes iv
+                var aesIVEncryptedBytes = new byte[aesIVLength];
+                memstr.Read(aesIVEncryptedBytes, 0, aesIVLength);
+                var aesIVBuffer = CryptographicEngine.Decrypt(this.rsaLocalKeyPair, aesIVEncryptedBytes.AsBuffer(), null);
+
+                // aes raw length
+                var aesRawLengthLengthBytes = new byte[sizeof(int)];
+                memstr.Read(aesRawLengthLengthBytes, 0, sizeof(int));
+                var aesRawLengthLength = BitConverter.ToInt32(aesRawLengthLengthBytes, 0);
+
+                var aesRawLengthBytes = new byte[aesRawLengthLength];
+                memstr.Read(aesRawLengthBytes, 0, aesRawLengthLength);
+                var aesRawLength = BitConverter.ToInt32(
+                    CryptographicEngine.Decrypt(
+                        this.rsaLocalKeyPair,
+                        aesRawLengthBytes.AsBuffer(),
+                        null).ToArray(),
+                    0);
+
                 // create aes key instance
-                var aesKey = this.aesProvider.CreateSymmetricKey(aesKeyDecryptedBuffer);
+                var aesDecryptKey = this.aesProvider.CreateSymmetricKey(aesKeyDecryptedBuffer);
 
                 // read content length
                 var contentLengthBytes = new byte[sizeof(int)];
@@ -272,8 +325,30 @@ namespace IndiePortable.Communication.UniversalWindows
                 memstr.Read(contentEncryptedBytes, 0, contentLength);
 
                 // decrypt content
-                return CryptographicEngine.Decrypt(aesKey, contentEncryptedBytes.AsBuffer(), null).ToArray();
+                using (var tempstr = CryptographicEngine.Decrypt(aesDecryptKey, contentEncryptedBytes.AsBuffer(), aesIVBuffer).AsStream())
+                {
+                    var content = new byte[aesRawLength];
+                    tempstr.Read(content, 0, aesRawLength);
+                    return content;
+                }
             }
+        }
+
+
+        public void ExportLocalKeyPair(Stream output)
+        {
+            if (object.ReferenceEquals(output, null))
+            {
+                throw new ArgumentNullException(nameof(output));
+            }
+
+            if (!output.CanWrite)
+            {
+                throw new ArgumentException();
+            }
+
+            var key = this.rsaLocalKeyPair.Export(CryptographicPrivateKeyBlobType.Capi1PrivateKey).ToArray();
+            output.Write(key, 0, key.Length);
         }
 
         /// <summary>

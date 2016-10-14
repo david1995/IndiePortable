@@ -23,7 +23,11 @@ namespace IndiePortable.Communication.NetClassic
     using Tcp;
     using EncryptedConnection;
 
-
+    /// <summary>
+    /// Represents one end of a connection using the TCP protocol.
+    /// </summary>
+    /// <seealso cref="EncryptedConnection.ICryptableConnection{TAddress}" />
+    /// <seealso cref="IDisposable" />
     public sealed partial class TcpConnection
         : ICryptableConnection<IPPortAddressInfo>, IDisposable
     {
@@ -59,7 +63,7 @@ namespace IndiePortable.Communication.NetClassic
         private readonly SemaphoreSlim keepAliveSemaphore = new SemaphoreSlim(1, 1);
 
 
-        private readonly RsaCryptoManager cryptoManager = new RsaCryptoManager();
+        private readonly CryptoManagerBase<PublicKeyInfo> cryptoManager;
 
         /// <summary>
         /// Determines whether the <see cref="TcpConnection" /> is disposed.
@@ -101,15 +105,38 @@ namespace IndiePortable.Communication.NetClassic
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if:</para>
         ///     <list type="bullet">
-        ///         <item>
-        ///             <description><paramref name="client" /> is <c>null</c>.</description>
-        ///         </item>
-        ///         <item>
-        ///             <description><paramref name="remoteAddress" /> is <c>null</c>.</description>
-        ///         </item>
+        ///         <item><paramref name="client" /> is <c>null</c>.</item>
+        ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
         ///     </list>
         /// </exception>
         public TcpConnection(TcpClient client, IPPortAddressInfo remoteAddress)
+            : this(client, remoteAddress, new RsaCryptoManager())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpConnection"/> class.
+        /// </summary>
+        /// <param name="client">
+        ///     The <see cref="TcpClient" /> providing I/O operations for the <see cref="TcpConnection" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="remoteAddress">
+        ///     The address of the remote host.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="cryptoManager">
+        /// 
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="client" /> is <c>null</c>.</item>
+        ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+        ///         <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        public TcpConnection(TcpClient client, IPPortAddressInfo remoteAddress, CryptoManagerBase<PublicKeyInfo> cryptoManager)
         {
             if (object.ReferenceEquals(client, null))
             {
@@ -121,16 +148,24 @@ namespace IndiePortable.Communication.NetClassic
                 throw new ArgumentNullException(nameof(remoteAddress));
             }
 
+            if (object.ReferenceEquals(cryptoManager, null))
+            {
+                throw new ArgumentNullException(nameof(cryptoManager));
+            }
+
             this.cacheBacking = new MessageDispatcher(this);
             this.connectionCache = new ConnectionMessageDispatcher<IPPortAddressInfo>(this);
 
             this.handlerDisconnect = new ConnectionMessageHandler<ConnectionDisconnectRequest>(this.HandleDisconnect);
             this.handlerKeepAlive = new ConnectionMessageHandler<ConnectionMessageKeepAlive>(this.HandleKeepAlive);
             this.handlerContent = new ConnectionMessageHandler<ConnectionContentMessage>(this.HandleContent);
+            this.handlerEncryptRequest = new ConnectionMessageHandler<ConnectionEncryptRequest>(this.HandleEncryptRequest);
 
             this.connectionCache.AddMessageHandler(this.handlerDisconnect);
             this.connectionCache.AddMessageHandler(this.handlerKeepAlive);
             this.connectionCache.AddMessageHandler(this.handlerContent);
+
+            this.cryptoManager = cryptoManager;
 
             this.client = client;
             this.remoteAddressBacking = remoteAddress;

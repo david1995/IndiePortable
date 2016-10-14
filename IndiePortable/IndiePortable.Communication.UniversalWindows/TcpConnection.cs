@@ -24,7 +24,6 @@ namespace IndiePortable.Communication.UniversalWindows
     using Messages;
     using Tcp;
     using Windows.Networking.Sockets;
-    using Windows.Security.Cryptography.Core;
     using Windows.Storage.Streams;
     using RTBuffer = Windows.Storage.Streams.Buffer;
 
@@ -149,6 +148,7 @@ namespace IndiePortable.Communication.UniversalWindows
             this.handlerDisconnect = new ConnectionMessageHandler<ConnectionDisconnectRequest>(this.HandleDisconnect);
             this.handlerKeepAlive = new ConnectionMessageHandler<ConnectionMessageKeepAlive>(this.HandleKeepAlive);
             this.handlerContent = new ConnectionMessageHandler<ConnectionContentMessage>(this.HandleContent);
+            this.handlerEncryptionRequest = new ConnectionMessageHandler<ConnectionEncryptRequest>(this.HandleEncryptionRequest);
 
             this.connectionCache.AddMessageHandler(this.handlerDisconnect);
             this.connectionCache.AddMessageHandler(this.handlerKeepAlive);

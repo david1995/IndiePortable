@@ -178,43 +178,75 @@ namespace IndiePortable.Communication.NetClassic
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
         /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the session has not been started. Check the <see cref="IsSessionStarted" /> property.</para>
+        /// </exception>
         public override byte[] Encrypt(byte[] data)
         {
-            if (object.ReferenceEquals(data, null))
+            if (!this.IsSessionStarted)
+            {
+                throw new InvalidOperationException();
+            }
+
+            if (object.ReferenceEquals((object)data, null))
             {
                 throw new ArgumentNullException(nameof(data));
             }
+
+            var rawLength = data.Length;
+            var rawLengthBytes = BitConverter.GetBytes(rawLength);
             
+            var iv = this.aesSymmetricEncrypter.IV;
+
+            // generate aes-encrypted content
+            byte[] dataAesEncrypted;
+            using (var tempstr = new MemoryStream())
+            {
+                using (var crstream = new CryptoStream(tempstr, this.aesEncryptor, CryptoStreamMode.Write))
+                {
+                    crstream.Write(data, 0, rawLength);
+                    crstream.Flush();
+                    crstream.FlushFinalBlock();
+
+                    dataAesEncrypted = tempstr.ToArray();
+                }
+            }
+
             using (var memstr = new MemoryStream())
             {
+                var aesKey = this.aesSymmetricEncrypter.Key;
+                
                 // encrypt aes key
-                var aesEncryptedKey = this.localRSA.Encrypt(this.aesSymmetricEncrypter.Key, true);
+                var aesEncryptedKey = this.remoteRSA.Encrypt(aesKey, true);
+                var aesKeyLength = BitConverter.GetBytes(aesEncryptedKey.Length);
 
-                var aesEncryptedLength = BitConverter.GetBytes(aesEncryptedKey.Length);
+                // encrypt aes iv
+                var aesIVEncrypted = this.remoteRSA.Encrypt(iv, true);
+                var aesIVEncryptedLengthBytes = BitConverter.GetBytes(aesIVEncrypted.Length);
+
+                // encrypt raw length
+                var rawLengthEncryptedBytes = this.remoteRSA.Encrypt(rawLengthBytes, true);
+                var rawLengthEncryptedLength = BitConverter.GetBytes(rawLengthEncryptedBytes.Length);
+                
+                var aesEncryptedLength = BitConverter.GetBytes(dataAesEncrypted.Length);
 
                 // write rsa-encrypted aes key
-                memstr.Write(aesEncryptedLength, 0, sizeof(int));
+                memstr.Write(aesKeyLength, 0, sizeof(int));
                 memstr.Write(aesEncryptedKey, 0, aesEncryptedKey.Length);
 
-                using (var tempstr = new MemoryStream())
-                {
-                    using (var crstream = new CryptoStream(tempstr, this.aesEncryptor, CryptoStreamMode.Write))
-                    {
-                        // write aes-encrypted content
-                        crstream.Write(data, 0, data.Length);
-                        crstream.Flush();
-                        crstream.FlushFinalBlock();
+                // write rsa-encrypted iv
+                memstr.Write(aesIVEncryptedLengthBytes, 0, sizeof(int));
+                memstr.Write(aesIVEncrypted, 0, aesIVEncrypted.Length);
 
-                        // content length
-                        var contentEncryptedLengthBytes = BitConverter.GetBytes((int)tempstr.Length);
-                        memstr.Write(contentEncryptedLengthBytes, 0, sizeof(int));
+                // write rsa-encrypted raw length
+                memstr.Write(rawLengthEncryptedLength, 0, sizeof(int));
+                memstr.Write(rawLengthEncryptedBytes, 0, rawLengthEncryptedBytes.Length);
 
-                        // write content
-                        tempstr.CopyTo(memstr);
+                // write aes-encrypted content
+                memstr.Write(aesEncryptedLength, 0, sizeof(int));
+                memstr.Write(dataAesEncrypted, 0, dataAesEncrypted.Length);
 
-                        return memstr.ToArray();
-                    }
-                }
+                return memstr.ToArray();
             }
         }
 
@@ -231,8 +263,16 @@ namespace IndiePortable.Communication.NetClassic
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
         /// </exception>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the session has not been started. Check the <see cref="IsSessionStarted" /> property.</para>
+        /// </exception>
         public override byte[] Decrypt(byte[] data)
         {
+            if (!this.IsSessionStarted)
+            {
+                throw new InvalidOperationException();
+            }
+
             if (object.ReferenceEquals(data, null))
             {
                 throw new ArgumentNullException(nameof(data));

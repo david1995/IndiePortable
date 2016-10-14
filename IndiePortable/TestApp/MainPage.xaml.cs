@@ -32,31 +32,27 @@ namespace TestApp
         public MainPage()
         {
             this.InitializeComponent();
-            RsaCryptoManager crypto;
-            ////if (File.Exists(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat")))
-            ////{
-            ////    crypto = new RsaCryptoManager(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat")));
-            ////}
-            ////else
-            ////{
-            crypto = new RsaCryptoManager();
-            File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat"), crypto.LocalPublicKey.KeyBlob);
-            ////}
+            RsaCryptoManager mgr;
+            if (File.Exists(Path.Combine(ApplicationData.Current.LocalFolder.Path, "KeyPair-Uwp.dat")))
+            {
+                mgr = new RsaCryptoManager(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "KeyPair-Uwp.dat")));
+            }
+            else
+            {
+                mgr = new RsaCryptoManager();
+                using (var str = File.Open(Path.Combine(ApplicationData.Current.LocalFolder.Path, "KeyPair-Uwp.dat"), FileMode.Create, FileAccess.Write))
+                {
+                    mgr.ExportLocalKeyPair(str);
+                }
+            }
+
+            File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-uwp.dat"), mgr.LocalPublicKey.KeyBlob);
 
             var remotePublicKey = new PublicKeyInfo(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "key-netclassic.dat")));
-            crypto.StartSession(remotePublicKey);
+            mgr.StartSession(remotePublicKey);
 
-            using (var memstr = new MemoryStream())
-            {
-                ////var f = BinaryFormatter.CreateWithCoreSurrogates();
-                ////f.Serialize(memstr, new PublicKeyInfo(new byte[] { 0xff, 0xff, 0xff, 0x7f }));
-
-                var str = Encoding.UTF8.GetBytes("The test of a communication between UWP and .NET Framework.");
-                memstr.Write(str, 0, str.Length);
-
-                var encryptedData = crypto.Encrypt(memstr.ToArray());
-                File.WriteAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "encrypted.dat"), encryptedData);
-            }
+            var result = mgr.Decrypt(File.ReadAllBytes(Path.Combine(ApplicationData.Current.LocalFolder.Path, "NetFramework-Encrypted.dat")));
+            this.tb.Text = Encoding.UTF8.GetString(result);
         }
     }
 }
