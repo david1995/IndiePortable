@@ -14,7 +14,7 @@ namespace IndiePortable.Communication.Devices
     using ConnectionMessages;
 
     /// <summary>
-    /// Provides data for an event concerning <see cref="ConnectionMessage" /> instances.
+    /// Provides data for an event concerning <see cref="ConnectionMessageBase" /> instances.
     /// </summary>
     /// <seealso cref="EventArgs" />
     public class ConnectionMessageReceivedEventArgs
@@ -29,7 +29,7 @@ namespace IndiePortable.Communication.Devices
         /// Initializes a new instance of the <see cref="ConnectionMessageReceivedEventArgs" /> class.
         /// </summary>
         /// <param name="message">
-        ///     The <see cref="ConnectionMessage" /> that has been received.
+        ///     The <see cref="ConnectionMessageBase" /> that has been received.
         /// </param>
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
@@ -45,10 +45,10 @@ namespace IndiePortable.Communication.Devices
         }
 
         /// <summary>
-        /// Gets the <see cref="ConnectionMessage" /> that has been received.
+        /// Gets the <see cref="ConnectionMessageBase" /> that has been received.
         /// </summary>
         /// <value>
-        ///     Contains the <see cref="ConnectionMessage" /> that has been received.
+        ///     Contains the <see cref="ConnectionMessageBase" /> that has been received.
         /// </value>
         public ConnectionMessageBase Message => this.messageBacking;
     }

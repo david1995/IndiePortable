@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("IndiePortable.Communication.NetClassic")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("IndiePortable Communication library for .NET Framework")]
+[assembly: AssemblyDescription("Provides platform-specific implementations of the Communication library for .NET Framework, including listeners and connections for the TCP protocol.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("IndiePortable.Communication.NetClassic")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCompany("David Eiwen")]
+[assembly: AssemblyProduct("IndiePortable.Communication")]
+[assembly: AssemblyCopyright("Copyright © 2016 by David Eiwen")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("0.1.0.0")]
+[assembly: AssemblyFileVersion("0.1.0.0")]

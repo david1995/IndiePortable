@@ -7,7 +7,7 @@
         <authors>$author$</authors>
         <owners>$author$</owners>
         <licenseUrl>https://github.com/david1995/IndiePortable/raw/master/LICENSE</licenseUrl>
-        <projectUrl>https://github.com/david1995/IndiePortable/tree/master/IndiePortable/IndiePortable.Communication.NetClassic</projectUrl>
+        <projectUrl>https://github.com/david1995/IndiePortable/tree/master/IndiePortable/IndiePortable.Communication.EncryptedConnection</projectUrl>
         <iconUrl>https://raw.githubusercontent.com/david1995/IndiePortable/master/IndiePortable/IndiePortable.Communication/Icon.png</iconUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
@@ -18,6 +18,6 @@ Version 0.1.0
 Initial release
         </releaseNotes>
         <copyright>Copyright (c) 2016 by David Eiwen</copyright>
-        <tags>Communication Connection Network TCP .NETFramework IndiePortable</tags>
+        <tags>Encryption Decryption Connection Cryptography IndiePortable</tags>
     </metadata>
 </package>

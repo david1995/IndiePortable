@@ -93,6 +93,9 @@
             <exception cref="T:System.ArgumentNullException">
                 <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
             </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the session has not been started. Check the <see cref="P:IndiePortable.Communication.NetClassic.RsaCryptoManager.IsSessionStarted" /> property.</para>
+            </exception>
         </member>
         <member name="M:IndiePortable.Communication.NetClassic.RsaCryptoManager.Decrypt(System.Byte[])">
             <summary>
@@ -108,6 +111,9 @@
             <exception cref="T:System.ArgumentNullException">
                 <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
             </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the session has not been started. Check the <see cref="P:IndiePortable.Communication.NetClassic.RsaCryptoManager.IsSessionStarted" /> property.</para>
+            </exception>
         </member>
         <member name="M:IndiePortable.Communication.NetClassic.RsaCryptoManager.Dispose(System.Boolean)">
             <summary>
@@ -117,6 +123,23 @@
                 <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
             </param>
         </member>
+        <member name="T:IndiePortable.Communication.NetClassic.TcpConnection">
+            <summary>
+            Represents one end of a connection using the TCP protocol.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.EncryptedConnection.ICryptableConnection`1" />
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.DefaultKeepAliveFrequency">
+            <summary>
+            Contains the default keep alive frequency of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection" /> of 5 seconds.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.DefaultMaxKeepAliveTimeout">
+            <summary>
+            Contains the default maximum keep alive timeout of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection" /> of 10 seconds.
+            </summary>
+        </member>
         <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.cacheBacking">
             <summary>
             The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnection.Cache" /> property.
@@ -125,6 +148,16 @@
         <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.remoteAddressBacking">
             <summary>
             The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnection.RemoteAddress" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.keepAliveFrequencyBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnection.KeepAliveFrequency" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.maxKeepAliveTimeoutBacking">
+            <summary>
+            The backing field fort he <see cref="P:IndiePortable.Communication.NetClassic.TcpConnection.MaxKeepAliveTimeout" /> property.
             </summary>
         </member>
         <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.isDisposed">
@@ -147,6 +180,16 @@
             The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnection.IsSessionEncrypted" /> property.
             </summary>
         </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.messageReaderTask">
+            <summary>
+            The <see cref="T:IndiePortable.AdvancedTasks.StateTask" /> reading messages from the TCP stream.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.keepAliveCheckerTask">
+            <summary>
+            The <see cref="T:IndiePortable.AdvancedTasks.StateTask" /> checking whether the communication partner is connected.
+            </summary>
+        </member>
         <member name="M:IndiePortable.Communication.NetClassic.TcpConnection.#ctor(System.Net.Sockets.TcpClient,IndiePortable.Communication.Tcp.IPPortAddressInfo)">
             <summary>
             Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection"/> class.
@@ -160,14 +203,98 @@
                 Must not be <c>null</c>.
             </param>
             <exception cref="T:System.ArgumentNullException">
-                <para>Thrown if:</para>
+                <para>Thrown if at least one of the following conditions applies:</para>
                 <list type="bullet">
-                    <item>
-                        <description><paramref name="client" /> is <c>null</c>.</description>
-                    </item>
-                    <item>
-                        <description><paramref name="remoteAddress" /> is <c>null</c>.</description>
-                    </item>
+                    <item><paramref name="client" /> is <c>null</c>.</item>
+                    <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnection.#ctor(System.Net.Sockets.TcpClient,IndiePortable.Communication.Tcp.IPPortAddressInfo,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection" /> class.
+            </summary>
+            <param name="client">The client.</param>
+            <param name="remoteAddress">The remote address.</param>
+            <param name="keepAliveFrequency">The keep alive frequency.</param>
+            <param name="maxKeepAliveTimeout">The maximum keep alive timeout.</param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="client" /> is <c>null</c>.</item>
+                    <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="keepAliveFrequency" /> is <c>null</c>.</item>
+                    <item><paramref name="maxKeepAliveTimeout" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnection.#ctor(System.Net.Sockets.TcpClient,IndiePortable.Communication.Tcp.IPPortAddressInfo,IndiePortable.Communication.EncryptedConnection.CryptoManagerBase{IndiePortable.Communication.EncryptedConnection.PublicKeyInfo})">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection"/> class.
+            </summary>
+            <param name="client">
+                The <see cref="T:System.Net.Sockets.TcpClient" /> providing I/O operations for the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection" />.
+                Must not be <c>null</c>.
+            </param>
+            <param name="remoteAddress">
+                The address of the remote host.
+                Must not be <c>null</c>.
+            </param>
+            <param name="cryptoManager">
+                The <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> managing the encryption and decryption of messages.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="client" /> is <c>null</c>.</item>
+                    <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+                    <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnection.#ctor(System.Net.Sockets.TcpClient,IndiePortable.Communication.Tcp.IPPortAddressInfo,IndiePortable.Communication.EncryptedConnection.CryptoManagerBase{IndiePortable.Communication.EncryptedConnection.PublicKeyInfo},System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection"/> class.
+            </summary>
+            <param name="client">
+                The <see cref="T:System.Net.Sockets.TcpClient" /> providing I/O operations for the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection" />.
+                Must not be <c>null</c>.
+            </param>
+            <param name="remoteAddress">
+                The address of the remote host.
+                Must not be <c>null</c>.
+            </param>
+            <param name="cryptoManager">
+                The <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> managing the encryption and decryption of messages.
+                Must not be <c>null</c>.
+            </param>
+            <param name="keepAliveFrequency">
+                The interval of sending keep-alive messages.
+                Must be greater than <see cref="F:System.TimeSpan.Zero" />.
+            </param>
+            <param name="maxKeepAliveTimeout">
+                The maximum acceptable interval between sending two keep-alive messages.
+                Must be greater than <paramref name="keepAliveFrequency" />.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="client" /> is <c>null</c>.</item>
+                    <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+                    <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="keepAliveFrequency" /> is <c>null</c>.</item>
+                    <item><paramref name="maxKeepAliveTimeout" /> is <c>null</c>.</item>
                 </list>
             </exception>
         </member>
@@ -250,6 +377,22 @@
             <remarks>
                 <para>Implements <see cref="P:IndiePortable.Communication.Devices.IConnection`1.RemoteAddress" /> implicitly.</para>
             </remarks>
+        </member>
+        <member name="P:IndiePortable.Communication.NetClassic.TcpConnection.KeepAliveFrequency">
+            <summary>
+            Gets the interval of sending keep-alive messages.
+            </summary>
+            <value>
+                Contains the interval of sending keep-alive messages.
+            </value>
+        </member>
+        <member name="P:IndiePortable.Communication.NetClassic.TcpConnection.MaxKeepAliveTimeout">
+            <summary>
+            Gets the maximum acceptable interval between sending two keep-alive messages.
+            </summary>
+            <value>
+                Contains the maximum acceptable interval between sending two keep-alive messages.
+            </value>
         </member>
         <member name="M:IndiePortable.Communication.NetClassic.TcpConnection.Activate">
             <summary>
@@ -445,6 +588,115 @@
             <param name="disposing">
                 <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
             </param>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnection.MessageReader(IndiePortable.AdvancedTasks.ITaskConnection)">
+            <summary>
+            Reads messages from the TCP stream.
+            </summary>
+            <param name="taskConnection">
+                The <see cref="T:IndiePortable.AdvancedTasks.ITaskConnection" /> provinding communication between the caller and the callee thread.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="taskConnection" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.handlerDisconnect">
+            <summary>
+            The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageHandler`1" /> that handles incoming <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectRequest" /> messages.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.handlerKeepAlive">
+            <summary>
+            The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageHandler`1" /> that handles incoming <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageKeepAlive" /> messages.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.handlerContent">
+            <summary>
+            The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageHandler`1" /> that handles incoming <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage" /> messages.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnection.handlerEncryptRequest">
+            <summary>
+            The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageHandler`1" /> that handles incoming <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" /> messages.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnectionListener.isListeningBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnectionListener.IsListening" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnectionListener.isDisposed">
+            <summary>
+            Determines whether the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" /> has been disposed.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" /> class.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" /> class.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.isActiveBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.IsActive" /> property.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper" /> class.
+            </summary>
+        </member>
+        <member name="T:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings">
+            <summary>
+            Encapsulates settings for a <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" />.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings.listenerNetworkAdaptersBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings.ListenerNetworkAdapters" /> property.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings.#ctor(System.UInt16)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings"/> class.
+            </summary>
+            <param name="listenerPort">
+                The port that shall be listened to.
+            </param>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings.#ctor(IndiePortable.Communication.Tcp.IPPortAddressInfo[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings"/> class.
+            </summary>
+            <param name="listenerNetworkAdapters">
+                The network adaptes' address informations which shall be used to listen for incoming connections.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="listenerNetworkAdapters" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings.#ctor(System.Collections.Generic.IEnumerable{IndiePortable.Communication.Tcp.IPPortAddressInfo})">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings"/> class.
+            </summary>
+            <param name="listenerNetworkAdapters">
+                The network adaptes' address informations which shall be used to listen for incoming connections.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="listenerNetworkAdapters" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="P:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings.ListenerNetworkAdapters">
+            <summary>
+            Gets the network adaptes' address informations which shall be used to listen for incoming connections.
+            </summary>
+            <value>
+                Contains the network adaptes' address informations which shall be used to listen for incoming connections.
+            </value>
         </member>
     </members>
 </doc>

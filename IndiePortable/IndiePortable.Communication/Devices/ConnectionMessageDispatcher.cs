@@ -20,7 +20,13 @@ namespace IndiePortable.Communication.Devices
     using Collections.Linq;
     using ConnectionMessages;
 
-
+    /// <summary>
+    /// Manages received <see cref="ConnectionMessageBase" /> instances.
+    /// </summary>
+    /// <typeparam name="TAddress">
+    ///     The type of the addresses.
+    /// </typeparam>
+    /// <seealso cref="IDisposable" />
     public sealed class ConnectionMessageDispatcher<TAddress>
         : IDisposable
         where TAddress : IAddressInfo
@@ -79,7 +85,20 @@ namespace IndiePortable.Communication.Devices
             this.Dispose(false);
         }
 
-
+        /// <summary>
+        /// Adds a message handler to the <see cref="ConnectionMessageDispatcher{TAddress}" />.
+        /// </summary>
+        /// <typeparam name="T">
+        ///     The type of the messages that shall be handled.
+        ///     Must derive from <see cref="ConnectionMessageBase" />.
+        /// </typeparam>
+        /// <param name="messageHandler">
+        ///     The <see cref="ConnectionMessageHandler{T}" /> that shall be added.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="messageHandler" /> is <c>null</c>.</para>
+        /// </exception>
         public void AddMessageHandler<T>(ConnectionMessageHandler<T> messageHandler)
             where T : ConnectionMessageBase
         {
@@ -91,19 +110,42 @@ namespace IndiePortable.Communication.Devices
             this.messageHandlers.Add(new KeyValuePair<Type, IConnectionMessageHandler>(typeof(T), messageHandler));
         }
 
-
+        /// <summary>
+        /// Removes the message handler specified by the message type that is handled by it.
+        /// </summary>
+        /// <typeparam name="T">
+        ///     The type of the messages that are handled by the message handler to remove.
+        ///     Must derive from <see cref="ConnectionMessageBase" />.
+        /// </typeparam>
+        /// <exception cref="ArgumentException">
+        ///     <para>Thrown if no message handler handling a message of type <typeparamref name="T" /> is registered.</para>
+        /// </exception>
         public void RemoveMessageHandler<T>()
+            where T : ConnectionMessageBase
         {
             var toRemove = this.messageHandlers.FirstOrDefault(f => f.Key == typeof(T));
             if (object.ReferenceEquals(toRemove, null))
             {
-                throw new ArgumentException();
+                throw new ArgumentException("No message handler is registered for the specified message type.", nameof(T));
             }
 
             this.messageHandlers.Remove(toRemove);
         }
 
-
+        /// <summary>
+        /// Removes the message handler specified by the message type that is handled by it.
+        /// </summary>
+        /// <param name="t">
+        ///     The type of the messages that are handled by the message handler to remove.
+        ///     Must derive from <see cref="ConnectionMessageBase" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="t" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <para>Thrown if no message handler handling a message of type <paramref name="t" /> is registered.</para>
+        /// </exception>
         public void RemoveMessageHandler(Type t)
         {
             if (object.ReferenceEquals(t, null))
@@ -114,13 +156,33 @@ namespace IndiePortable.Communication.Devices
             var toRemove = this.messageHandlers.FirstOrDefault(f => f.Key == t);
             if (object.ReferenceEquals(toRemove, null))
             {
-                throw new ArgumentException();
+                throw new ArgumentException("No message handler is registered for the specified message type.", nameof(t));
             }
 
             this.messageHandlers.Remove(toRemove);
         }
 
-
+        /// <summary>
+        /// Waits for the response message of a specified request message.
+        /// </summary>
+        /// <typeparam name="TRequest">
+        ///     The type of the request message.
+        ///     Must derive from <see cref="ConnectionMessageRequestBase" />.
+        /// </typeparam>
+        /// <typeparam name="TResponse">
+        ///     The type of the response message.
+        ///     Must derive from <see cref="ConnectionMessageResponseBase{T}" />.
+        /// </typeparam>
+        /// <param name="request">
+        ///     The request message of which the response shall be awaited.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <returns>
+        ///     Returns the response message.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+        /// </exception>
         public TResponse Wait<TRequest, TResponse>(TRequest request)
             where TRequest : ConnectionMessageRequestBase
             where TResponse : ConnectionMessageResponseBase<TRequest>
@@ -143,7 +205,40 @@ namespace IndiePortable.Communication.Devices
             }
         }
 
-
+        /// <summary>
+        /// Waits for the response message of a specified request message.
+        /// </summary>
+        /// <typeparam name="TRequest">
+        ///     The type of the request message.
+        ///     Must derive from <see cref="ConnectionMessageRequestBase" />.
+        /// </typeparam>
+        /// <typeparam name="TResponse">
+        ///     The type of the response message.
+        ///     Must derive from <see cref="ConnectionMessageResponseBase{T}" />.
+        /// </typeparam>
+        /// <param name="request">
+        ///     The request message of which the response shall be awaited.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="timeout">
+        ///     The maximum time limit that shall be waited.
+        ///     Must be greater than <see cref="TimeSpan.Zero" />.
+        /// </param>
+        /// <returns>
+        ///     Returns the response message.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="TimeSpan.Zero" />.</para>
+        /// </exception>
+        /// <exception cref="TimeoutException">
+        ///     <para>
+        ///         Thrown if the <see cref="ConnectionMessageDispatcher{TAddress}" /> has been waiting
+        ///         longer than <paramref name="timeout" /> for the response.
+        ///     </para>
+        /// </exception>
         public TResponse Wait<TRequest, TResponse>(TRequest request, TimeSpan timeout)
             where TRequest : ConnectionMessageRequestBase
             where TResponse : ConnectionMessageResponseBase<TRequest>
@@ -171,7 +266,27 @@ namespace IndiePortable.Communication.Devices
             }
         }
 
-
+        /// <summary>
+        /// Asynchronously waits for the response message of a specified request message.
+        /// </summary>
+        /// <typeparam name="TRequest">
+        ///     The type of the request message.
+        ///     Must derive from <see cref="ConnectionMessageRequestBase" />.
+        /// </typeparam>
+        /// <typeparam name="TResponse">
+        ///     The type of the response message.
+        ///     Must derive from <see cref="ConnectionMessageResponseBase{T}" />.
+        /// </typeparam>
+        /// <param name="request">
+        ///     The request message of which the response shall be awaited.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <returns>
+        ///     The task waiting for the response message.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+        /// </exception>
         public async Task<TResponse> WaitAsync<TRequest, TResponse>(TRequest request)
             where TRequest : ConnectionMessageRequestBase
             where TResponse : ConnectionMessageResponseBase<TRequest>
@@ -193,7 +308,40 @@ namespace IndiePortable.Communication.Devices
             }
         }
 
-
+        /// <summary>
+        /// Asynchronously waits for the response message of a specified request message with a specified time limit.
+        /// </summary>
+        /// <typeparam name="TRequest">
+        ///     The type of the request message.
+        ///     Must derive from <see cref="ConnectionMessageRequestBase" />.
+        /// </typeparam>
+        /// <typeparam name="TResponse">
+        ///     The type of the response message.
+        ///     Must derive from <see cref="ConnectionMessageResponseBase{T}" />.
+        /// </typeparam>
+        /// <param name="request">
+        ///     The request message of which the response shall be awaited.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="timeout">
+        ///     The maximum time limit that shall be waited.
+        ///     Must be greater than <see cref="TimeSpan.Zero" />.
+        /// </param>
+        /// <returns>
+        ///     The task waiting for the response message.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="TimeSpan.Zero" />.</para>
+        /// </exception>
+        /// <exception cref="TimeoutException">
+        ///     <para>
+        ///         Thrown if the <see cref="ConnectionMessageDispatcher{TAddress}" /> has been waiting
+        ///         longer than <paramref name="timeout" /> for the response.
+        ///     </para>
+        /// </exception>
         public async Task<TResponse> WaitAsync<TRequest, TResponse>(TRequest request, TimeSpan timeout)
             where TRequest : ConnectionMessageRequestBase
             where TResponse : ConnectionMessageResponseBase<TRequest>
@@ -387,9 +535,32 @@ namespace IndiePortable.Communication.Devices
                 return this.response;
             }
 
-
+            /// <summary>
+            /// Asynchronously waits for the specified response message.
+            /// </summary>
+            /// <param name="timeout">
+            ///     The maximum time limit that shall be waited.
+            ///     Must be greater than <see cref="TimeSpan.Zero" />.
+            /// </param>
+            /// <returns>
+            ///     The task waiting for the response message.
+            /// </returns>
+            /// <exception cref="ArgumentOutOfRangeException">
+            ///     <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="TimeSpan.Zero" />.</para>
+            /// </exception>
+            /// <exception cref="TimeoutException">
+            ///     <para>
+            ///         Thrown if the <see cref="WaitingTask{TRequest, TResponse}" /> has been waiting
+            ///         longer than <paramref name="timeout" /> for a response.
+            ///     </para>
+            /// </exception>
             internal async Task<TResponse> WaitAsync(TimeSpan timeout)
             {
+                if (timeout <= TimeSpan.Zero)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(timeout));
+                }
+
                 if (!await Task.Run(() => this.waitHandle.WaitOne(timeout)))
                 {
                     throw new TimeoutException();

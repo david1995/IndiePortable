@@ -53,6 +53,6 @@ Changes:
 - ArrayDictionary key types do not have to implement IComparable&lt;T&gt; any more; they should implement IEquatable&lt;T&gt; instead.
         </releaseNotes>
         <copyright>Copyright (c) 2016 by David Eiwen</copyright>
-        <tags>Collections Concurrent Array-based DynamicArray Array Observable</tags>
+        <tags>Collections Concurrent Array-based DynamicArray Array Observable IndiePortable</tags>
     </metadata>
 </package>

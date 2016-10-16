@@ -14,7 +14,6 @@ namespace IndiePortable.Communication.UniversalWindows
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices.WindowsRuntime;
-    using System.Security.Cryptography;
     using EncryptedConnection;
     using Windows.Security.Cryptography;
     using Windows.Security.Cryptography.Core;
@@ -96,9 +95,6 @@ namespace IndiePortable.Communication.UniversalWindows
         /// </param>
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if <paramref name="localRsaKeyPairBlob" /> is <c>null</c>.</para>
-        /// </exception>
-        /// <exception cref="CryptographicException">
-        ///     <para>Thrown if <paramref name="localRsaKeyPairBlob" /> is not formatted properly or does not have a proper length.</para>
         /// </exception>
         public RsaCryptoManager(byte[] localRsaKeyPairBlob)
         {
@@ -334,21 +330,34 @@ namespace IndiePortable.Communication.UniversalWindows
             }
         }
 
-
-        public void ExportLocalKeyPair(Stream output)
+        /// <summary>
+        /// Exports the local RSA key pair to a strem.
+        /// </summary>
+        /// <param name="target">
+        ///     The <see cref="Stream" /> to which the RSA key pair shall be written.
+        ///     Must not be <c>null</c>.
+        ///     Must be a writable <see cref="Stream" />.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="target" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <para>Thrown if <paramref name="target" /> is not writable. Check the <see cref="Stream.CanWrite" /> property.</para>
+        /// </exception>
+        public void ExportLocalKeyPair(Stream target)
         {
-            if (object.ReferenceEquals(output, null))
+            if (object.ReferenceEquals(target, null))
             {
-                throw new ArgumentNullException(nameof(output));
+                throw new ArgumentNullException(nameof(target));
             }
 
-            if (!output.CanWrite)
-            {
-                throw new ArgumentException();
+            if (!target.CanWrite)
+            { 
+                throw new ArgumentException("The target stream cannot be written to.", nameof(target));
             }
 
             var key = this.rsaLocalKeyPair.Export(CryptographicPrivateKeyBlobType.Capi1PrivateKey).ToArray();
-            output.Write(key, 0, key.Length);
+            target.Write(key, 0, key.Length);
         }
 
         /// <summary>

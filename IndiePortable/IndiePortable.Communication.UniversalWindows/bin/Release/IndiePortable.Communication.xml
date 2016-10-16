@@ -4,72 +4,14 @@
         <name>IndiePortable.Communication</name>
     </assembly>
     <members>
-        <member name="T:IndiePortable.Communication.Crypto.PublicKeyInfo">
+        <member name="T:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1">
             <summary>
-            Represents a public key.
+            Manages received <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> instances.
             </summary>
-            <seealso cref="T:IndiePortable.Formatter.ISerializable" />
-        </member>
-        <member name="F:IndiePortable.Communication.Crypto.PublicKeyInfo.exponentBacking">
-            <summary>
-            The backing field for the <see cref="P:IndiePortable.Communication.Crypto.PublicKeyInfo.Exponent" /> property.
-            </summary>
-        </member>
-        <member name="F:IndiePortable.Communication.Crypto.PublicKeyInfo.modulusBacking">
-            <summary>
-            The backing field for the <see cref="P:IndiePortable.Communication.Crypto.PublicKeyInfo.Modulus" /> property.
-            </summary>
-        </member>
-        <member name="M:IndiePortable.Communication.Crypto.PublicKeyInfo.#ctor(System.Byte[],System.Byte[])">
-            <summary>
-            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Crypto.PublicKeyInfo"/> struct.
-            </summary>
-            <param name="exponent">
-                The public key's exponent.
-                Must not be <c>null</c>.
-            </param>
-            <param name="modulus">
-                The public key's modulus.
-                Must not be <c>null</c>.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-                <para>Thrown if one of these conditions is fulfilled:</para>
-                <list type="bullet">
-                    <item><paramref name="exponent" /> is <c>null</c>.</item>
-                    <item><paramref name="modulus" /> is <c>null</c>.</item>
-                </list>
-            </exception>
-        </member>
-        <member name="P:IndiePortable.Communication.Crypto.PublicKeyInfo.Exponent">
-            <summary>
-            Gets the exponent of the public key.
-            </summary>
-            <value>
-                Contains the exponent of the public key.
-            </value>
-        </member>
-        <member name="P:IndiePortable.Communication.Crypto.PublicKeyInfo.Modulus">
-            <summary>
-            Gets the modulus of the public key.
-            </summary>
-            <value>
-                Contains the modulus of the public key.
-            </value>
-        </member>
-        <member name="M:IndiePortable.Communication.Crypto.PublicKeyInfo.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)">
-            <summary>
-            Populates a specified <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> instance with data from the <see cref="T:IndiePortable.Communication.Crypto.PublicKeyInfo" /> instance.
-            </summary>
-            <param name="data">
-                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that shall be populated.
-                Must not be <c>null</c>.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
-            </exception>
-            <remarks>
-                <para>Implements <see cref="M:IndiePortable.Formatter.ISerializable.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)" /> implicitly.</para>
-            </remarks>
+            <typeparam name="TAddress">
+                The type of the addresses.
+            </typeparam>
+            <seealso cref="T:System.IDisposable" />
         </member>
         <member name="F:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.waitingTasks">
             <summary>
@@ -100,6 +42,168 @@
             <summary>
             Finalizes an instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1" /> class.
             </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.AddMessageHandler``1(IndiePortable.Communication.Devices.ConnectionMessageHandler{``0})">
+            <summary>
+            Adds a message handler to the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1" />.
+            </summary>
+            <typeparam name="T">
+                The type of the messages that shall be handled.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" />.
+            </typeparam>
+            <param name="messageHandler">
+                The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageHandler`1" /> that shall be added.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="messageHandler" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.RemoveMessageHandler``1">
+            <summary>
+            Removes the message handler specified by the message type that is handled by it.
+            </summary>
+            <typeparam name="T">
+                The type of the messages that are handled by the message handler to remove.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" />.
+            </typeparam>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if no message handler handling a message of type <typeparamref name="T" /> is registered.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.RemoveMessageHandler(System.Type)">
+            <summary>
+            Removes the message handler specified by the message type that is handled by it.
+            </summary>
+            <param name="t">
+                The type of the messages that are handled by the message handler to remove.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" />.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="t" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if no message handler handling a message of type <paramref name="t" /> is registered.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.Wait``2(``0)">
+            <summary>
+            Waits for the response message of a specified request message.
+            </summary>
+            <typeparam name="TRequest">
+                The type of the request message.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase" />.
+            </typeparam>
+            <typeparam name="TResponse">
+                The type of the response message.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageResponseBase`1" />.
+            </typeparam>
+            <param name="request">
+                The request message of which the response shall be awaited.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                Returns the response message.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.Wait``2(``0,System.TimeSpan)">
+            <summary>
+            Waits for the response message of a specified request message.
+            </summary>
+            <typeparam name="TRequest">
+                The type of the request message.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase" />.
+            </typeparam>
+            <typeparam name="TResponse">
+                The type of the response message.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageResponseBase`1" />.
+            </typeparam>
+            <param name="request">
+                The request message of which the response shall be awaited.
+                Must not be <c>null</c>.
+            </param>
+            <param name="timeout">
+                The maximum time limit that shall be waited.
+                Must be greater than <see cref="F:System.TimeSpan.Zero" />.
+            </param>
+            <returns>
+                Returns the response message.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="F:System.TimeSpan.Zero" />.</para>
+            </exception>
+            <exception cref="T:System.TimeoutException">
+                <para>
+                    Thrown if the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1" /> has been waiting
+                    longer than <paramref name="timeout" /> for the response.
+                </para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.WaitAsync``2(``0)">
+            <summary>
+            Asynchronously waits for the response message of a specified request message.
+            </summary>
+            <typeparam name="TRequest">
+                The type of the request message.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase" />.
+            </typeparam>
+            <typeparam name="TResponse">
+                The type of the response message.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageResponseBase`1" />.
+            </typeparam>
+            <param name="request">
+                The request message of which the response shall be awaited.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                The task waiting for the response message.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.WaitAsync``2(``0,System.TimeSpan)">
+            <summary>
+            Asynchronously waits for the response message of a specified request message with a specified time limit.
+            </summary>
+            <typeparam name="TRequest">
+                The type of the request message.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase" />.
+            </typeparam>
+            <typeparam name="TResponse">
+                The type of the response message.
+                Must derive from <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageResponseBase`1" />.
+            </typeparam>
+            <param name="request">
+                The request message of which the response shall be awaited.
+                Must not be <c>null</c>.
+            </param>
+            <param name="timeout">
+                The maximum time limit that shall be waited.
+                Must be greater than <see cref="F:System.TimeSpan.Zero" />.
+            </param>
+            <returns>
+                The task waiting for the response message.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="F:System.TimeSpan.Zero" />.</para>
+            </exception>
+            <exception cref="T:System.TimeoutException">
+                <para>
+                    Thrown if the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1" /> has been waiting
+                    longer than <paramref name="timeout" /> for the response.
+                </para>
+            </exception>
         </member>
         <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.Dispose">
             <summary>
@@ -174,6 +278,27 @@
                 <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
             </remarks>
         </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.WaitingTask`2.WaitAsync(System.TimeSpan)">
+            <summary>
+            Asynchronously waits for the specified response message.
+            </summary>
+            <param name="timeout">
+                The maximum time limit that shall be waited.
+                Must be greater than <see cref="F:System.TimeSpan.Zero" />.
+            </param>
+            <returns>
+                The task waiting for the response message.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if <paramref name="timeout" /> is smaller or equals <see cref="F:System.TimeSpan.Zero" />.</para>
+            </exception>
+            <exception cref="T:System.TimeoutException">
+                <para>
+                    Thrown if the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.WaitingTask`2" /> has been waiting
+                    longer than <paramref name="timeout" /> for a response.
+                </para>
+            </exception>
+        </member>
         <member name="M:IndiePortable.Communication.Devices.ConnectionMessageDispatcher`1.WaitingTask`2.Dispose(System.Boolean)">
             <summary>
             Releases unmanaged and - optionally - managed resources.
@@ -192,6 +317,11 @@
             </typeparam>
             <seealso cref="T:IndiePortable.Communication.Devices.IConnectionMessageHandler" />
         </member>
+        <member name="F:IndiePortable.Communication.Devices.ConnectionMessageHandler`1.messageHandler">
+            <summary>
+            The message handler executed when handling messages.
+            </summary>
+        </member>
         <member name="M:IndiePortable.Communication.Devices.ConnectionMessageHandler`1.#ctor(System.Action{`0})">
             <summary>
             Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageHandler`1"/> class.
@@ -204,9 +334,45 @@
                 <para>Thrown if <paramref name="messageHandler" /> is <c>null</c>.</para>
             </exception>
         </member>
+        <member name="P:IndiePortable.Communication.Devices.ConnectionMessageHandler`1.MessageType">
+            <summary>
+            Gets the type of the handled messages.
+            </summary>
+            <value>
+                Contains the type of the handled messages.
+            </value>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageHandler`1.HandleMessage(IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase)">
+            <summary>
+            Handles the specified message.
+            </summary>
+            <param name="message">
+                The message that shall be handled.
+                Its type must be <typeparamref name="T" />.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if <paramref name="message" /> is not of type <typeparamref name="T" />.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessageHandler`1.HandleMessage(`0)">
+            <summary>
+            Handles the specified message.
+            </summary>
+            <param name="message">
+                The message of type <typeparamref name="T" /> that shall be handled.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+            </exception>
+        </member>
         <member name="T:IndiePortable.Communication.Devices.ConnectionMessageReceivedEventArgs">
             <summary>
-            Provides data for an event concerning <see cref="!:ConnectionMessage" /> instances.
+            Provides data for an event concerning <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> instances.
             </summary>
             <seealso cref="T:System.EventArgs" />
         </member>
@@ -220,7 +386,7 @@
             Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageReceivedEventArgs" /> class.
             </summary>
             <param name="message">
-                The <see cref="!:ConnectionMessage" /> that has been received.
+                The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> that has been received.
             </param>
             <exception cref="T:System.ArgumentNullException">
                 <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
@@ -228,75 +394,67 @@
         </member>
         <member name="P:IndiePortable.Communication.Devices.ConnectionMessageReceivedEventArgs.Message">
             <summary>
-            Gets the <see cref="!:ConnectionMessage" /> that has been received.
+            Gets the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> that has been received.
             </summary>
             <value>
-                Contains the <see cref="!:ConnectionMessage" /> that has been received.
+                Contains the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> that has been received.
             </value>
+        </member>
+        <member name="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage">
+            <summary>
+            Represents a connection message with an encapsulated message.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" />
         </member>
         <member name="F:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage.contentBacking">
             <summary>
             The backing field for the <see cref="P:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage.Content" /> property.
             </summary>
         </member>
-        <member name="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest">
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage.#ctor(IndiePortable.Communication.Messages.MessageBase)">
             <summary>
-            Represents an encryption request.
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage" /> class.
             </summary>
-            <seealso cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase" />
-        </member>
-        <member name="F:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest.publicKeyBacking">
-            <summary>
-            The backing field for the <see cref="P:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest.PublicKey" /> property.
-            </summary>
-        </member>
-        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest.#ctor(IndiePortable.Communication.Crypto.PublicKeyInfo)">
-            <summary>
-            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest" /> class.
-            </summary>
-            <param name="publicKey">
-                The <see cref="T:IndiePortable.Communication.Crypto.PublicKeyInfo" /> of the local connection end.
+            <param name="content">
+                The <see cref="T:IndiePortable.Communication.Messages.MessageBase" /> that shall be encapsulated.
                 Must not be <c>null</c>.
             </param>
             <exception cref="T:System.ArgumentNullException">
-                <para>Thrown if <paramref name="publicKey" /> is <c>null</c>.</para>
+                <para>Thrown if <paramref name="content" /> is <c>null</c>.</para>
             </exception>
         </member>
-        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest.#ctor">
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage.#ctor">
             <summary>
-            Prevents a default instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest" /> class from being created.
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage" /> class.
             </summary>
         </member>
-        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
             <summary>
-            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest" /> class.
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage"/> class.
             </summary>
             <param name="data">
-                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> containing the data to populate the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest" />.
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> instance populated with data
+                for initializing the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage" /> instance.
                 Must not be <c>null</c>.
             </param>
             <exception cref="T:System.ArgumentNullException">
                 <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
             </exception>
             <exception cref="T:System.ArgumentException">
-                <para>
-                    Thrown if <paramref name="data" /> does not contain the necessary information
-                    to build the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest" />.
-                </para>
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
             </exception>
         </member>
-        <member name="P:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest.PublicKey">
+        <member name="P:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage.Content">
             <summary>
-            Gets the public key to encrypt the messages.
+            Gets the encapsulated <see cref="T:IndiePortable.Communication.Messages.MessageBase" />.
             </summary>
             <value>
-                Contains the public key to encrypt the message.
+                Contains the encapsulated <see cref="T:IndiePortable.Communication.Messages.MessageBase" />.
             </value>
         </member>
-        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)">
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionContentMessage.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)">
             <summary>
-            Populates a specified <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> instance with data
-            from the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest" /> instance.
+            Populates a specified <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> instance with data from the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> instance.
             </summary>
             <param name="data">
                 The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that shall be populated.
@@ -304,78 +462,80 @@
             <exception cref="T:System.ArgumentNullException">
                 <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
             </exception>
+            <remarks>
+                <para>Overrides <see cref="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)" />.</para>
+            </remarks>
         </member>
-        <member name="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse">
+        <member name="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectRequest">
             <summary>
-            Represents the response to a <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest" /> message.
+            Represents a request for a connection disconnect.
+            This class cannot be inherited.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase" />
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectRequest.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectRequest" /> class.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectRequest.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectRequest" /> class.
+            </summary>
+            <param name="data">
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that is used
+                to populate the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase" /> instance.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if <paramref name="data" /> does not contain the necessary data.</para>
+            </exception>
+        </member>
+        <member name="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectResponse">
+            <summary>
+            Represents a response to a <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectRequest" /> message.
+            This class cannot be inherited.
             </summary>
             <seealso cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageResponseBase`1" />
         </member>
-        <member name="F:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse.publicKeyBacking">
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectResponse.#ctor(IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectRequest)">
             <summary>
-            The backing field for the <see cref="P:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse.PublicKey" /> property.
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectResponse" /> class.
             </summary>
-        </member>
-        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse.#ctor(IndiePortable.Communication.Crypto.PublicKeyInfo,IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptRequest)">
-            <summary>
-            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse"/> class.
-            </summary>
-            <param name="publicKey">
-                The public key of the responding connection end.
-                Must not be <c>null</c>.
-            </param>
             <param name="request">
                 The request message that shall be responded to.
                 Must not be <c>null</c>.
             </param>
             <exception cref="T:System.ArgumentNullException">
-                <para>Thrown if at least one of the following conditions applies:</para>
-                <list type="bullet">
-                    <item><paramref name="publicKey" /> is <c>null</c>.</item>
-                    <item><paramref name="request" /> is <c>null</c>.</item>
-                </list>
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
             </exception>
         </member>
-        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse.#ctor">
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectResponse.#ctor">
             <summary>
-            Prevents a default instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse"/> class from being created.
+            Prevents a default instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectResponse"/> class from being created.
             </summary>
+            <remarks>
+                This constructor should not be called by a constructor of a deriving class
+                other than the parameterless constructor. It is used for de-serializing an object.
+            </remarks>
         </member>
-        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectResponse.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
             <summary>
-            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse"/> class.
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionDisconnectResponse"/> class.
             </summary>
             <param name="data">
                 The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that is used
-                to populate the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse" /> instance.
+                to populate the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageResponseBase`1" /> instance.
                 Must not be <c>null</c>.
             </param>
             <exception cref="T:System.ArgumentNullException">
                 <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
             </exception>
             <exception cref="T:System.ArgumentException">
-                <para>Thrown if <paramref name="data" /> does not contain the necessary information.</para>
-            </exception>
-        </member>
-        <member name="P:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse.PublicKey">
-            <summary>
-            Gets the public key of the responding connection end.
-            </summary>
-            <value>
-                Contains the public key of the responding connection end.
-            </value>
-        </member>
-        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)">
-            <summary>
-            Populates a specified <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> instance
-            with data from the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionEncryptResponse" /> instance.
-            </summary>
-            <param name="data">
-                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> that shall be populated.
-                Must not be <c>null</c>.
-            </param>
-            <exception cref="T:System.ArgumentNullException">
-                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+                <para>Thrown if <paramref name="data" /> does not contain the necessary data.</para>
             </exception>
         </member>
         <member name="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase">
@@ -440,6 +600,33 @@
             </param>
             <exception cref="T:System.ArgumentNullException">
                 <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageKeepAlive">
+            <summary>
+            Represents a keep-alive connection message.
+            This class cannot be inherited.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" />
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageKeepAlive.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageKeepAlive" /> class.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageKeepAlive.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageKeepAlive"/> class.
+            </summary>
+            <param name="data">
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> populated with data for initializing the <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageKeepAlive" />.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if <paramref name="data" /> does not contain the necessary information.</para>
             </exception>
         </member>
         <member name="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageRequestBase">
@@ -697,35 +884,34 @@
                 <para>Thrown if the <see cref="T:IndiePortable.Communication.Devices.IConnectionListener`3" /> is not listening.</para>
             </exception>
         </member>
-        <member name="T:IndiePortable.Communication.Devices.ICryptableConnection`1">
+        <member name="T:IndiePortable.Communication.Devices.IConnectionMessageHandler">
             <summary>
-            Represents an <see cref="T:IndiePortable.Communication.Devices.IConnection`1" /> that supports encryption.
+            Represents a message handler for a connection message.
             </summary>
-            <typeparam name="TAddress">
-                The type of the addresses.
-            </typeparam>
-            <seealso cref="T:IndiePortable.Communication.Devices.IConnection`1" />
         </member>
-        <member name="P:IndiePortable.Communication.Devices.ICryptableConnection`1.IsSessionEncrypted">
+        <member name="P:IndiePortable.Communication.Devices.IConnectionMessageHandler.MessageType">
             <summary>
-            Gets a value indicating whether the current connection session is session encrypted.
+            Gets the type of the handled messages.
             </summary>
             <value>
-                <c>true</c> if the current connection session is encrypted; otherwise, <c>false</c>.
+                Contains the type of the handled messages.
             </value>
         </member>
-        <member name="M:IndiePortable.Communication.Devices.ICryptableConnection`1.StartEncryptionSession">
+        <member name="M:IndiePortable.Communication.Devices.IConnectionMessageHandler.HandleMessage(IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase)">
             <summary>
-            Starts the encryption session for the <see cref="T:IndiePortable.Communication.Devices.ICryptableConnection`1" />.
+            Handles the specified message.
             </summary>
-        </member>
-        <member name="M:IndiePortable.Communication.Devices.ICryptableConnection`1.StartEncryptionSessionAsync">
-            <summary>
-            Asynchronously starts the encryption session for the <see cref="T:IndiePortable.Communication.Devices.ICryptableConnection`1" />.
-            </summary>
-            <returns>
-                The task representing the method.
-            </returns>
+            <param name="message">
+                The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> that shall be handled.
+                Must not be <c>null</c>.
+                Must be of type <see cref="P:IndiePortable.Communication.Devices.IConnectionMessageHandler.MessageType" />.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if <paramref name="message" /> is not of type <see cref="P:IndiePortable.Communication.Devices.IConnectionMessageHandler.MessageType" />.</para>
+            </exception>
         </member>
         <member name="T:IndiePortable.Communication.Devices.IIntervalTransmitter`1">
             <summary>
@@ -1051,6 +1237,110 @@
                 <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
             </remarks>
         </member>
+        <member name="M:IndiePortable.Communication.Devices.MessageDispatcher.Wait``2(``0)">
+            <summary>
+            Waits for the response to a specified request message.
+            </summary>
+            <typeparam name="TRequest">
+                The type of the request message.
+                Must derive from <see cref="T:IndiePortable.Communication.Messages.MessageRequestBase" />.
+            </typeparam>
+            <typeparam name="TResponse">
+                The type of the response message.
+                Must derive from <see cref="T:IndiePortable.Communication.Messages.MessageResponseBase`1" /> and implement <see cref="T:IndiePortable.Communication.Messages.IMessageResponse" />.
+            </typeparam>
+            <param name="request">
+                The request message whose response shall be awaited.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                Returns the response message.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.MessageDispatcher.Wait``2(``0,System.TimeSpan)">
+            <summary>
+            Waits for the response to a specified request message with a given maximum timeout.
+            </summary>
+            <typeparam name="TRequest">
+                The type of the request message.
+                Must derive from <see cref="T:IndiePortable.Communication.Messages.MessageRequestBase" />.
+            </typeparam>
+            <typeparam name="TResponse">
+                The type of the response message.
+                Must derive from <see cref="T:IndiePortable.Communication.Messages.MessageResponseBase`1" /> and implement <see cref="T:IndiePortable.Communication.Messages.IMessageResponse" />.
+            </typeparam>
+            <param name="request">
+                The request message whose response shall be awaited.
+                Must not be <c>null</c>.
+            </param>
+            <param name="timeout">
+                The maximum time span that shall be waited for the response.
+            </param>
+            <returns>
+                Returns the response message.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if <paramref name="timeout" /> is smaller than <see cref="F:System.TimeSpan.Zero" />.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.MessageDispatcher.WaitAsync``2(``0)">
+            <summary>
+            Asynchonously waits for the response to a specified request message.
+            </summary>
+            <typeparam name="TRequest">
+                The type of the request message.
+                Must derive from <see cref="T:IndiePortable.Communication.Messages.MessageRequestBase" />.
+            </typeparam>
+            <typeparam name="TResponse">
+                The type of the response message.
+                Must derive from <see cref="T:IndiePortable.Communication.Messages.MessageResponseBase`1" /> and implement <see cref="T:IndiePortable.Communication.Messages.IMessageResponse" />.
+            </typeparam>
+            <param name="request">
+                The request message whose response shall be awaited.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                The task waiting for the response message.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.Devices.MessageDispatcher.WaitAsync``2(``0,System.TimeSpan)">
+            <summary>
+            Asynchronously waits for the response to a specified request message with a given maximum timeout.
+            </summary>
+            <typeparam name="TRequest">
+                The type of the request message.
+                Must derive from <see cref="T:IndiePortable.Communication.Messages.MessageRequestBase" />.
+            </typeparam>
+            <typeparam name="TResponse">
+                The type of the response message.
+                Must derive from <see cref="T:IndiePortable.Communication.Messages.MessageResponseBase`1" /> and implement <see cref="T:IndiePortable.Communication.Messages.IMessageResponse" />.
+            </typeparam>
+            <param name="request">
+                The request message whose response shall be awaited.
+                Must not be <c>null</c>.
+            </param>
+            <param name="timeout">
+                The maximum time span that shall be waited for the response.
+            </param>
+            <returns>
+                The task waiting for the response message.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if <paramref name="timeout" /> is smaller than <see cref="F:System.TimeSpan.Zero" />.</para>
+            </exception>
+        </member>
         <member name="M:IndiePortable.Communication.Devices.MessageDispatcher.Dispose(System.Boolean)">
             <summary>
             Releases unmanaged and - optionally - managed resources.
@@ -1114,10 +1404,14 @@
                 The request <see cref="T:IndiePortable.Communication.Messages.MessageRequestBase" />.
                 Must not be <c>null</c>.
             </param>
+            <param name="responseType">
+                The type of the response message.
+                Must not be <c>null</c>.
+            </param>
             <exception cref="T:System.ArgumentNullException">
                 <para>Thrown if:</para>
                 <para>  - <paramref name="request" /> is <c>null</c>.</para>
-                <para>  - <paramref name="source" /> is <c>null</c>.</para>
+                <para>  - <paramref name="responseType" /> is <c>null</c>.</para>
             </exception>
         </member>
         <member name="M:IndiePortable.Communication.Devices.MessageDispatcher.WaitingTask.Finalize">

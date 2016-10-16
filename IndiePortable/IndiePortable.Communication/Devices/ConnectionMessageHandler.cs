@@ -25,7 +25,9 @@ namespace IndiePortable.Communication.Devices
         : IConnectionMessageHandler
         where T : ConnectionMessageBase
     {
-
+        /// <summary>
+        /// The message handler executed when handling messages.
+        /// </summary>
         private Action<T> messageHandler;
 
         /// <summary>
@@ -48,10 +50,28 @@ namespace IndiePortable.Communication.Devices
             this.messageHandler = messageHandler;
         }
 
-
+        /// <summary>
+        /// Gets the type of the handled messages.
+        /// </summary>
+        /// <value>
+        ///     Contains the type of the handled messages.
+        /// </value>
         public Type MessageType => typeof(T);
 
-
+        /// <summary>
+        /// Handles the specified message.
+        /// </summary>
+        /// <param name="message">
+        ///     The message that shall be handled.
+        ///     Its type must be <typeparamref name="T" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <para>Thrown if <paramref name="message" /> is not of type <typeparamref name="T" />.</para>
+        /// </exception>
         public void HandleMessage(ConnectionMessageBase message)
         {
             if (object.ReferenceEquals(message, null))
@@ -68,7 +88,16 @@ namespace IndiePortable.Communication.Devices
             this.HandleMessage(msg);
         }
 
-
+        /// <summary>
+        /// Handles the specified message.
+        /// </summary>
+        /// <param name="message">
+        ///     The message of type <typeparamref name="T" /> that shall be handled.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="message" /> is <c>null</c>.</para>
+        /// </exception>
         public void HandleMessage(T message)
         {
             if (object.ReferenceEquals(message, null))

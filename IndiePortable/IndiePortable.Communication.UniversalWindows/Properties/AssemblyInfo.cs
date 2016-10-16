@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IndiePortable Communication Library for Universal Windows")]
-[assembly: AssemblyDescription("Provides an implementation of the Communication library for the Universal Windows Platform.")]
+[assembly: AssemblyDescription("Provides an implementation of the Communication library for the Universal Windows Platform, including listeners and connections for the TCP protocol.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("David Eiwen")]
 [assembly: AssemblyProduct("IndiePortable Communication")]

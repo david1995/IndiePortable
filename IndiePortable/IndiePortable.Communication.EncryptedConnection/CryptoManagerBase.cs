@@ -11,13 +11,15 @@
 namespace IndiePortable.Communication.EncryptedConnection
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
-
-
+    /// <summary>
+    /// Represents the base class for all implementations of a cryptographic managers.
+    /// This class is abstract.
+    /// </summary>
+    /// <typeparam name="T">
+    ///     The type of the publicly visible key.
+    /// </typeparam>
+    /// <seealso cref="IDisposable" />
     public abstract class CryptoManagerBase<T>
         : IDisposable
     {

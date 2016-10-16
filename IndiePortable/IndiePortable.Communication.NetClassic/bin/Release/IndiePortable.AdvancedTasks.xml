@@ -430,16 +430,6 @@
                 </para>
             </remarks>
         </member>
-        <member name="F:IndiePortable.AdvancedTasks.StateTask`1.connection">
-            <summary>
-            Represents the communication connection to the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" />.
-            </summary>
-        </member>
-        <member name="F:IndiePortable.AdvancedTasks.StateTask`1.task">
-            <summary>
-            The <see cref="T:System.Threading.Tasks.Task" /> that is wrapped by the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" />.
-            </summary>
-        </member>
         <member name="M:IndiePortable.AdvancedTasks.StateTask`1.#ctor(System.Action{IndiePortable.AdvancedTasks.ITaskConnection{`0}})">
             <summary>
             Initializes a new instance of the <see cref="T:IndiePortable.AdvancedTasks.StateTask`1" /> class.

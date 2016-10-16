@@ -32,6 +32,16 @@ namespace IndiePortable.Communication.NetClassic
         : ICryptableConnection<IPPortAddressInfo>, IDisposable
     {
         /// <summary>
+        /// Contains the default keep alive frequency of the <see cref="TcpConnection" /> of 5 seconds.
+        /// </summary>
+        public static readonly TimeSpan DefaultKeepAliveFrequency = TimeSpan.FromSeconds(5d);
+
+        /// <summary>
+        /// Contains the default maximum keep alive timeout of the <see cref="TcpConnection" /> of 10 seconds.
+        /// </summary>
+        public static readonly TimeSpan DefaultMaxKeepAliveTimeout = TimeSpan.FromSeconds(10d);
+
+        /// <summary>
         /// The backing field for the <see cref="Cache" /> property.
         /// </summary>
         private readonly MessageDispatcher cacheBacking;
@@ -66,6 +76,16 @@ namespace IndiePortable.Communication.NetClassic
         private readonly CryptoManagerBase<PublicKeyInfo> cryptoManager;
 
         /// <summary>
+        /// The backing field for the <see cref="KeepAliveFrequency" /> property.
+        /// </summary>
+        private readonly TimeSpan keepAliveFrequencyBacking;
+
+        /// <summary>
+        /// The backing field fort he <see cref="MaxKeepAliveTimeout" /> property.
+        /// </summary>
+        private readonly TimeSpan maxKeepAliveTimeoutBacking;
+
+        /// <summary>
         /// Determines whether the <see cref="TcpConnection" /> is disposed.
         /// </summary>
         private bool isDisposed;
@@ -85,10 +105,14 @@ namespace IndiePortable.Communication.NetClassic
         /// </summary>
         private bool isSessionEncryptedBacking;
 
-
+        /// <summary>
+        /// The <see cref="StateTask" /> reading messages from the TCP stream.
+        /// </summary>
         private StateTask messageReaderTask;
 
-
+        /// <summary>
+        /// The <see cref="StateTask" /> checking whether the communication partner is connected.
+        /// </summary>
         private StateTask keepAliveCheckerTask;
 
         /// <summary>
@@ -103,7 +127,7 @@ namespace IndiePortable.Communication.NetClassic
         ///     Must not be <c>null</c>.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if:</para>
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
         ///     <list type="bullet">
         ///         <item><paramref name="client" /> is <c>null</c>.</item>
         ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
@@ -111,6 +135,32 @@ namespace IndiePortable.Communication.NetClassic
         /// </exception>
         public TcpConnection(TcpClient client, IPPortAddressInfo remoteAddress)
             : this(client, remoteAddress, new RsaCryptoManager())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpConnection" /> class.
+        /// </summary>
+        /// <param name="client">The client.</param>
+        /// <param name="remoteAddress">The remote address.</param>
+        /// <param name="keepAliveFrequency">The keep alive frequency.</param>
+        /// <param name="maxKeepAliveTimeout">The maximum keep alive timeout.</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="client" /> is <c>null</c>.</item>
+        ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="keepAliveFrequency" /> is <c>null</c>.</item>
+        ///         <item><paramref name="maxKeepAliveTimeout" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        public TcpConnection(TcpClient client, IPPortAddressInfo remoteAddress, TimeSpan keepAliveFrequency, TimeSpan maxKeepAliveTimeout)
+            : this(client, remoteAddress, new RsaCryptoManager(), keepAliveFrequency, maxKeepAliveTimeout)
         {
         }
 
@@ -126,17 +176,69 @@ namespace IndiePortable.Communication.NetClassic
         ///     Must not be <c>null</c>.
         /// </param>
         /// <param name="cryptoManager">
-        /// 
+        ///     The <see cref="CryptoManagerBase{T}" /> managing the encryption and decryption of messages.
+        ///     Must not be <c>null</c>.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if:</para>
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
         ///     <list type="bullet">
         ///         <item><paramref name="client" /> is <c>null</c>.</item>
         ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
         ///         <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
         ///     </list>
         /// </exception>
-        public TcpConnection(TcpClient client, IPPortAddressInfo remoteAddress, CryptoManagerBase<PublicKeyInfo> cryptoManager)
+        public TcpConnection(
+            TcpClient client,
+            IPPortAddressInfo remoteAddress,
+            CryptoManagerBase<PublicKeyInfo> cryptoManager)
+            : this(client, remoteAddress, cryptoManager, DefaultKeepAliveFrequency, DefaultMaxKeepAliveTimeout)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpConnection"/> class.
+        /// </summary>
+        /// <param name="client">
+        ///     The <see cref="TcpClient" /> providing I/O operations for the <see cref="TcpConnection" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="remoteAddress">
+        ///     The address of the remote host.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="cryptoManager">
+        ///     The <see cref="CryptoManagerBase{T}" /> managing the encryption and decryption of messages.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="keepAliveFrequency">
+        ///     The interval of sending keep-alive messages.
+        ///     Must be greater than <see cref="TimeSpan.Zero" />.
+        /// </param>
+        /// <param name="maxKeepAliveTimeout">
+        ///     The maximum acceptable interval between sending two keep-alive messages.
+        ///     Must be greater than <paramref name="keepAliveFrequency" />.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="client" /> is <c>null</c>.</item>
+        ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+        ///         <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="keepAliveFrequency" /> is <c>null</c>.</item>
+        ///         <item><paramref name="maxKeepAliveTimeout" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        public TcpConnection(
+            TcpClient client,
+            IPPortAddressInfo remoteAddress,
+            CryptoManagerBase<PublicKeyInfo> cryptoManager,
+            TimeSpan keepAliveFrequency,
+            TimeSpan maxKeepAliveTimeout)
         {
             if (object.ReferenceEquals(client, null))
             {
@@ -153,6 +255,18 @@ namespace IndiePortable.Communication.NetClassic
                 throw new ArgumentNullException(nameof(cryptoManager));
             }
 
+            if (keepAliveFrequency <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(keepAliveFrequency));
+            }
+
+            if (maxKeepAliveTimeout <= keepAliveFrequency ||
+                maxKeepAliveTimeout >= TimeSpan.MaxValue ||
+                maxKeepAliveTimeout.TotalMilliseconds > keepAliveFrequency.TotalMilliseconds * 4)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maxKeepAliveTimeout));
+            }
+
             this.cacheBacking = new MessageDispatcher(this);
             this.connectionCache = new ConnectionMessageDispatcher<IPPortAddressInfo>(this);
 
@@ -160,6 +274,9 @@ namespace IndiePortable.Communication.NetClassic
             this.handlerKeepAlive = new ConnectionMessageHandler<ConnectionMessageKeepAlive>(this.HandleKeepAlive);
             this.handlerContent = new ConnectionMessageHandler<ConnectionContentMessage>(this.HandleContent);
             this.handlerEncryptRequest = new ConnectionMessageHandler<ConnectionEncryptRequest>(this.HandleEncryptRequest);
+
+            this.keepAliveFrequencyBacking = keepAliveFrequency;
+            this.maxKeepAliveTimeoutBacking = maxKeepAliveTimeout;
 
             this.connectionCache.AddMessageHandler(this.handlerDisconnect);
             this.connectionCache.AddMessageHandler(this.handlerKeepAlive);
@@ -256,6 +373,22 @@ namespace IndiePortable.Communication.NetClassic
         ///     <para>Implements <see cref="IConnection{TAddress}.RemoteAddress" /> implicitly.</para>
         /// </remarks>
         public IPPortAddressInfo RemoteAddress => this.remoteAddressBacking;
+
+        /// <summary>
+        /// Gets the interval of sending keep-alive messages.
+        /// </summary>
+        /// <value>
+        ///     Contains the interval of sending keep-alive messages.
+        /// </value>
+        public TimeSpan KeepAliveFrequency => this.keepAliveFrequencyBacking;
+
+        /// <summary>
+        /// Gets the maximum acceptable interval between sending two keep-alive messages.
+        /// </summary>
+        /// <value>
+        ///     Contains the maximum acceptable interval between sending two keep-alive messages.
+        /// </value>
+        public TimeSpan MaxKeepAliveTimeout => this.maxKeepAliveTimeoutBacking;
 
         /// <summary>
         /// Activates the <see cref="TcpConnection" />.
@@ -690,7 +823,15 @@ namespace IndiePortable.Communication.NetClassic
             }
         }
 
-
+        /// <summary>
+        /// Reads messages from the TCP stream.
+        /// </summary>
+        /// <param name="taskConnection">
+        ///     The <see cref="ITaskConnection" /> provinding communication between the caller and the callee thread.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="taskConnection" /> is <c>null</c>.</para>
+        /// </exception>
         private async void MessageReader(ITaskConnection taskConnection)
         {
             if (object.ReferenceEquals(taskConnection, null))
@@ -747,7 +888,7 @@ namespace IndiePortable.Communication.NetClassic
         }
 
 
-        private void KeepAliveChecker(ITaskConnection connection)
+        private async void KeepAliveChecker(ITaskConnection connection)
         {
             if (object.ReferenceEquals(connection, null))
             {
@@ -758,7 +899,7 @@ namespace IndiePortable.Communication.NetClassic
             {
                 while (!connection.MustFinish)
                 {
-                    if (!this.keepAliveSemaphore.Wait(TimeSpan.FromSeconds(10d)))
+                    if (!await this.keepAliveSemaphore.WaitAsync(this.MaxKeepAliveTimeout))
                     {
                         this.Disconnect();
                         connection.Stop();

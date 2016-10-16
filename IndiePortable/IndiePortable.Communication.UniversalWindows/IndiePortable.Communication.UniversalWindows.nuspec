@@ -18,6 +18,6 @@ Version 0.1.0
 Initial release
         </releaseNotes>
         <copyright>Copyright (c) 2016 by David Eiwen</copyright>
-        <tags>Tag1 Tag2</tags>
+        <tags>Communication Connection Network TCP UWP IndiePortable</tags>
     </metadata>
 </package>

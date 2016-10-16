@@ -143,6 +143,16 @@
                 <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
             </exception>
         </member>
+        <member name="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1">
+            <summary>
+            Represents the base class for all implementations of a cryptographic managers.
+            This class is abstract.
+            </summary>
+            <typeparam name="T">
+                The type of the publicly visible key.
+            </typeparam>
+            <seealso cref="T:System.IDisposable" />
+        </member>
         <member name="M:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> class.
@@ -263,50 +273,43 @@
             </summary>
             <seealso cref="T:IndiePortable.Formatter.ISerializable" />
         </member>
-        <member name="F:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.exponentBacking">
+        <member name="F:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.keyBlobBacking">
             <summary>
-            The backing field for the <see cref="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.Exponent" /> property.
+            The backing field for the <see cref="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.KeyBlob" /> property.
             </summary>
         </member>
-        <member name="F:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.modulusBacking">
-            <summary>
-            The backing field for the <see cref="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.Modulus" /> property.
-            </summary>
-        </member>
-        <member name="M:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.#ctor(System.Byte[],System.Byte[])">
+        <member name="M:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.#ctor(System.Byte[])">
             <summary>
             Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo"/> struct.
             </summary>
-            <param name="exponent">
-                The public key's exponent.
-                Must not be <c>null</c>.
-            </param>
-            <param name="modulus">
-                The public key's modulus.
+            <param name="keyBlob">
+                The public key formatted in a CAPI-compatible CSP format.
                 Must not be <c>null</c>.
             </param>
             <exception cref="T:System.ArgumentNullException">
-                <para>Thrown if one of these conditions is fulfilled:</para>
-                <list type="bullet">
-                    <item><paramref name="exponent" /> is <c>null</c>.</item>
-                    <item><paramref name="modulus" /> is <c>null</c>.</item>
-                </list>
+                <para>Thrown if <paramref name="keyBlob" /> is <c>null</c>.</para>
             </exception>
         </member>
-        <member name="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.Exponent">
+        <member name="M:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.#ctor(IndiePortable.Formatter.ObjectDataCollection)">
             <summary>
-            Gets the exponent of the public key.
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo"/> struct.
             </summary>
-            <value>
-                Contains the exponent of the public key.
-            </value>
+            <param name="data">
+                The <see cref="T:IndiePortable.Formatter.ObjectDataCollection" /> populated with data for the <see cref="T:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo" /> instance.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if <paramref name="data" /> does not contain information necessary for constructing the object.</para>
+            </exception>
         </member>
-        <member name="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.Modulus">
+        <member name="P:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.KeyBlob">
             <summary>
-            Gets the modulus of the public key.
+            Gets the public key formatted in a CAPI-compatible CSP format.
             </summary>
             <value>
-                Contains the modulus of the public key.
+                Contains the public key formatted in a CAPI-compatible CSP format.
             </value>
         </member>
         <member name="M:IndiePortable.Communication.EncryptedConnection.PublicKeyInfo.GetObjectData(IndiePortable.Formatter.ObjectDataCollection)">

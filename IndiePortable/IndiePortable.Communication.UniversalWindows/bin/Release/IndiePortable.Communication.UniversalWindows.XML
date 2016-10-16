@@ -4,12 +4,163 @@
         <name>IndiePortable.Communication.UniversalWindows</name>
     </assembly>
     <members>
+        <member name="T:IndiePortable.Communication.UniversalWindows.RsaCryptoManager">
+            <summary>
+            Encapsulates properties and methods for en- and decrypting bytes with RSA encryption.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" />
+            <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.remoteRSA">
+            <summary>
+            The object responsible for decrypting data.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.localPublicKeyBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.LocalPublicKey" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.isSessionStartedBacking">
+            <summary>
+            The backing field for the <seealso cref="P:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.IsSessionStarted" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.remotePublicKey">
+            <summary>
+            The remote public key information.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.isDisposed">
+            <summary>
+            Indicates whether the <see cref="T:IndiePortable.Communication.UniversalWindows.RsaCryptoManager" /> is disposed.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.RsaCryptoManager" /> class.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.#ctor(System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.RsaCryptoManager" /> class.
+            </summary>
+            <param name="localRsaKeyPairBlob">
+                The local key pair stored in a byte array formatted with the legacy Cryptographic API format.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="localRsaKeyPairBlob" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.Finalize">
+            <summary>
+            Finalizes an instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.RsaCryptoManager" /> class.
+            </summary>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.IsSessionStarted">
+            <summary>
+            Gets a value indicating whether the <see cref="T:IndiePortable.Communication.UniversalWindows.RsaCryptoManager" /> has started an encryption session.
+            </summary>
+            <value>
+                <c>true</c> if the <see cref="T:IndiePortable.Communication.UniversalWindows.RsaCryptoManager" /> has started an encryption session; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.LocalPublicKey">
+            <summary>
+            Gets the public key of the local client.
+            </summary>
+            <value>
+                Contains the public key of the local client.
+            </value>
+            <remarks>
+                <para>Overrides <see cref="P:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.LocalPublicKey" />.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.StartSession(IndiePortable.Communication.EncryptedConnection.PublicKeyInfo)">
+            <summary>
+            Starts an encryption session.
+            </summary>
+            <param name="remotePublicKey">
+                The public key of the remote client.
+            </param>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.Encrypt(System.Byte[])">
+            <summary>
+            Encrypts the specified data by using the RSA algorithm.
+            </summary>
+            <param name="data">
+                The data that shall be encrypted.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                The encrypted data.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the session has not been started. Check the <see cref="P:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.IsSessionStarted" /> property.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.Decrypt(System.Byte[])">
+            <summary>
+            Decrypts the specified data by using the RSA algorithm.
+            </summary>
+            <param name="data">
+                The data that shall be encrypted.
+                Must not be <c>null</c>.
+            </param>
+            <returns>
+                The decrypted data.
+            </returns>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the session has not been started. Check the <see cref="P:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.IsSessionStarted" /> property.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.ExportLocalKeyPair(System.IO.Stream)">
+            <summary>
+            Exports the local RSA key pair to a strem.
+            </summary>
+            <param name="target">
+                The <see cref="T:System.IO.Stream" /> to which the RSA key pair shall be written.
+                Must not be <c>null</c>.
+                Must be a writable <see cref="T:System.IO.Stream" />.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="target" /> is <c>null</c>.</para>
+            </exception>
+            <exception cref="T:System.ArgumentException">
+                <para>Thrown if <paramref name="target" /> is not writable. Check the <see cref="P:System.IO.Stream.CanWrite" /> property.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.RsaCryptoManager.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing">
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            </param>
+        </member>
         <member name="T:IndiePortable.Communication.UniversalWindows.TcpConnection">
             <summary>
             Represents a connection between two TCP end points.
             </summary>
             <seealso cref="T:IndiePortable.Communication.Devices.IConnection`1" />
             <seealso cref="T:System.IDisposable" />
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.DefaultKeepAliveFrequency">
+            <summary>
+            Contains the default keep alive frequency of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> of 5 seconds.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.DefaultMaxKeepAliveTimeout">
+            <summary>
+            Contains the default maximum keep alive timeout of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> of 10 seconds.
+            </summary>
         </member>
         <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.cacheBacking">
             <summary>
@@ -29,6 +180,16 @@
         <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.outputStream">
             <summary>
             The <see cref="T:System.IO.Stream" /> serving as output.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.keepAliveFrequencyBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.KeepAliveFrequency" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.maxKeepAliveTimeoutBacking">
+            <summary>
+            The backing field fort he <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.MaxKeepAliveTimeout" /> property.
             </summary>
         </member>
         <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.isActivatedBacking">
@@ -72,6 +233,94 @@
                     <item>
                         <description><paramref name="remoteAddress" /> is <c>null</c>.</description>
                     </item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.#ctor(Windows.Networking.Sockets.StreamSocket,IndiePortable.Communication.Tcp.IPPortAddressInfo,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> class.
+            </summary>
+            <param name="socket">The client.</param>
+            <param name="remoteAddress">The remote address.</param>
+            <param name="keepAliveFrequency">The keep alive frequency.</param>
+            <param name="maxKeepAliveTimeout">The maximum keep alive timeout.</param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="socket" /> is <c>null</c>.</item>
+                    <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="keepAliveFrequency" /> is <c>null</c>.</item>
+                    <item><paramref name="maxKeepAliveTimeout" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.#ctor(Windows.Networking.Sockets.StreamSocket,IndiePortable.Communication.Tcp.IPPortAddressInfo,IndiePortable.Communication.EncryptedConnection.CryptoManagerBase{IndiePortable.Communication.EncryptedConnection.PublicKeyInfo})">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection"/> class.
+            </summary>
+            <param name="socket">
+                The <see cref="T:Windows.Networking.Sockets.StreamSocket" /> providing I/O operations for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
+                Must not be <c>null</c>.
+            </param>
+            <param name="remoteAddress">
+                The address of the remote host.
+                Must not be <c>null</c>.
+            </param>
+            <param name="cryptoManager">
+                The <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> managing the encryption and decryption of messages.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="socket" /> is <c>null</c>.</item>
+                    <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+                    <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.#ctor(Windows.Networking.Sockets.StreamSocket,IndiePortable.Communication.Tcp.IPPortAddressInfo,IndiePortable.Communication.EncryptedConnection.CryptoManagerBase{IndiePortable.Communication.EncryptedConnection.PublicKeyInfo},System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection"/> class.
+            </summary>
+            <param name="socket">
+                The <see cref="T:Windows.Networking.Sockets.StreamSocket" /> providing I/O operations for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
+                Must not be <c>null</c>.
+            </param>
+            <param name="remoteAddress">
+                The address of the remote host.
+                Must not be <c>null</c>.
+            </param>
+            <param name="cryptoManager">
+                The <see cref="T:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1" /> managing the encryption and decryption of messages.
+                Must not be <c>null</c>.
+            </param>
+            <param name="keepAliveFrequency">
+                The interval of sending keep-alive messages.
+                Must be greater than <see cref="F:System.TimeSpan.Zero" />.
+            </param>
+            <param name="maxKeepAliveTimeout">
+                The maximum acceptable interval between sending two keep-alive messages.
+                Must be greater than <paramref name="keepAliveFrequency" />.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="socket" /> is <c>null</c>.</item>
+                    <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+                    <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
+                </list>
+            </exception>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+                <para>Thrown if at least one of the following conditions applies:</para>
+                <list type="bullet">
+                    <item><paramref name="keepAliveFrequency" /> is <c>null</c>.</item>
+                    <item><paramref name="maxKeepAliveTimeout" /> is <c>null</c>.</item>
                 </list>
             </exception>
         </member>
@@ -132,6 +381,30 @@
             <remarks>
                 <para>Implements <see cref="P:IndiePortable.Communication.Devices.IConnection`1.IsConnected" /> implicitly.</para>
             </remarks>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsSessionEncrypted">
+            <summary>
+            Gets a value indicating whether the current connection session is session encrypted.
+            </summary>
+            <value>
+                <c>true</c> if the current connection session is encrypted; otherwise, <c>false</c>.
+            </value>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.KeepAliveFrequency">
+            <summary>
+            Gets the interval of sending keep-alive messages.
+            </summary>
+            <value>
+                Contains the interval of sending keep-alive messages.
+            </value>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.MaxKeepAliveTimeout">
+            <summary>
+            Gets the maximum acceptable interval between sending two keep-alive messages.
+            </summary>
+            <value>
+                Contains the maximum acceptable interval between sending two keep-alive messages.
+            </value>
         </member>
         <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.RemoteAddress">
             <summary>
@@ -211,6 +484,25 @@
             <remarks>
                 <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
             </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.StartEncryptionSession">
+            <summary>
+            Starts the encryption session for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the encryption session has already been started. Check the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsSessionEncrypted" /> property.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.StartEncryptionSessionAsync">
+            <summary>
+            Asynchronously starts the encryption session for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
+            </summary>
+            <returns>
+                The task executing the method.
+            </returns>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the encryption session has already been started. Check the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.IsSessionEncrypted" /> property.</para>
+            </exception>
         </member>
         <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.SendMessage(IndiePortable.Communication.Messages.MessageBase)">
             <summary>
@@ -296,27 +588,22 @@
                 <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
             </param>
         </member>
-        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.localPublicKeyBacking">
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.isListeningBacking">
             <summary>
-            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.LocalPublicKey" /> property.
+            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.IsListening" /> property.
             </summary>
         </member>
-        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.remotePublicKey">
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.#ctor">
             <summary>
-            The remote public key information.
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" /> class.
             </summary>
         </member>
-        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.isDisposed">
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.Finalize">
             <summary>
-            Indicates whether the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager" /> is disposed.
+            Finalizes an instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" /> class.
             </summary>
         </member>
-        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager" /> class.
-            </summary>
-        </member>
-        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.Dispose">
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.Dispose">
             <summary>
             Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
             </summary>
@@ -324,13 +611,30 @@
                 <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
             </remarks>
         </member>
-        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.CryptoManager.Dispose(System.Boolean)">
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.RaiseConnectionReceived(IndiePortable.Communication.UniversalWindows.TcpConnection)">
+            <summary>
+            Raises the <see cref="E:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.ConnectionReceived" /> event.
+            </summary>
+            <param name="connection">
+                The <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> that has been received.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="connection" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.Dispose(System.Boolean)">
             <summary>
             Releases unmanaged and - optionally - managed resources.
             </summary>
             <param name="disposing">
                 <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
             </param>
+        </member>
+        <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings.listenerNetworkAdaptersBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings.ListenerNetworkAdapters" /> property.
+            </summary>
         </member>
     </members>
 </doc>

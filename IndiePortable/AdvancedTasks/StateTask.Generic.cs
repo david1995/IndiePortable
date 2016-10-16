@@ -29,18 +29,6 @@ namespace IndiePortable.AdvancedTasks
     public class StateTask<T>
     {
         /// <summary>
-        /// Represents the communication connection to the <see cref="StateTask{T}" />.
-        /// </summary>
-        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
-        private readonly ITaskConnection<T> connection;
-
-        /// <summary>
-        /// The <see cref="Task" /> that is wrapped by the <see cref="StateTask{T}" />.
-        /// </summary>
-        [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
-        private readonly Task task;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="StateTask{T}" /> class.
         /// </summary>
         /// <param name="method">

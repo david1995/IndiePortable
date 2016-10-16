@@ -36,6 +36,16 @@ namespace IndiePortable.Communication.UniversalWindows
         : ICryptableConnection<IPPortAddressInfo>, IDisposable
     {
         /// <summary>
+        /// Contains the default keep alive frequency of the <see cref="TcpConnection" /> of 5 seconds.
+        /// </summary>
+        public static readonly TimeSpan DefaultKeepAliveFrequency = TimeSpan.FromSeconds(5d);
+
+        /// <summary>
+        /// Contains the default maximum keep alive timeout of the <see cref="TcpConnection" /> of 10 seconds.
+        /// </summary>
+        public static readonly TimeSpan DefaultMaxKeepAliveTimeout = TimeSpan.FromSeconds(10d);
+
+        /// <summary>
         /// The backing field for the <see cref="Cache" /> property.
         /// </summary>
         private readonly MessageDispatcher cacheBacking;
@@ -60,7 +70,7 @@ namespace IndiePortable.Communication.UniversalWindows
         private readonly SemaphoreSlim keepAliveSemaphore = new SemaphoreSlim(1, 1);
 
 
-        private readonly RsaCryptoManager cryptoManager = new RsaCryptoManager();
+        private readonly CryptoManagerBase<PublicKeyInfo> cryptoManager;
 
 
         private readonly StreamSocket socket;
@@ -75,6 +85,16 @@ namespace IndiePortable.Communication.UniversalWindows
 
 
         private readonly SemaphoreSlim activationStateSemaphore = new SemaphoreSlim(1, 1);
+
+        /// <summary>
+        /// The backing field for the <see cref="KeepAliveFrequency" /> property.
+        /// </summary>
+        private readonly TimeSpan keepAliveFrequencyBacking;
+
+        /// <summary>
+        /// The backing field fort he <see cref="MaxKeepAliveTimeout" /> property.
+        /// </summary>
+        private readonly TimeSpan maxKeepAliveTimeoutBacking;
 
         /// <summary>
         /// The backing field for the  <see cref="IsActivated" /> property.
@@ -125,6 +145,108 @@ namespace IndiePortable.Communication.UniversalWindows
         ///     </list>
         /// </exception>
         public TcpConnection(StreamSocket socket, IPPortAddressInfo remoteAddress)
+            : this(socket, remoteAddress, new RsaCryptoManager())
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpConnection" /> class.
+        /// </summary>
+        /// <param name="socket">The client.</param>
+        /// <param name="remoteAddress">The remote address.</param>
+        /// <param name="keepAliveFrequency">The keep alive frequency.</param>
+        /// <param name="maxKeepAliveTimeout">The maximum keep alive timeout.</param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="socket" /> is <c>null</c>.</item>
+        ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="keepAliveFrequency" /> is <c>null</c>.</item>
+        ///         <item><paramref name="maxKeepAliveTimeout" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        public TcpConnection(StreamSocket socket, IPPortAddressInfo remoteAddress, TimeSpan keepAliveFrequency, TimeSpan maxKeepAliveTimeout)
+            : this(socket, remoteAddress, new RsaCryptoManager(), keepAliveFrequency, maxKeepAliveTimeout)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpConnection"/> class.
+        /// </summary>
+        /// <param name="socket">
+        ///     The <see cref="StreamSocket" /> providing I/O operations for the <see cref="TcpConnection" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="remoteAddress">
+        ///     The address of the remote host.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="cryptoManager">
+        ///     The <see cref="CryptoManagerBase{T}" /> managing the encryption and decryption of messages.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="socket" /> is <c>null</c>.</item>
+        ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+        ///         <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        public TcpConnection(StreamSocket socket, IPPortAddressInfo remoteAddress, CryptoManagerBase<PublicKeyInfo> cryptoManager)
+            : this(socket, remoteAddress, cryptoManager, DefaultKeepAliveFrequency, DefaultMaxKeepAliveTimeout)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TcpConnection"/> class.
+        /// </summary>
+        /// <param name="socket">
+        ///     The <see cref="StreamSocket" /> providing I/O operations for the <see cref="TcpConnection" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="remoteAddress">
+        ///     The address of the remote host.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="cryptoManager">
+        ///     The <see cref="CryptoManagerBase{T}" /> managing the encryption and decryption of messages.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="keepAliveFrequency">
+        ///     The interval of sending keep-alive messages.
+        ///     Must be greater than <see cref="TimeSpan.Zero" />.
+        /// </param>
+        /// <param name="maxKeepAliveTimeout">
+        ///     The maximum acceptable interval between sending two keep-alive messages.
+        ///     Must be greater than <paramref name="keepAliveFrequency" />.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="socket" /> is <c>null</c>.</item>
+        ///         <item><paramref name="remoteAddress" /> is <c>null</c>.</item>
+        ///         <item><paramref name="cryptoManager" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if at least one of the following conditions applies:</para>
+        ///     <list type="bullet">
+        ///         <item><paramref name="keepAliveFrequency" /> is <c>null</c>.</item>
+        ///         <item><paramref name="maxKeepAliveTimeout" /> is <c>null</c>.</item>
+        ///     </list>
+        /// </exception>
+        public TcpConnection(
+            StreamSocket socket,
+            IPPortAddressInfo remoteAddress,
+            CryptoManagerBase<PublicKeyInfo> cryptoManager,
+            TimeSpan keepAliveFrequency,
+            TimeSpan maxKeepAliveTimeout)
         {
             if (object.ReferenceEquals(socket, null))
             {
@@ -135,13 +257,34 @@ namespace IndiePortable.Communication.UniversalWindows
             {
                 throw new ArgumentNullException(nameof(remoteAddress));
             }
-            
+
+            if (object.ReferenceEquals(cryptoManager, null))
+            {
+                throw new ArgumentNullException(nameof(cryptoManager));
+            }
+
+            if (keepAliveFrequency <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(keepAliveFrequency));
+            }
+
+            if (maxKeepAliveTimeout <= keepAliveFrequency ||
+                maxKeepAliveTimeout >= TimeSpan.MaxValue ||
+                maxKeepAliveTimeout.TotalMilliseconds > keepAliveFrequency.TotalMilliseconds * 4)
+            { 
+                throw new ArgumentOutOfRangeException(nameof(maxKeepAliveTimeout));
+            }
+
             this.socket = socket;
             this.remoteAddressBacking = remoteAddress;
             this.inputStream = this.socket.InputStream;
             this.outputStream = this.socket.OutputStream.AsStreamForWrite();
 
             this.cacheBacking = new MessageDispatcher(this);
+            this.cryptoManager = cryptoManager;
+
+            this.keepAliveFrequencyBacking = keepAliveFrequency;
+            this.maxKeepAliveTimeoutBacking = maxKeepAliveTimeout;
 
             this.connectionCache = new ConnectionMessageDispatcher<IPPortAddressInfo>(this);
 
@@ -160,7 +303,7 @@ namespace IndiePortable.Communication.UniversalWindows
         /// <summary>
         /// Finalizes an instance of the <see cref="TcpConnection" /> class.
         /// </summary>
-        ~TcpConnection()
+            ~TcpConnection()
         {
             this.Dispose(false);
         }
@@ -218,8 +361,29 @@ namespace IndiePortable.Communication.UniversalWindows
         /// </remarks>
         public bool IsConnected => this.isConnectedBacking;
 
-
+        /// <summary>
+        /// Gets a value indicating whether the current connection session is session encrypted.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the current connection session is encrypted; otherwise, <c>false</c>.
+        /// </value>
         public bool IsSessionEncrypted => this.isSessionEncryptedBacking;
+
+        /// <summary>
+        /// Gets the interval of sending keep-alive messages.
+        /// </summary>
+        /// <value>
+        ///     Contains the interval of sending keep-alive messages.
+        /// </value>
+        public TimeSpan KeepAliveFrequency => this.keepAliveFrequencyBacking;
+
+        /// <summary>
+        /// Gets the maximum acceptable interval between sending two keep-alive messages.
+        /// </summary>
+        /// <value>
+        ///     Contains the maximum acceptable interval between sending two keep-alive messages.
+        /// </value>
+        public TimeSpan MaxKeepAliveTimeout => this.maxKeepAliveTimeoutBacking;
 
         /// <summary>
         /// Gets the remote address of the other connection end.
@@ -350,7 +514,12 @@ namespace IndiePortable.Communication.UniversalWindows
             GC.SuppressFinalize(this);
         }
 
-
+        /// <summary>
+        /// Starts the encryption session for the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the encryption session has already been started. Check the <see cref="IsSessionEncrypted" /> property.</para>
+        /// </exception>
         public void StartEncryptionSession()
         {
             if (this.IsSessionEncrypted)
@@ -370,7 +539,15 @@ namespace IndiePortable.Communication.UniversalWindows
             this.isSessionEncryptedBacking = true;
         }
 
-
+        /// <summary>
+        /// Asynchronously starts the encryption session for the <see cref="TcpConnection" />.
+        /// </summary>
+        /// <returns>
+        ///     The task executing the method.
+        /// </returns>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the encryption session has already been started. Check the <see cref="IsSessionEncrypted" /> property.</para>
+        /// </exception>
         public async Task StartEncryptionSessionAsync()
         {
             if (this.IsSessionEncrypted)
@@ -460,16 +637,28 @@ namespace IndiePortable.Communication.UniversalWindows
 
             using (var str = new MemoryStream())
             {
-                // make place for length prefix
-                str.Seek(sizeof(int), SeekOrigin.Begin);
+                using (var tempstr = new MemoryStream())
+                {
+                    // serialize message into stream
+                    this.formatter.Serialize(str, message);
+                    
+                    byte[] toWrite;
+                    if (this.IsSessionEncrypted)
+                    {
+                        var toEncrypt = tempstr.ToArray();
+                        toWrite = this.cryptoManager.Encrypt(toEncrypt);
+                    }
+                    else
+                    {
+                        toWrite = tempstr.ToArray();
+                    }
 
-                // serialize message into stream
-                this.formatter.Serialize(str, message);
-                
-                // write length of message
-                str.Seek(0, SeekOrigin.Begin);
-                var lengthBytes = BitConverter.GetBytes((int)str.Length - sizeof(int));
-                str.Write(lengthBytes, 0, sizeof(int));
+                    var lengthBytes = BitConverter.GetBytes(toWrite.Length);
+                    str.Write(lengthBytes, 0, sizeof(int));
+
+                    str.Write(toWrite, 0, toWrite.Length);
+                }
+
                 str.Seek(0, SeekOrigin.Begin);
 
                 this.writeSemaphore.Wait();
@@ -512,19 +701,31 @@ namespace IndiePortable.Communication.UniversalWindows
             {
                 throw new ArgumentNullException(nameof(message));
             }
-            
+
             using (var str = new MemoryStream())
             {
-                // make place for length prefix
-                str.Seek(sizeof(int), SeekOrigin.Begin);
+                using (var tempstr = new MemoryStream())
+                {
+                    // serialize message into stream
+                    await Task.Factory.StartNew(() => this.formatter.Serialize(str, message));
 
-                // serialize message into stream
-                await Task.Factory.StartNew(() => this.formatter.Serialize(str, message));
+                    byte[] toWrite;
+                    if (this.IsSessionEncrypted)
+                    {
+                        var toEncrypt = tempstr.ToArray();
+                        toWrite = this.cryptoManager.Encrypt(toEncrypt);
+                    }
+                    else
+                    {
+                        toWrite = tempstr.ToArray();
+                    }
 
-                // write length of message
-                str.Seek(0, SeekOrigin.Begin);
-                var lengthBytes = BitConverter.GetBytes((int)str.Length - sizeof(int));
-                await str.WriteAsync(lengthBytes, 0, sizeof(int));
+                    var lengthBytes = BitConverter.GetBytes(toWrite.Length);
+                    await str.WriteAsync(lengthBytes, 0, sizeof(int));
+
+                    await str.WriteAsync(toWrite, 0, toWrite.Length);
+                }
+
                 str.Seek(0, SeekOrigin.Begin);
 
                 await this.writeSemaphore.WaitAsync();

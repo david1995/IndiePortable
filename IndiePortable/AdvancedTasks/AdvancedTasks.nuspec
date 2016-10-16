@@ -27,6 +27,6 @@ Version 0.1.0
 Initial release
 		</releaseNotes>
 		<copyright>Copyright (c) 2016 by David Eiwen</copyright>
-		<tags>Async Task Multithreading Multitasking</tags>
+		<tags>Async Task Multithreading Multitasking IndiePortable</tags>
 	</metadata>
 </package>

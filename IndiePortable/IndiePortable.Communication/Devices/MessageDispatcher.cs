@@ -174,7 +174,27 @@ namespace IndiePortable.Communication.Devices
             GC.SuppressFinalize(this);
         }
 
-
+        /// <summary>
+        /// Waits for the response to a specified request message.
+        /// </summary>
+        /// <typeparam name="TRequest">
+        ///     The type of the request message.
+        ///     Must derive from <see cref="MessageRequestBase" />.
+        /// </typeparam>
+        /// <typeparam name="TResponse">
+        ///     The type of the response message.
+        ///     Must derive from <see cref="MessageResponseBase{T}" /> and implement <see cref="IMessageResponse" />.
+        /// </typeparam>
+        /// <param name="request">
+        ///     The request message whose response shall be awaited.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <returns>
+        ///     Returns the response message.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+        /// </exception>
         public TResponse Wait<TRequest, TResponse>(TRequest request)
             where TRequest : MessageRequestBase
             where TResponse : MessageResponseBase<TRequest>, IMessageResponse
@@ -200,7 +220,33 @@ namespace IndiePortable.Communication.Devices
             }
         }
 
-
+        /// <summary>
+        /// Waits for the response to a specified request message with a given maximum timeout.
+        /// </summary>
+        /// <typeparam name="TRequest">
+        ///     The type of the request message.
+        ///     Must derive from <see cref="MessageRequestBase" />.
+        /// </typeparam>
+        /// <typeparam name="TResponse">
+        ///     The type of the response message.
+        ///     Must derive from <see cref="MessageResponseBase{T}" /> and implement <see cref="IMessageResponse" />.
+        /// </typeparam>
+        /// <param name="request">
+        ///     The request message whose response shall be awaited.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="timeout">
+        ///     The maximum time span that shall be waited for the response.
+        /// </param>
+        /// <returns>
+        ///     Returns the response message.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if <paramref name="timeout" /> is smaller than <see cref="TimeSpan.Zero" />.</para>
+        /// </exception>
         public TResponse Wait<TRequest, TResponse>(TRequest request, TimeSpan timeout)
             where TRequest : MessageRequestBase
             where TResponse : MessageResponseBase<TRequest>, IMessageResponse
@@ -208,6 +254,11 @@ namespace IndiePortable.Communication.Devices
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
+            }
+
+            if (timeout <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(timeout));
             }
 
             this.waitingTasksSemaphore.Wait();
@@ -225,8 +276,28 @@ namespace IndiePortable.Communication.Devices
                 return msg;
             }
         }
-
-
+        
+        /// <summary>
+        /// Asynchonously waits for the response to a specified request message.
+        /// </summary>
+        /// <typeparam name="TRequest">
+        ///     The type of the request message.
+        ///     Must derive from <see cref="MessageRequestBase" />.
+        /// </typeparam>
+        /// <typeparam name="TResponse">
+        ///     The type of the response message.
+        ///     Must derive from <see cref="MessageResponseBase{T}" /> and implement <see cref="IMessageResponse" />.
+        /// </typeparam>
+        /// <param name="request">
+        ///     The request message whose response shall be awaited.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <returns>
+        ///     The task waiting for the response message.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+        /// </exception>
         public async Task<TResponse> WaitAsync<TRequest, TResponse>(TRequest request)
             where TRequest : MessageRequestBase
             where TResponse : MessageResponseBase<TRequest>, IMessageResponse
@@ -252,8 +323,33 @@ namespace IndiePortable.Communication.Devices
             }
         }
 
-        // TODO: comment methods, maybe implement kind of TRsp Request<TRq, TRsp>(TRq) method
-
+        /// <summary>
+        /// Asynchronously waits for the response to a specified request message with a given maximum timeout.
+        /// </summary>
+        /// <typeparam name="TRequest">
+        ///     The type of the request message.
+        ///     Must derive from <see cref="MessageRequestBase" />.
+        /// </typeparam>
+        /// <typeparam name="TResponse">
+        ///     The type of the response message.
+        ///     Must derive from <see cref="MessageResponseBase{T}" /> and implement <see cref="IMessageResponse" />.
+        /// </typeparam>
+        /// <param name="request">
+        ///     The request message whose response shall be awaited.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <param name="timeout">
+        ///     The maximum time span that shall be waited for the response.
+        /// </param>
+        /// <returns>
+        ///     The task waiting for the response message.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="request" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentOutOfRangeException">
+        ///     <para>Thrown if <paramref name="timeout" /> is smaller than <see cref="TimeSpan.Zero" />.</para>
+        /// </exception>
         public async Task<TResponse> WaitAsync<TRequest, TResponse>(TRequest request, TimeSpan timeout)
             where TRequest : MessageRequestBase
             where TResponse : MessageResponseBase<TRequest>, IMessageResponse
@@ -261,6 +357,11 @@ namespace IndiePortable.Communication.Devices
             if (request == null)
             {
                 throw new ArgumentNullException(nameof(request));
+            }
+
+            if (timeout <= TimeSpan.Zero)
+            {
+                throw new ArgumentOutOfRangeException(nameof(timeout));
             }
 
             await this.waitingTasksSemaphore.WaitAsync();
@@ -359,7 +460,7 @@ namespace IndiePortable.Communication.Devices
 
             /// <summary>
             /// The <see cref="AutoResetEvent" /> wait handle blocking the <see cref="Wait{TRequest, TResponse}()" />
-            /// and the <see cref="WaitAsync{TRequest, TResponse}" /> method.
+            /// and the <see cref="WaitAsync{TRequest, TResponse}()" /> method.
             /// </summary>
             private readonly AutoResetEvent waitHandle;
 
@@ -386,19 +487,23 @@ namespace IndiePortable.Communication.Devices
             ///     The request <see cref="MessageRequestBase" />.
             ///     Must not be <c>null</c>.
             /// </param>
+            /// <param name="responseType">
+            ///     The type of the response message.
+            ///     Must not be <c>null</c>.
+            /// </param>
             /// <exception cref="ArgumentNullException">
             ///     <para>Thrown if:</para>
             ///     <para>  - <paramref name="request" /> is <c>null</c>.</para>
-            ///     <para>  - <paramref name="source" /> is <c>null</c>.</para>
+            ///     <para>  - <paramref name="responseType" /> is <c>null</c>.</para>
             /// </exception>
             internal WaitingTask(MessageRequestBase request, Type responseType)
             {
-                if (request == default(MessageRequestBase))
+                if (object.ReferenceEquals(request, null))
                 {
                     throw new ArgumentNullException(nameof(request));
                 }
 
-                if (responseType == null)
+                if (object.ReferenceEquals(responseType, null))
                 {
                     throw new ArgumentNullException(nameof(responseType));
                 }

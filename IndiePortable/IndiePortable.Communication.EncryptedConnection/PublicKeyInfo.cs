@@ -34,11 +34,7 @@ namespace IndiePortable.Communication.EncryptedConnection
         ///     Must not be <c>null</c>.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if one of these conditions is fulfilled:</para>
-        ///     <list type="bullet">
-        ///         <item><paramref name="keyBlob" /> is <c>null</c>.</item>
-        ///         <item><paramref name="modulus" /> is <c>null</c>.</item>
-        ///     </list>
+        ///     <para>Thrown if <paramref name="keyBlob" /> is <c>null</c>.</para>
         /// </exception>
         public PublicKeyInfo(byte[] keyBlob)
         {
@@ -50,7 +46,18 @@ namespace IndiePortable.Communication.EncryptedConnection
             this.keyBlobBacking = keyBlob;
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PublicKeyInfo"/> struct.
+        /// </summary>
+        /// <param name="data">
+        ///     The <see cref="ObjectDataCollection" /> populated with data for the <see cref="PublicKeyInfo" /> instance.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        ///     <para>Thrown if <paramref name="data" /> does not contain information necessary for constructing the object.</para>
+        /// </exception>
         private PublicKeyInfo(ObjectDataCollection data)
         {
             if (object.ReferenceEquals(data, null))

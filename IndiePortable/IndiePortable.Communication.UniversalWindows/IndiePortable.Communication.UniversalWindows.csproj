@@ -112,6 +112,8 @@
     <Compile Include="RsaCryptoManager.cs" />
     <Compile Include="TcpConnection.cs" />
     <Compile Include="TcpConnection.MessageHandlers.cs" />
+    <Compile Include="TcpConnectionListener.cs" />
+    <Compile Include="TcpConnectionListenerSettings.cs" />
     <EmbeddedResource Include="Properties\IndiePortable.Communication.UniversalWindows.rd.xml" />
   </ItemGroup>
   <ItemGroup>
