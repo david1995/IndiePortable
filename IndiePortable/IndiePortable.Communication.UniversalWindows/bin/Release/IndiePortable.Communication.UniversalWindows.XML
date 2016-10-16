@@ -588,6 +588,13 @@
                 <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
             </param>
         </member>
+        <member name="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener">
+            <summary>
+            Listens for incoming connection over TCP.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.IConnectionListener`3" />
+            <seealso cref="T:System.IDisposable" />
+        </member>
         <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.isListeningBacking">
             <summary>
             The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.IsListening" /> property.
@@ -602,6 +609,61 @@
             <summary>
             Finalizes an instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" /> class.
             </summary>
+        </member>
+        <member name="E:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.ConnectionReceived">
+            <summary>
+            Raised when a connection has been received.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="E:IndiePortable.Communication.Devices.IConnectionListener`3.ConnectionReceived" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.IsListening">
+            <summary>
+            Gets a value indicating whether the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" /> is actively listening for connections.
+            </summary>
+            <value>
+                <c>true</c> if the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" />
+                is actively listening for connections; otherwise, <c>false</c>.
+            </value>
+            <remarks>
+                <para>Implements <see cref="P:IndiePortable.Communication.Devices.IConnectionListener`3.IsListening" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.StartListening(IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings)">
+            <summary>
+            Starts listening for connections.
+            </summary>
+            <param name="settings">
+                The settings specifying parameters for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" />.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+                <para>
+                    Thrown if the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" /> is already listening for connections.
+                    Check the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.IsListening" /> property.
+                </para>
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="settings" /> is <c>null</c>.</para>
+            </exception>
+            <remarks>
+                <para>Implements <see cref="M:IndiePortable.Communication.Devices.IConnectionListener`3.StartListening(`1)" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.StopListening">
+            <summary>
+            Stops listening for connections.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+                <para>
+                    Thrown if the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" /> is not listening for incoming connections.
+                    Check the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.IsListening" /> property.
+                </para>
+            </exception>
+            <remarks>
+                <para>Implements <see cref="M:IndiePortable.Communication.Devices.IConnectionListener`3.StopListening" /> implicitly.</para>
+            </remarks>
         </member>
         <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListener.Dispose">
             <summary>
@@ -631,10 +693,55 @@
                 <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
             </param>
         </member>
+        <member name="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings">
+            <summary>
+            Provides information necessary for starting a <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListener" />.
+            </summary>
+        </member>
         <member name="F:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings.listenerNetworkAdaptersBacking">
             <summary>
             The backing field for the <see cref="P:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings.ListenerNetworkAdapters" /> property.
             </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings.#ctor(System.UInt16)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings" /> class.
+            </summary>
+            <param name="listenerPort">
+                The TCP port that shall be listened on for incoming connections.
+            </param>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings.#ctor(IndiePortable.Communication.Tcp.IPPortAddressInfo[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings" /> class.
+            </summary>
+            <param name="listenerNetworkAdapters">
+                The network adapters' addresses to listen on.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="listenerNetworkAdapters" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings.#ctor(System.Collections.Generic.IEnumerable{IndiePortable.Communication.Tcp.IPPortAddressInfo})">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings" /> class.
+            </summary>
+            <param name="listenerNetworkAdapters">
+                The network adapters' addresses to listen on.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="listenerNetworkAdapters" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnectionListenerSettings.ListenerNetworkAdapters">
+            <summary>
+            Gets the network adapters' addresses to listen on.
+            </summary>
+            <value>
+                Contains the network adapters' addresses to listen on.
+            </value>
         </member>
     </members>
 </doc>

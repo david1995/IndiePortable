@@ -46,6 +46,19 @@
             Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.RsaCryptoManager" /> class.
             </summary>
         </member>
+        <member name="M:IndiePortable.Communication.NetClassic.RsaCryptoManager.#ctor(System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.RsaCryptoManager"/> class.
+            </summary>
+            <param name="rsaKeyPairBlob">
+                The blob representing the RSA key pair.
+                Must not be <c>null</c>.
+                Must be formatted complying the Cryptographic API format.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="rsaKeyPairBlob" /> is <c>null</c>.</para>
+            </exception>
+        </member>
         <member name="P:IndiePortable.Communication.NetClassic.RsaCryptoManager.IsSessionStarted">
             <summary>
             Gets a value indicating whether the <see cref="T:IndiePortable.Communication.NetClassic.RsaCryptoManager" /> has started an encryption session.
@@ -64,6 +77,14 @@
             <remarks>
                 <para>Overrides <see cref="P:IndiePortable.Communication.EncryptedConnection.CryptoManagerBase`1.LocalPublicKey" />.</para>
             </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.RsaCryptoManager.ExportLocalKeyPair(System.IO.Stream)">
+            <summary>
+            Exports the local key pair.
+            </summary>
+            <param name="output">The output.</param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:IndiePortable.Communication.NetClassic.RsaCryptoManager.StartSession(IndiePortable.Communication.EncryptedConnection.PublicKeyInfo)">
             <summary>
@@ -620,6 +641,13 @@
             The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessageHandler`1" /> that handles incoming <see cref="T:IndiePortable.Communication.EncryptedConnection.ConnectionEncryptRequest" /> messages.
             </summary>
         </member>
+        <member name="T:IndiePortable.Communication.NetClassic.TcpConnectionListener">
+            <summary>
+            Listens for incoming TCP connections.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.IConnectionListener`3" />
+            <seealso cref="T:System.IDisposable" />
+        </member>
         <member name="F:IndiePortable.Communication.NetClassic.TcpConnectionListener.isListeningBacking">
             <summary>
             The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnectionListener.IsListening" /> property.
@@ -640,15 +668,117 @@
             Finalizes an instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" /> class.
             </summary>
         </member>
+        <member name="E:IndiePortable.Communication.NetClassic.TcpConnectionListener.ConnectionReceived">
+            <summary>
+            Raised when a connection has been received.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="E:IndiePortable.Communication.Devices.IConnectionListener`3.ConnectionReceived" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="P:IndiePortable.Communication.NetClassic.TcpConnectionListener.IsListening">
+            <summary>
+            Gets a value indicating whether the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" /> is actively listening for connections.
+            </summary>
+            <value>
+                <c>true</c> if the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" />
+                is actively listening for connections; otherwise, <c>false</c>.
+            </value>
+            <remarks>
+                <para>Implements <see cref="P:IndiePortable.Communication.Devices.IConnectionListener`3.IsListening" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.StartListening(IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings)">
+            <summary>
+            Starts listening for connections.
+            </summary>
+            <param name="settings">
+                The settings specifying parameters for the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" />.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" /> is currently listening for connections.</para>
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="settings" /> is <c>null</c>.</para>
+            </exception>
+            <remarks>
+                <para>Implements <see cref="M:IndiePortable.Communication.Devices.IConnectionListener`3.StartListening(`1)" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.StopListening">
+            <summary>
+            Stops listening for connections.
+            </summary>
+            <exception cref="T:System.InvalidOperationException">
+                <para>Thrown if the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener" /> is not listening for connections.</para>
+            </exception>
+            <remarks>
+                <para>Implements <see cref="M:IndiePortable.Communication.Devices.IConnectionListener`3.StopListening" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.RaiseConnectionReceived(IndiePortable.Communication.NetClassic.TcpConnection)">
+            <summary>
+            Raises the <see cref="E:IndiePortable.Communication.NetClassic.TcpConnectionListener.ConnectionReceived" /> event.
+            </summary>
+            <param name="connection">
+                The <see cref="T:IndiePortable.Communication.NetClassic.TcpConnection" /> that has been received.
+                Must not be <c>null</c>.
+            </param>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing">
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            </param>
+        </member>
         <member name="F:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.isActiveBacking">
             <summary>
             The backing field for the <see cref="P:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.IsActive" /> property.
             </summary>
         </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.#ctor(System.Net.Sockets.TcpListener)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper"/> class.
+            </summary>
+            <param name="listener">
+                The <see cref="T:System.Net.Sockets.TcpListener" /> that shall be listened with.
+                Must not be <c>null</c>.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="listener" /> is <c>null</c>.</para>
+            </exception>
+        </member>
         <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.Finalize">
             <summary>
             Finalizes an instance of the <see cref="T:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper" /> class.
             </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.Dispose">
+            <summary>
+            Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="M:System.IDisposable.Dispose" /> implicitly.</para>
+            </remarks>
+        </member>
+        <member name="M:IndiePortable.Communication.NetClassic.TcpConnectionListener.TcpConnectionListenerHelper.Dispose(System.Boolean)">
+            <summary>
+            Releases unmanaged and - optionally - managed resources.
+            </summary>
+            <param name="disposing">
+                <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            </param>
         </member>
         <member name="T:IndiePortable.Communication.NetClassic.TcpConnectionListenerSettings">
             <summary>

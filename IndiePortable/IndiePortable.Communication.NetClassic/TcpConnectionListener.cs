@@ -20,6 +20,11 @@ namespace IndiePortable.Communication.NetClassic
     using Devices;
     using Tcp;
 
+    /// <summary>
+    /// Listens for incoming TCP connections.
+    /// </summary>
+    /// <seealso cref="Devices.IConnectionListener{TConnection, TSettings, TAddress}" />
+    /// <seealso cref="IDisposable" />
     public sealed class TcpConnectionListener
         : IConnectionListener<TcpConnection, TcpConnectionListenerSettings, IPPortAddressInfo>, IDisposable
     {
@@ -51,13 +56,42 @@ namespace IndiePortable.Communication.NetClassic
             this.Dispose(false);
         }
 
-
+        /// <summary>
+        /// Raised when a connection has been received.
+        /// </summary>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnectionListener{TConnection, TSettings, TAddress}.ConnectionReceived" /> implicitly.</para>
+        /// </remarks>
         public event EventHandler<ConnectionReceivedEventArgs<TcpConnection, IPPortAddressInfo>> ConnectionReceived;
 
-
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="TcpConnectionListener" /> is actively listening for connections.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the <see cref="TcpConnectionListener" />
+        ///     is actively listening for connections; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnectionListener{TConnection, TSettings, TAddress}.IsListening" /> implicitly.</para>
+        /// </remarks>
         public bool IsListening => this.isListeningBacking;
 
-
+        /// <summary>
+        /// Starts listening for connections.
+        /// </summary>
+        /// <param name="settings">
+        ///     The settings specifying parameters for the <see cref="TcpConnectionListener" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the <see cref="TcpConnectionListener" /> is currently listening for connections.</para>
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="settings" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnectionListener{TConnection, TSettings, TAddress}.StartListening(TSettings)" /> implicitly.</para>
+        /// </remarks>
         public void StartListening(TcpConnectionListenerSettings settings)
         {
             if (this.IsListening)
@@ -82,7 +116,15 @@ namespace IndiePortable.Communication.NetClassic
             this.isListeningBacking = true;
         }
 
-
+        /// <summary>
+        /// Stops listening for connections.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>Thrown if the <see cref="TcpConnectionListener" /> is not listening for connections.</para>
+        /// </exception>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnectionListener{TConnection, TSettings, TAddress}.StopListening()" /> implicitly.</para>
+        /// </remarks>
         public void StopListening()
         {
             if (!this.IsListening)
@@ -95,18 +137,34 @@ namespace IndiePortable.Communication.NetClassic
             this.isListeningBacking = false;
         }
 
-
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <remarks>
+        ///     <para>Implements <see cref="IDisposable.Dispose()" /> implicitly.</para>
+        /// </remarks>
         public void Dispose()
         {
             this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-
+        /// <summary>
+        /// Raises the <see cref="ConnectionReceived" /> event.
+        /// </summary>
+        /// <param name="connection">
+        ///     The <see cref="TcpConnection" /> that has been received.
+        ///     Must not be <c>null</c>.
+        /// </param>
         private void RaiseConnectionReceived(TcpConnection connection)
             => this.ConnectionReceived?.Invoke(this, new ConnectionReceivedEventArgs<TcpConnection, IPPortAddressInfo>(connection));
 
-
+        /// <summary>
+        /// Releases unmanaged and - optionally - managed resources.
+        /// </summary>
+        /// <param name="disposing">
+        ///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+        /// </param>
         private void Dispose(bool disposing)
         {
             if (!this.isDisposed)
@@ -140,7 +198,16 @@ namespace IndiePortable.Communication.NetClassic
             /// </summary>
             private bool isActiveBacking;
 
-
+            /// <summary>
+            /// Initializes a new instance of the <see cref="TcpConnectionListenerHelper"/> class.
+            /// </summary>
+            /// <param name="listener">
+            ///     The <see cref="TcpListener" /> that shall be listened with.
+            ///     Must not be <c>null</c>.
+            /// </param>
+            /// <exception cref="ArgumentNullException">
+            ///     <para>Thrown if <paramref name="listener" /> is <c>null</c>.</para>
+            /// </exception>
             public TcpConnectionListenerHelper(TcpListener listener)
             {
                 if (object.ReferenceEquals(listener, null))
@@ -227,13 +294,24 @@ namespace IndiePortable.Communication.NetClassic
                 connection.Return();
             }
 
+            /// <summary>
+            /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+            /// </summary>
+            /// <remarks>
+            ///     <para>Implements <see cref="IDisposable.Dispose()" /> implicitly.</para>
+            /// </remarks>
             public void Dispose()
             {
                 this.Dispose(true);
                 GC.SuppressFinalize(this);
             }
 
-
+            /// <summary>
+            /// Releases unmanaged and - optionally - managed resources.
+            /// </summary>
+            /// <param name="disposing">
+            ///     <c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.
+            /// </param>
             private void Dispose(bool disposing)
             {
                 if (!this.isDisposed)

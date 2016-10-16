@@ -36,10 +36,6 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Collections\Collections.csproj">
-      <Project>{4d764873-6c86-4ede-8612-336f5aba8ff6}</Project>
-      <Name>Collections</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Formatter\Formatter.csproj">
       <Project>{e774e698-e2c3-4c82-af09-4fb00eb5aa35}</Project>
       <Name>Formatter</Name>

@@ -82,7 +82,17 @@ namespace IndiePortable.Communication.NetClassic
             this.localPublicKeyBacking = new PublicKeyInfo(this.localRSA.ExportCspBlob(false));
         }
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RsaCryptoManager"/> class.
+        /// </summary>
+        /// <param name="rsaKeyPairBlob">
+        ///     The blob representing the RSA key pair.
+        ///     Must not be <c>null</c>.
+        ///     Must be formatted complying the Cryptographic API format.
+        /// </param>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="rsaKeyPairBlob" /> is <c>null</c>.</para>
+        /// </exception>
         public RsaCryptoManager(byte[] rsaKeyPairBlob)
         {
             if (object.ReferenceEquals(rsaKeyPairBlob, null))
@@ -124,7 +134,12 @@ namespace IndiePortable.Communication.NetClassic
         /// </remarks>
         public override PublicKeyInfo LocalPublicKey => this.localPublicKeyBacking;
 
-
+        /// <summary>
+        /// Exports the local key pair.
+        /// </summary>
+        /// <param name="output">The output.</param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         public void ExportLocalKeyPair(Stream output)
         {
             if (object.ReferenceEquals(output, null))

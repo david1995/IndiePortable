@@ -15,8 +15,8 @@
 --------------------------------------------------------------------------------------------
 Version 0.2.0
 --------------------------------------------------------------------------------------------
-Adds:
-- Added the non-generic StateTask class and ITaskConnection interface.
+Added:
+- Added the non-generic StateTask class and ITaskConnection interface replacing the generic ones.
 
 Changes:
 - The generic StateTask&lt;T&gt; class and ITaskConnection&lt;T&gt; interface are now marked deprecated.

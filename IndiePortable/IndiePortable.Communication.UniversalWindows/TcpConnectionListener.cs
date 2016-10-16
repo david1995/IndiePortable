@@ -18,7 +18,11 @@ namespace IndiePortable.Communication.UniversalWindows
     using Windows.Networking;
     using Windows.Networking.Sockets;
 
-
+    /// <summary>
+    /// Listens for incoming connection over TCP.
+    /// </summary>
+    /// <seealso cref="Devices.IConnectionListener{TConnection, TSettings, TAddress}" />
+    /// <seealso cref="IDisposable" />
     public sealed class TcpConnectionListener
         : IConnectionListener<TcpConnection, TcpConnectionListenerSettings, IPPortAddressInfo>, IDisposable
     {
@@ -48,18 +52,55 @@ namespace IndiePortable.Communication.UniversalWindows
             this.Dispose(false);
         }
 
-        
+        /// <summary>
+        /// Raised when a connection has been received.
+        /// </summary>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnectionListener{TConnection, TSettings, TAddress}.ConnectionReceived" /> implicitly.</para>
+        /// </remarks>
         public event EventHandler<ConnectionReceivedEventArgs<TcpConnection, IPPortAddressInfo>> ConnectionReceived;
 
-
+        /// <summary>
+        /// Gets a value indicating whether the <see cref="TcpConnectionListener" /> is actively listening for connections.
+        /// </summary>
+        /// <value>
+        ///     <c>true</c> if the <see cref="TcpConnectionListener" />
+        ///     is actively listening for connections; otherwise, <c>false</c>.
+        /// </value>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnectionListener{TConnection, TSettings, TAddress}.IsListening" /> implicitly.</para>
+        /// </remarks>
         public bool IsListening => this.isListeningBacking;
 
-
+        /// <summary>
+        /// Starts listening for connections.
+        /// </summary>
+        /// <param name="settings">
+        ///     The settings specifying parameters for the <see cref="TcpConnectionListener" />.
+        ///     Must not be <c>null</c>.
+        /// </param>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>
+        ///         Thrown if the <see cref="TcpConnectionListener" /> is already listening for connections.
+        ///         Check the <see cref="IsListening" /> property.
+        ///     </para>
+        /// </exception>
+        /// <exception cref="ArgumentNullException">
+        ///     <para>Thrown if <paramref name="settings" /> is <c>null</c>.</para>
+        /// </exception>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnectionListener{TConnection, TSettings, TAddress}.StartListening(TSettings)" /> implicitly.</para>
+        /// </remarks>
         public async void StartListening(TcpConnectionListenerSettings settings)
         {
             if (this.IsListening)
             {
                 throw new InvalidOperationException();
+            }
+
+            if (object.ReferenceEquals(settings, null))
+            {
+                throw new ArgumentNullException(nameof(settings));
             }
 
             foreach (var ip in settings.ListenerNetworkAdapters)
@@ -74,7 +115,18 @@ namespace IndiePortable.Communication.UniversalWindows
             this.isListeningBacking = true;
         }
 
-
+        /// <summary>
+        /// Stops listening for connections.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">
+        ///     <para>
+        ///         Thrown if the <see cref="TcpConnectionListener" /> is not listening for incoming connections.
+        ///         Check the <see cref="IsListening" /> property.
+        ///     </para>
+        /// </exception>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnectionListener{TConnection, TSettings, TAddress}.StopListening()" /> implicitly.</para>
+        /// </remarks>
         public void StopListening()
         {
             if (!this.IsListening)
