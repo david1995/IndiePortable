@@ -16,8 +16,10 @@ namespace IndiePortable.Formatter.Protocol1_1_0_0
     using System.Text;
     using System.Threading.Tasks;
 
-
-
+    /// <summary>
+    /// Represents a binary formatter for the version 1.1.
+    /// </summary>
+    /// <seealso cref="IProtocolFormatter" />
     public class ProtocolFormatter
         : IProtocolFormatter
     {
@@ -53,6 +55,16 @@ namespace IndiePortable.Formatter.Protocol1_1_0_0
 
         public void Serialize(Stream target, object graph, IEnumerable<ISurrogateSelector> surrogateSelectors)
         {
+            if (object.ReferenceEquals(target, null))
+            {
+                throw new ArgumentNullException(nameof(target));
+            }
+
+            if (object.ReferenceEquals(surrogateSelectors, null))
+            {
+                throw new ArgumentNullException(nameof(surrogateSelectors));
+            }
+
             throw new NotImplementedException();
         }
     }

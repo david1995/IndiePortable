@@ -36,8 +36,19 @@ namespace IndiePortable.Communication.UniversalWindows
             {
                 throw new ArgumentNullException(nameof(req));
             }
-
-            this.SendConnectionMessage(new ConnectionDisconnectResponse(req));
+            
+            try
+            {
+                this.SendConnectionMessage(new ConnectionDisconnectResponse(req));
+            }
+            finally
+            {
+                this.keepAliveCheckerTask.Stop();
+                this.messageReaderTask.Stop();
+                this.isConnectedBacking = false;
+                this.RaiseDisconnected();
+                this.Dispose();
+            }
         }
 
 

@@ -398,11 +398,16 @@ namespace IndiePortable.Communication.Devices
 
                 // dispose waiting tasks
                 this.waitingTasksSemaphore.Wait();
-                this.waitingTasks.ForEach(t => t.Dispose());
-                this.waitingTasksSemaphore.Release();
+                this.waitingTasks.Where(t => !t.IsDisposed).ForEach(t => t.Dispose());
+                this.waitingTasks.Clear();
 
                 // dispose semaphore
                 this.waitingTasksSemaphore.Dispose();
+
+                this.messageHandlersSemaphore.Wait();
+                this.messageHandlersSemaphore.Dispose();
+
+                this.IsDisposed = true;
             }
         }
 

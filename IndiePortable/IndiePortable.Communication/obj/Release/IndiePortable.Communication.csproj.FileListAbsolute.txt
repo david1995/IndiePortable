@@ -1,3 +1,4 @@
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Release\IndiePortable.Communication.XML
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Release\IndiePortable.Communication.dll
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Release\IndiePortable.Communication.pdb
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Release\IndiePortable.Collections.dll
@@ -9,4 +10,3 @@ C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communicat
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Release\IndiePortable.Communication.csprojResolveAssemblyReference.cache
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Release\IndiePortable.Communication.dll
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Release\IndiePortable.Communication.pdb
-C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Release\IndiePortable.Communication.XML

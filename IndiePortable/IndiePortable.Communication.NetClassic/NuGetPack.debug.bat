@@ -1,0 +1,1 @@
+nuget pack IndiePortable.Communication.NetClassic.csproj -Prop Configuration=Debug -IncludeReferencedProjects

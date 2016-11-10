@@ -30,6 +30,11 @@ namespace IndiePortable.Communication.Devices
         event EventHandler<ConnectionMessageReceivedEventArgs> ConnectionMessageReceived;
 
         /// <summary>
+        /// Raised when the <see cref="IConnection{TAddress}" /> has been disconnected.
+        /// </summary>
+        event EventHandler Disconnected;
+
+        /// <summary>
         /// Gets a value indicating whether the <see cref="IConnection{TAddress}" /> is connected to the other end.
         /// </summary>
         /// <value>

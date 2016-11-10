@@ -2,18 +2,35 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>$id$</id>
-        <version>0.2.0</version>
+        <version>0.2.1</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
-        <licenseUrl>https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.License.txt</licenseUrl>
-        <projectUrl>https://www.dropbox.com/sh/qwhowr6749nzkpm/AAC2iKxRTzFd-fHFfyHZjhEOa?dl=0</projectUrl>
-        <iconUrl>https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.Formatter.Icon.png</iconUrl>
+        <licenseUrl>https://github.com/david1995/IndiePortable/raw/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/david1995/IndiePortable/tree/master/IndiePortable/Formatter</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/david1995/IndiePortable/master/IndiePortable/Formatter/Icon.png</iconUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
-        <releaseNotes>
-            Improvements:
-            - New surrogates for mscorlib types System.DateTime and System.TimeSpan
+        <releaseNotes>--------------------------------------------------------------------------------------------
+Version 0.2.1
+--------------------------------------------------------------------------------------------
+Added:
+- Added the static CreateWithCoreSurrogates() method to the BinaryFormatter class.
+- Added a surrogate for the System.Uri class.
+
+Other:
+- Updated NuGet package information (license URL, project URL and icon) to reference GitHub files instead of Dropbox files.
+
+--------------------------------------------------------------------------------------------
+Version 0.2.0
+--------------------------------------------------------------------------------------------
+Improvements:
+- New surrogates for mscorlib types System.DateTime and System.TimeSpan
+
+--------------------------------------------------------------------------------------------
+Version 0.1.0
+--------------------------------------------------------------------------------------------
+Initial release
         </releaseNotes>
         <copyright>Copyright (c) 2016 by David Eiwen</copyright>
         <tags>Serialization Circular Graph Formatter Binary Serializer</tags>

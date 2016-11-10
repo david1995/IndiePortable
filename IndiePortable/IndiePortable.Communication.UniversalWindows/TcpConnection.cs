@@ -122,6 +122,9 @@ namespace IndiePortable.Communication.UniversalWindows
         
         private StateTask keepAliveCheckerTask;
 
+
+        private StateTask keepAliveSenderTask;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TcpConnection"/> class.
         /// </summary>
@@ -276,6 +279,7 @@ namespace IndiePortable.Communication.UniversalWindows
             }
 
             this.socket = socket;
+            this.isConnectedBacking = true;
             this.remoteAddressBacking = remoteAddress;
             this.inputStream = this.socket.InputStream;
             this.outputStream = this.socket.OutputStream.AsStreamForWrite();
@@ -296,8 +300,6 @@ namespace IndiePortable.Communication.UniversalWindows
             this.connectionCache.AddMessageHandler(this.handlerDisconnect);
             this.connectionCache.AddMessageHandler(this.handlerKeepAlive);
             this.connectionCache.AddMessageHandler(this.handlerContent);
-
-            this.isConnectedBacking = true;
         }
 
         /// <summary>
@@ -323,6 +325,14 @@ namespace IndiePortable.Communication.UniversalWindows
         ///     <para>Implements <see cref="IMessageReceiver.MessageReceived" /> implicitly.</para>
         /// </remarks>
         public event EventHandler<MessageReceivedEventArgs> MessageReceived;
+
+        /// <summary>
+        /// Raised when the <see cref="TcpConnection" /> has been disconnected.
+        /// </summary>
+        /// <remarks>
+        ///     <para>Implements <see cref="IConnection{TAddress}.Disconnected" /> implicitly.</para>
+        /// </remarks>
+        public event EventHandler Disconnected;
 
         /// <summary>
         /// Gets the <see cref="MessageDispatcher" /> acting as a message cache for the <see cref="TcpConnection" />.
@@ -418,6 +428,7 @@ namespace IndiePortable.Communication.UniversalWindows
 
                 this.messageReaderTask = new StateTask(this.MessageReader);
                 this.keepAliveCheckerTask = new StateTask(this.KeepAliveChecker);
+                this.keepAliveSenderTask = new StateTask(this.KeepAliveSender);
                 this.isActivatedBacking = true;
             }
             finally
@@ -498,6 +509,7 @@ namespace IndiePortable.Communication.UniversalWindows
             {
                 this.messageReaderTask.Stop();
                 this.isConnectedBacking = false;
+                this.RaiseDisconnected();
                 this.Dispose();
             }
         }
@@ -759,6 +771,11 @@ namespace IndiePortable.Communication.UniversalWindows
             => this.ConnectionMessageReceived?.Invoke(this, new ConnectionMessageReceivedEventArgs(message));
 
         /// <summary>
+        /// Raises the <see cref="Disconnected" /> event.
+        /// </summary>
+        private void RaiseDisconnected() => this.Disconnected?.Invoke(this, EventArgs.Empty);
+
+        /// <summary>
         /// Releases unmanaged and - optionally - managed resources.
         /// </summary>
         /// <param name="disposing">
@@ -771,6 +788,13 @@ namespace IndiePortable.Communication.UniversalWindows
                 if (disposing)
                 {
                 }
+
+                this.keepAliveCheckerTask?.Stop();
+                this.keepAliveSenderTask?.Stop();
+                this.messageReaderTask?.Stop();
+
+                this.keepAliveSemaphore.Wait();
+                this.keepAliveSemaphore.Dispose();
 
                 this.activationStateSemaphore.Wait();
                 this.activationStateSemaphore.Dispose();
@@ -883,6 +907,35 @@ namespace IndiePortable.Communication.UniversalWindows
             }
             catch (ObjectDisposedException)
             {
+            }
+            catch (TaskCanceledException)
+            {
+            }
+            catch (Exception exc)
+            {
+                connection.ThrowException(exc);
+                return;
+            }
+
+            connection.Return();
+        }
+
+
+        private async void KeepAliveSender(ITaskConnection connection)
+        {
+            if (object.ReferenceEquals(connection, null))
+            {
+                throw new ArgumentNullException(nameof(connection));
+            }
+
+            try
+            {
+                while (!connection.MustFinish)
+                {
+                    await this.SendConnectionMessageAsync(new ConnectionMessageKeepAlive());
+
+                    await Task.Delay(this.KeepAliveFrequency);
+                }
             }
             catch (TaskCanceledException)
             {

@@ -15,7 +15,11 @@ namespace IndiePortable.Communication.NetClassic
     using Devices.ConnectionMessages;
     using EncryptedConnection;
 
-
+    /// <summary>
+    /// Contains the message handlers for the <see cref="TcpConnection" /> class.
+    /// </summary>
+    /// <seealso cref="EncryptedConnection.ICryptableConnection{TAddress}" />
+    /// <seealso cref="IDisposable" />
     public partial class TcpConnection
     {
         /// <summary>
@@ -46,7 +50,18 @@ namespace IndiePortable.Communication.NetClassic
                 throw new ArgumentNullException(nameof(rq));
             }
 
-            this.SendConnectionMessage(new ConnectionDisconnectResponse(rq));
+            try
+            {
+                this.SendConnectionMessage(new ConnectionDisconnectResponse(rq));
+            }
+            finally
+            {
+                this.keepAliveCheckerTask.Stop();
+                this.messageReaderTask.Stop();
+                this.isConnectedBacking = false;
+                this.RaiseDisconnected();
+                this.Dispose();
+            }
         }
 
 
@@ -57,10 +72,7 @@ namespace IndiePortable.Communication.NetClassic
                 throw new ArgumentNullException(nameof(message));
             }
 
-            if (this.keepAliveSemaphore.CurrentCount == 0)
-            {
-                this.keepAliveSemaphore.Release();
-            }
+            this.keepAliveWaitHandle.Set();
         }
 
         

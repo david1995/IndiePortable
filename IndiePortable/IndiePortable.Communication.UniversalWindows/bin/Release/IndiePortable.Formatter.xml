@@ -8,9 +8,6 @@
             <summary>
             Provides methods for serializing and de-serializing object graphs into a binary format.
             </summary>
-            <remarks>
-                Implements <see cref="T:System.ComponentModel.INotifyPropertyChanged" /> explicitly.
-            </remarks>
         </member>
         <member name="F:IndiePortable.Formatter.BinaryFormatter.ProtocolVersion">
             <summary>
@@ -20,11 +17,6 @@
         <member name="F:IndiePortable.Formatter.BinaryFormatter.SupportedFormatters">
             <summary>
             The list of supported formatters.
-            </summary>
-        </member>
-        <member name="F:IndiePortable.Formatter.BinaryFormatter.usedProtocolVersionBacking">
-            <summary>
-            The backing field for the <see cref="P:IndiePortable.Formatter.BinaryFormatter.UsedProtocolVersion" /> property.
             </summary>
         </member>
         <member name="F:IndiePortable.Formatter.BinaryFormatter.surrogateSelectorsBacking">
@@ -44,14 +36,6 @@
             <param name="surrogateSelectors">
                 The surrogate selectors that are initially added to the <see cref="T:IndiePortable.Formatter.BinaryFormatter" />.
             </param>
-        </member>
-        <member name="E:IndiePortable.Formatter.BinaryFormatter.PropertyChanged">
-            <summary>
-            Raised when the value of a property has been changed.
-            </summary>
-            <remarks>
-                Implements <see cref="E:System.ComponentModel.INotifyPropertyChanged.PropertyChanged" /> implicitly.
-            </remarks>
         </member>
         <member name="P:IndiePortable.Formatter.BinaryFormatter.SurrogateSelectors">
             <summary>
@@ -250,14 +234,6 @@
             <returns>
                 Returns a value indicating whether the serialization has been successful.
             </returns>
-        </member>
-        <member name="M:IndiePortable.Formatter.BinaryFormatter.RaisePropertyChanged(System.String)">
-            <summary>
-            Raises the <see cref="E:IndiePortable.Formatter.BinaryFormatter.PropertyChanged" /> event.
-            </summary>
-            <param name="property">
-                The name of the changed property.
-            </param>
         </member>
         <member name="M:IndiePortable.Formatter.BinaryFormatter.SafeDeserialize(System.IO.Stream,System.Object@)">
             <summary>

@@ -1,0 +1,1 @@
+nuget pack IndiePortable.Communication.csproj -Prop Configuration=Release -IncludeReferencedProjects

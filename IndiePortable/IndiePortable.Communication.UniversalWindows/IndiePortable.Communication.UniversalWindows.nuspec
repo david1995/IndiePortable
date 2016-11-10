@@ -2,7 +2,7 @@
 <package >
     <metadata>
         <id>$id$</id>
-        <version>0.1.0</version>
+        <version>0.1.2</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
@@ -12,6 +12,16 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
+--------------------------------------------------------------------------------------------
+Version 0.1.2
+--------------------------------------------------------------------------------------------
+- Solved dependency issues
+
+--------------------------------------------------------------------------------------------
+Version 0.1.1
+--------------------------------------------------------------------------------------------
+- Applied changes in the interface implementation of IConnection&lt;TAddress&gt;.
+            
 --------------------------------------------------------------------------------------------
 Version 0.1.0
 --------------------------------------------------------------------------------------------

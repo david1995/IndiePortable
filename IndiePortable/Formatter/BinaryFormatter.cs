@@ -16,17 +16,12 @@ namespace IndiePortable.Formatter
     using System.ComponentModel;
     using System.IO;
     using System.Linq;
-    using System.Runtime.CompilerServices;
     using System.Text;
 
     /// <summary>
     /// Provides methods for serializing and de-serializing object graphs into a binary format.
     /// </summary>
-    /// <remarks>
-    ///     Implements <see cref="INotifyPropertyChanged" /> explicitly.
-    /// </remarks>
     public class BinaryFormatter
-        : INotifyPropertyChanged
     {
         /// <summary>
         /// The maximum protocol <see cref="Version" /> supported by the <see cref="BinaryFormatter" />.
@@ -41,11 +36,6 @@ namespace IndiePortable.Formatter
             {
                 new Protocol1_0_0_0.ProtocolFormatter()
             });
-
-        /// <summary>
-        /// The backing field for the <see cref="UsedProtocolVersion" /> property.
-        /// </summary>
-        private Version usedProtocolVersionBacking;
 
         /// <summary>
         /// The backing field for the <see cref="SurrogateSelectors" /> property.
@@ -74,14 +64,6 @@ namespace IndiePortable.Formatter
         }
 
         /// <summary>
-        /// Raised when the value of a property has been changed.
-        /// </summary>
-        /// <remarks>
-        ///     Implements <see cref="INotifyPropertyChanged.PropertyChanged" /> implicitly.
-        /// </remarks>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
         /// Gets the list containing the surrogate selectors of the <see cref="BinaryFormatter" />.
         /// </summary>
         /// <value>
@@ -93,10 +75,7 @@ namespace IndiePortable.Formatter
         ///         <see cref="ISurrogate" /> that fits the requested type.
         ///     </para>
         /// </remarks>
-        public IList<ISurrogateSelector> SurrogateSelectors
-        {
-            get { return this.surrogateSelectorsBacking; }
-        }
+        public IList<ISurrogateSelector> SurrogateSelectors => this.surrogateSelectorsBacking;
 
         /// <summary>
         /// Gets or sets the protocol version used by the <see cref="BinaryFormatter" />.
@@ -104,19 +83,7 @@ namespace IndiePortable.Formatter
         /// <value>
         ///     Contains the protocol version used by the <see cref="BinaryFormatter" />.
         /// </value>
-        public Version UsedProtocolVersion
-        {
-            get
-            {
-                return this.usedProtocolVersionBacking;
-            }
-
-            set
-            {
-                this.usedProtocolVersionBacking = value;
-                this.RaisePropertyChanged();
-            }
-        }
+        public Version UsedProtocolVersion { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BinaryFormatter" /> class, including surrogates for the core library.
@@ -419,15 +386,6 @@ namespace IndiePortable.Formatter
         ///     Returns a value indicating whether the serialization has been successful.
         /// </returns>
         public bool TrySerialize(Stream target, object graph) => this.SafeSerialize(target, graph) == null;
-
-        /// <summary>
-        /// Raises the <see cref="PropertyChanged" /> event.
-        /// </summary>
-        /// <param name="property">
-        ///     The name of the changed property.
-        /// </param>
-        protected void RaisePropertyChanged([CallerMemberName]string property = null)
-            => this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(property));
 
         /// <summary>
         /// Safely deserializes an <see cref="object" /> graph from a <see cref="Stream" />.

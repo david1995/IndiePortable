@@ -791,6 +791,11 @@
             Raised when a <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> has been received.
             </summary>
         </member>
+        <member name="E:IndiePortable.Communication.Devices.IConnection`1.Disconnected">
+            <summary>
+            Raised when the <see cref="T:IndiePortable.Communication.Devices.IConnection`1" /> has been disconnected.
+            </summary>
+        </member>
         <member name="P:IndiePortable.Communication.Devices.IConnection`1.IsConnected">
             <summary>
             Gets a value indicating whether the <see cref="T:IndiePortable.Communication.Devices.IConnection`1" /> is connected to the other end.

@@ -59,10 +59,7 @@ namespace IndiePortable.Collections
         /// <remarks>
         ///     <para>Implements <see cref="ICollection.Count" /> implicitly.</para>
         /// </remarks>
-        public int Count
-        {
-            get { return this.source.Count; }
-        }
+        public int Count => this.source.Count;
 
         /// <summary>
         /// Gets a value indicating whether access to the <see cref="DequeqeOnlyQueue{T}" /> is synchronized (thread safe).
@@ -73,10 +70,7 @@ namespace IndiePortable.Collections
         /// <remarks>
         ///     <para>Implements <see cref="ICollection.IsSynchronized" /> implicitly.</para>
         /// </remarks>
-        public bool IsSynchronized
-        {
-            get { return ((ICollection)source).IsSynchronized; }
-        }
+        public bool IsSynchronized => ((ICollection)source).IsSynchronized;
 
         /// <summary>
         /// Gets an object that can be used to synchronize access to the <see cref="DequeqeOnlyQueue{T}" />.
@@ -87,10 +81,7 @@ namespace IndiePortable.Collections
         /// <remarks>
         ///     <para>Implements <see cref="ICollection.SyncRoot" /> implicitly.</para>
         /// </remarks>
-        public object SyncRoot
-        {
-            get { return ((ICollection)source).SyncRoot; }
-        }
+        public object SyncRoot => ((ICollection)source).SyncRoot;
 
         /// <summary>
         /// Returns and removes the object at the beginning of the <see cref="DequeqeOnlyQueue{T}" />.

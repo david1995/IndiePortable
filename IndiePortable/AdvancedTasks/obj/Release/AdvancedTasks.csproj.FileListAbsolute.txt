@@ -1,4 +1,3 @@
-C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\obj\Release\AdvancedTasks.csprojResolveAssemblyReference.cache
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\bin\Release\IndiePortable.AdvancedTasks.xml
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\bin\Release\IndiePortable.AdvancedTasks.dll
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\bin\Release\IndiePortable.AdvancedTasks.pdb

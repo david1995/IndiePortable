@@ -2,16 +2,28 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>$id$</id>
-        <version>0.2.4</version>
+        <version>0.2.5</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
         <licenseUrl>https://github.com/david1995/IndiePortable/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/david1995/IndiePortable</projectUrl>
-        <iconUrl>https://dl.dropboxusercontent.com/u/18330358/Development/IndiePortable.Collections.Icon.png</iconUrl>
+        <iconUrl>https://raw.githubusercontent.com/david1995/IndiePortable/master/IndiePortable/Collections/Icon.png</iconUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
+--------------------------------------------------------------------------------------------
+Version 0.2.6
+--------------------------------------------------------------------------------------------
+Currently in progress
+
+--------------------------------------------------------------------------------------------
+Version 0.2.5
+--------------------------------------------------------------------------------------------
+Added:
+- Added the DequeueOnlyQueue&lt;T&gt; class.
+- Added the ObservableQueue&lt;T&gt; class.
+- Added a Linq extension class (IndiePortable.Collections.Linq.Enumerable), including a ForEach&lt;T&gt; method that can be applied to any IEnumerable&lt;T&gt;.
 --------------------------------------------------------------------------------------------
 Version 0.2.4
 --------------------------------------------------------------------------------------------

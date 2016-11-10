@@ -345,6 +345,14 @@
                 <para>Implements <see cref="E:IndiePortable.Communication.Devices.IMessageReceiver.MessageReceived" /> implicitly.</para>
             </remarks>
         </member>
+        <member name="E:IndiePortable.Communication.UniversalWindows.TcpConnection.Disconnected">
+            <summary>
+            Raised when the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" /> has been disconnected.
+            </summary>
+            <remarks>
+                <para>Implements <see cref="E:IndiePortable.Communication.Devices.IConnection`1.Disconnected" /> implicitly.</para>
+            </remarks>
+        </member>
         <member name="P:IndiePortable.Communication.UniversalWindows.TcpConnection.Cache">
             <summary>
             Gets the <see cref="T:IndiePortable.Communication.Devices.MessageDispatcher" /> acting as a message cache for the <see cref="T:IndiePortable.Communication.UniversalWindows.TcpConnection" />.
@@ -579,6 +587,11 @@
             <param name="message">
                 The <see cref="T:IndiePortable.Communication.Devices.ConnectionMessages.ConnectionMessageBase" /> that has been received.
             </param>
+        </member>
+        <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.RaiseDisconnected">
+            <summary>
+            Raises the <see cref="E:IndiePortable.Communication.UniversalWindows.TcpConnection.Disconnected" /> event.
+            </summary>
         </member>
         <member name="M:IndiePortable.Communication.UniversalWindows.TcpConnection.Dispose(System.Boolean)">
             <summary>

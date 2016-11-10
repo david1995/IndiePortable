@@ -2,7 +2,7 @@
 <package >
     <metadata>
         <id>$id$</id>
-        <version>0.1.0</version>
+        <version>0.1.1.1</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
@@ -12,6 +12,11 @@
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
         <description>$description$</description>
         <releaseNotes>
+--------------------------------------------------------------------------------------------
+Version 0.1.1
+--------------------------------------------------------------------------------------------
+Added:
+- Added the Disconnected event to the IConnection&lt;TAddress&gt; interface.
 --------------------------------------------------------------------------------------------
 Version 0.1.0
 --------------------------------------------------------------------------------------------

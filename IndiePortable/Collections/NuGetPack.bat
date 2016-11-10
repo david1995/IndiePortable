@@ -1,0 +1,1 @@
+nuget pack Collections.csproj -Prop Configuration=Release -IncludeReferencedProjects

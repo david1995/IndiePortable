@@ -109,7 +109,6 @@ namespace IndiePortable.Communication.NetClassic
                 var l = new TcpConnectionListenerHelper(new TcpListener(new IPEndPoint(new IPAddress(ip.Address), ip.Port)));
                 l.ConnectionReceived += (s, e) => this.RaiseConnectionReceived(e.ReceivedConnection);
                 this.listeners.Add(l);
-
                 l.Start();
             }
 
@@ -240,6 +239,7 @@ namespace IndiePortable.Communication.NetClassic
                     throw new InvalidOperationException();
                 }
 
+                this.listener.Start();
                 this.listenerTask = new StateTask(this.ConnectionListenerTask);
                 this.isActiveBacking = true;
             }
@@ -253,6 +253,7 @@ namespace IndiePortable.Communication.NetClassic
                 }
 
                 this.listenerTask.Stop();
+                this.listener.Stop();
                 this.isActiveBacking = false;
             }
 
@@ -277,6 +278,7 @@ namespace IndiePortable.Communication.NetClassic
                             var cl = await this.listener.AcceptTcpClientAsync();
                             var remoteEP = (IPEndPoint)cl.Client.RemoteEndPoint;
                             var conn = new TcpConnection(cl, new IPPortAddressInfo(remoteEP.Address.GetAddressBytes(), (ushort)remoteEP.Port));
+                            this.RaiseConnectionReceived(conn);
                         }
 
                         await Task.Delay(50);
@@ -321,7 +323,12 @@ namespace IndiePortable.Communication.NetClassic
                     }
 
                     this.listenerTask.StopAndAwait();
-                    this.listener.Stop();
+
+                    if (this.IsActive)
+                    {
+                        this.listener.Stop();
+                    }
+
                     this.isDisposed = true;
                 }
             }

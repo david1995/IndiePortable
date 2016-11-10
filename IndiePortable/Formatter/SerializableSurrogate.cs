@@ -28,6 +28,11 @@ namespace IndiePortable.Formatter
         /// </summary>
         private static readonly ISurrogate DefaultBacking = new SerializableSurrogate();
 
+
+        private SerializableSurrogate()
+        {
+        }
+
         /// <summary>
         /// Gets the default <see cref="SerializableSurrogate" />.
         /// </summary>
@@ -113,17 +118,7 @@ namespace IndiePortable.Formatter
             // if type does not implement ISerializable
             foreach (var field in type.DeclaredFields.Where(f => f.CustomAttributes.Any(a => a.AttributeType == typeof(SerializedAttribute))))
             {
-                var fieldVersionSpans = GetFieldVersionSpans(field);
-                var versionSpans = (from vs in fieldVersionSpans
-                                    where vs.Item1 <= typeVersion && typeVersion <= vs.Item2
-                                    select vs).ToArray();
-
-                // if the field has no version spans or at least one version span could be found
-                // if no matching version span could be found -> simply don't use the field's value
-                if (fieldVersionSpans.Count() == 0 || versionSpans.Length >= 1)
-                {
-                    data.AddValue(field.Name, field.GetValue(value));
-                }
+                data.AddValue(field.Name, field.GetValue(value));
             }
         }
 
