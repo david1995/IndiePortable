@@ -40,18 +40,12 @@
     <CodeAnalysisRuleSet>E:\David\Programmieren\C#\LiveSong_current\LiveSong\LiveSongCodeRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>IndiePortable.Collections.Key.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
-  <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Formatter\Formatter.csproj">
-      <Project>{e774e698-e2c3-4c82-af09-4fb00eb5aa35}</Project>
-      <Name>Formatter</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayDictionary.cs" />
     <Compile Include="DynamicArray.cs" />
@@ -73,7 +67,13 @@
     <Compile Include="ViewObservableDynamicArray.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="IndiePortable.Collections.Key.pfx" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="IndiePortable.Formatter, Version=0.2.1.32854, Culture=neutral, PublicKeyToken=2fd28104da1f974f, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Formatter.0.2.1.32854\lib\portable45-net45+win8+wpa81\IndiePortable.Formatter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>

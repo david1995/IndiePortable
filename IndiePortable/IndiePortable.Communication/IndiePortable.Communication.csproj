@@ -35,17 +35,6 @@
     <DocumentationFile>bin\Release\IndiePortable.Communication.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\Collections\Collections.csproj">
-      <Project>{4d764873-6c86-4ede-8612-336f5aba8ff6}</Project>
-      <Name>Collections</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Formatter\Formatter.csproj">
-      <Project>{E774E698-E2C3-4C82-AF09-4FB00EB5AA35}</Project>
-      <Name>Formatter</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Devices\ConnectionMessageDispatcher.cs" />
     <Compile Include="Devices\ConnectionMessageHandler.cs" />
     <Compile Include="Devices\ConnectionMessageReceivedEventArgs.cs" />
@@ -77,7 +66,20 @@
     <Compile Include="Messages\MessageResponseBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="IndiePortable.Collections, Version=0.2.6.29635, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Collections.0.2.7\lib\portable45-net45+win8+wpa81\IndiePortable.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IndiePortable.Formatter, Version=0.2.1.32854, Culture=neutral, PublicKeyToken=2fd28104da1f974f, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Formatter.0.2.1.32854\lib\portable45-net45+win8+wpa81\IndiePortable.Formatter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IndiePortable.Communication.nuspec" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

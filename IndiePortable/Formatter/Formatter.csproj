@@ -40,14 +40,14 @@
     <CodeAnalysisRuleSet>E:\David\Programmieren\C#\LiveSong_current\LiveSong\LiveSongCodeRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>IndiePortable.Formatter.Key.pfx</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
-    <None Include="IndiePortable.Formatter.Key.pfx" />
     <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>

@@ -13,3 +13,6 @@ C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Collections.Tests\bin\De
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Collections.Tests\obj\Debug\Collections.Tests.csprojResolveAssemblyReference.cache
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Collections.Tests\obj\Debug\Collections.Tests.dll
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Collections.Tests\obj\Debug\Collections.Tests.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Collections.Tests\obj\Debug\Collections.Tests.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Collections.Tests\obj\Debug\Collections.Tests.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Collections.Tests\obj\Debug\Collections.Tests.pdb

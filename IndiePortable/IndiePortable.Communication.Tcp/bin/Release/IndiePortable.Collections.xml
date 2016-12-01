@@ -1542,6 +1542,21 @@
                 Overrides <see cref="M:IndiePortable.Collections.DynamicArray`1.ResetItems" />.
             </remarks>
         </member>
+        <member name="M:IndiePortable.Collections.ObservableDynamicArray`1.AssureLock">
+            <summary>
+            Assures the lock of the <see cref="T:IndiePortable.Collections.ObservableDynamicArray`1" />.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Collections.ObservableDynamicArray`1.Lock">
+            <summary>
+            Locks the <see cref="T:IndiePortable.Collections.ObservableDynamicArray`1" />.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Collections.ObservableDynamicArray`1.Unlock">
+            <summary>
+            Unlocks the <see cref="T:IndiePortable.Collections.ObservableDynamicArray`1" />.
+            </summary>
+        </member>
         <member name="T:IndiePortable.Collections.ObservableListWrapper`1">
             <summary>
             Represents a wrapper for an <see cref="T:System.Collections.Generic.IList`1" /> instance making it observable.
@@ -1984,6 +1999,18 @@
             <param name="property">
                 The name of the changed property.
             </param>
+        </member>
+        <member name="T:IndiePortable.Collections.ObservableQueue`1">
+            <summary>
+            Represents a queue that notifies subscribers when changes apply.
+            </summary>
+            <typeparam name="T">
+                The type of the items in the <see cref="T:IndiePortable.Collections.ObservableQueue`1" />.
+            </typeparam>
+            <seealso cref="T:System.Collections.ICollection" />
+            <seealso cref="T:System.Collections.Generic.IEnumerable`1" />
+            <seealso cref="T:System.Collections.IEnumerable" />
+            <seealso cref="T:IndiePortable.Formatter.ISerializable" />
         </member>
         <member name="M:IndiePortable.Collections.ObservableQueue`1.#ctor(System.Collections.Generic.Queue{`0})">
             <summary>

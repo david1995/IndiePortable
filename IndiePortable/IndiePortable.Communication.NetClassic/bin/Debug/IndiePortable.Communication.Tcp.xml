@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>IndiePortable.Communication.Tcp</name>
+    </assembly>
+    <members>
+        <member name="T:IndiePortable.Communication.Tcp.IPPortAddressInfo">
+            <summary>
+            Represents IP address and port of a TCP-capable network device.
+            </summary>
+            <seealso cref="T:IndiePortable.Communication.Devices.IAddressInfo" />
+        </member>
+        <member name="F:IndiePortable.Communication.Tcp.IPPortAddressInfo.addressBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.Tcp.IPPortAddressInfo.Address" /> property.
+            </summary>
+        </member>
+        <member name="F:IndiePortable.Communication.Tcp.IPPortAddressInfo.portBacking">
+            <summary>
+            The backing field for the <see cref="P:IndiePortable.Communication.Tcp.IPPortAddressInfo.Port" /> property.
+            </summary>
+        </member>
+        <member name="M:IndiePortable.Communication.Tcp.IPPortAddressInfo.#ctor(System.Byte[],System.UInt16)">
+            <summary>
+            Initializes a new instance of the <see cref="T:IndiePortable.Communication.Tcp.IPPortAddressInfo"/> class.
+            </summary>
+            <param name="address">
+                The IP address in IPv4 or IPv6 format.
+                Must not be <c>null</c>.
+            </param>
+            <param name="port">
+                The port number.
+            </param>
+            <exception cref="T:System.ArgumentNullException">
+                <para>Thrown if <paramref name="address" /> is <c>null</c>.</para>
+            </exception>
+        </member>
+        <member name="P:IndiePortable.Communication.Tcp.IPPortAddressInfo.Address">
+            <summary>
+            Gets the IP address in IPv4 or IPv6 format.
+            </summary>
+            <value>
+                Contains the IP address in IPv4 or IPv6 format.
+            </value>
+        </member>
+        <member name="P:IndiePortable.Communication.Tcp.IPPortAddressInfo.Port">
+            <summary>
+            Gets the port number.
+            </summary>
+            <value>
+                Contains the port number.
+            </value>
+        </member>
+    </members>
+</doc>

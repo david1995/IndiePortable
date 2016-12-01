@@ -168,11 +168,10 @@ namespace IndiePortable.Collections
                 throw new ArgumentNullException(nameof(items));
             }
             
-            var count = items.Count();
-            var array = count > 0 ? items.ToArray() : new T[8];
+            var array = items.Any() ? items.ToArray() : new T[8];
             this.countBacking = array.Length;
             this.GrowthRate = growthRate;
-            this.Capacity = count;
+            this.Capacity = array.Length;
             this.backing = array;
         }
 

@@ -7,3 +7,12 @@ C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communicat
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.csprojResolveAssemblyReference.cache
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.dll
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Debug\IndiePortable.Communication.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Debug\IndiePortable.Communication.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Debug\IndiePortable.Collections.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Debug\IndiePortable.Formatter.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Debug\IndiePortable.Collections.xml
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Debug\IndiePortable.Formatter.xml
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.pdb

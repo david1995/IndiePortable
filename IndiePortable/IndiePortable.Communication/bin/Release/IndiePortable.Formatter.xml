@@ -1708,6 +1708,12 @@
                 <para>Thrown if <paramref name="clrTypeName" /> is <c>null</c>.</para>
             </exception>
         </member>
+        <member name="T:IndiePortable.Formatter.Protocol1_1_0_0.ProtocolFormatter">
+            <summary>
+            Represents a binary formatter for the version 1.1.
+            </summary>
+            <seealso cref="T:IndiePortable.Formatter.IProtocolFormatter" />
+        </member>
         <member name="T:IndiePortable.Formatter.ProtocolVersionNotSupportedException">
             <summary>
             Represents a runtime error concerning a not supported protocol version.

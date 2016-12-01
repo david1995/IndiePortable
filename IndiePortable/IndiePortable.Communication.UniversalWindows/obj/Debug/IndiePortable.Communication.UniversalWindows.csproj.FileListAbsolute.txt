@@ -27,3 +27,6 @@ C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communicat
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.UniversalWindows\obj\Debug\qualifiers.txt
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.UniversalWindows\obj\Debug\qualifiers.txt.intermediate
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.UniversalWindows\obj\Debug\MultipleQualifiersPerDimensionFound.txt
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.UniversalWindows\obj\Debug\IndiePortable.Communication.UniversalWindows.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.UniversalWindows\obj\Debug\IndiePortable.Communication.UniversalWindows.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.UniversalWindows\obj\Debug\IndiePortable.Communication.UniversalWindows.pdb

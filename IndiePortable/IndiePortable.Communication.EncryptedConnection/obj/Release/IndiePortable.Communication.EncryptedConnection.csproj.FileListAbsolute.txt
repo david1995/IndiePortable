@@ -13,3 +13,9 @@ C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communicat
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.csprojResolveAssemblyReference.cache
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.dll
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.EncryptedConnection.XML
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.EncryptedConnection.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Release\IndiePortable.Communication.EncryptedConnection.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Release\IndiePortable.Communication.EncryptedConnection.pdb

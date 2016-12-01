@@ -15,7 +15,16 @@ namespace IndiePortable.Collections
     using System.Collections.Generic;
     using Formatter;
 
-
+    /// <summary>
+    /// Represents a queue that notifies subscribers when changes apply.
+    /// </summary>
+    /// <typeparam name="T">
+    ///     The type of the items in the <see cref="ObservableQueue{T}" />.
+    /// </typeparam>
+    /// <seealso cref="ICollection" />
+    /// <seealso cref="System.Collections.Generic.IEnumerable{T}" />
+    /// <seealso cref="IEnumerable" />
+    /// <seealso cref="ISerializable" />
     [Serializable]
     public class ObservableQueue<T>
         : ICollection, IEnumerable<T>, IEnumerable, ISerializable

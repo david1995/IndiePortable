@@ -1,6 +1,10 @@
-{
+﻿{
   "supports": {},
-  "dependencies": {},
+  "dependencies": {
+    "IndiePortable.Collections": "0.2.6.32854",
+    "IndiePortable.Communication": "0.1.2.28060",
+    "IndiePortable.Formatter": "0.2.1.32854"
+  },
   "frameworks": {
     ".NETPortable,Version=v4.5,Profile=Profile111": {}
   }

@@ -34,6 +34,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IndiePortable.Collections">
+      <HintPath>..\Collections\bin\Debug\IndiePortable.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="IndiePortable.Formatter">
+      <HintPath>..\Collections\bin\Debug\IndiePortable.Formatter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,36 +55,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AdvancedTasks\AdvancedTasks.csproj">
-      <Project>{3ef7714c-555e-4d15-b6c4-c523539e49a3}</Project>
-      <Name>AdvancedTasks</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Collections\Collections.csproj">
-      <Project>{4d764873-6c86-4ede-8612-336f5aba8ff6}</Project>
-      <Name>Collections</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Formatter\Formatter.csproj">
-      <Project>{e774e698-e2c3-4c82-af09-4fb00eb5aa35}</Project>
-      <Name>Formatter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndiePortable.Communication.EncryptedConnection\IndiePortable.Communication.EncryptedConnection.csproj">
-      <Project>{125e5bf8-bfbe-4fb6-ba04-d5b445d0fa92}</Project>
-      <Name>IndiePortable.Communication.EncryptedConnection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndiePortable.Communication.NetClassic\IndiePortable.Communication.NetClassic.csproj">
-      <Project>{737237fb-f3d5-4f9d-b3db-1dbb5c6fb353}</Project>
-      <Name>IndiePortable.Communication.NetClassic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndiePortable.Communication.Tcp\IndiePortable.Communication.Tcp.csproj">
-      <Project>{769e337b-2a8b-47c3-9455-736784ce8c6a}</Project>
-      <Name>IndiePortable.Communication.Tcp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndiePortable.Communication\IndiePortable.Communication.csproj">
-      <Project>{5744b8ef-9f6f-4778-9852-c4b5e463aa1d}</Project>
-      <Name>IndiePortable.Communication</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

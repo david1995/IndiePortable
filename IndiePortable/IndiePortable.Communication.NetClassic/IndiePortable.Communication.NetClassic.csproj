@@ -32,6 +32,30 @@
     <DocumentationFile>bin\Release\IndiePortable.Communication.NetClassic.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="IndiePortable.AdvancedTasks, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.AdvancedTasks.0.2.0\lib\portable45-net45+win8+wpa81\IndiePortable.AdvancedTasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IndiePortable.Collections, Version=0.2.6.32854, Culture=neutral, PublicKeyToken=c8a674b171b73565, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Collections.0.2.6.32854\lib\portable45-net45+win8+wpa81\IndiePortable.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IndiePortable.Communication, Version=0.1.2.28060, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Communication.0.1.2.28060\lib\portable45-net45+win8+wpa81\IndiePortable.Communication.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IndiePortable.Communication.EncryptedConnection, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Communication.EncryptedConnection.0.1.0\lib\portable45-net45+win8+wpa81\IndiePortable.Communication.EncryptedConnection.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IndiePortable.Communication.Tcp, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Communication.Tcp.0.1.0\lib\portable45-net45+win8+wpa81\IndiePortable.Communication.Tcp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="IndiePortable.Formatter, Version=0.2.1.32854, Culture=neutral, PublicKeyToken=2fd28104da1f974f, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Formatter.0.2.1.32854\lib\portable45-net45+win8+wpa81\IndiePortable.Formatter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -50,30 +74,7 @@
     <Compile Include="TcpConnectionListenerSettings.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AdvancedTasks\AdvancedTasks.csproj">
-      <Project>{3EF7714C-555E-4D15-B6C4-C523539E49A3}</Project>
-      <Name>AdvancedTasks</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Collections\Collections.csproj">
-      <Project>{4d764873-6c86-4ede-8612-336f5aba8ff6}</Project>
-      <Name>Collections</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Formatter\Formatter.csproj">
-      <Project>{e774e698-e2c3-4c82-af09-4fb00eb5aa35}</Project>
-      <Name>Formatter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndiePortable.Communication.EncryptedConnection\IndiePortable.Communication.EncryptedConnection.csproj">
-      <Project>{125e5bf8-bfbe-4fb6-ba04-d5b445d0fa92}</Project>
-      <Name>IndiePortable.Communication.EncryptedConnection</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndiePortable.Communication.Tcp\IndiePortable.Communication.Tcp.csproj">
-      <Project>{769e337b-2a8b-47c3-9455-736784ce8c6a}</Project>
-      <Name>IndiePortable.Communication.Tcp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndiePortable.Communication\IndiePortable.Communication.csproj">
-      <Project>{5744b8ef-9f6f-4778-9852-c4b5e463aa1d}</Project>
-      <Name>IndiePortable.Communication</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

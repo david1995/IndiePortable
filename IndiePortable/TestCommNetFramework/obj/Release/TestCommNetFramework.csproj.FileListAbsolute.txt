@@ -25,3 +25,4 @@ C:\Users\david\Source\Repos\IndiePortable\IndiePortable\TestCommNetFramework\bin
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\TestCommNetFramework\obj\Release\TestCommNetFramework.csprojResolveAssemblyReference.cache
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\TestCommNetFramework\obj\Release\TestCommNetFramework.exe
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\TestCommNetFramework\obj\Release\TestCommNetFramework.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\TestCommNetFramework\bin\Release\TestCommNetFramework.exe.config

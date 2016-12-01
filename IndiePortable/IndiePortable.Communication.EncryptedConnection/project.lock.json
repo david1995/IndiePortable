@@ -1,12 +1,86 @@
 {
   "locked": false,
-  "version": 1,
+  "version": 2,
   "targets": {
-    ".NETPortable,Version=v4.5,Profile=Profile111": {}
+    ".NETPortable,Version=v4.5,Profile=Profile111": {
+      "IndiePortable.Collections/0.2.6.32854": {
+        "type": "package",
+        "dependencies": {
+          "IndiePortable.Formatter": "0.2.1.32854"
+        },
+        "compile": {
+          "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
+        },
+        "runtime": {
+          "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
+        }
+      },
+      "IndiePortable.Communication/0.1.2.28060": {
+        "type": "package",
+        "dependencies": {
+          "IndiePortable.Collections": "0.2.6.32854"
+        },
+        "compile": {
+          "lib/portable45-net45+win8+wpa81/IndiePortable.Communication.dll": {}
+        },
+        "runtime": {
+          "lib/portable45-net45+win8+wpa81/IndiePortable.Communication.dll": {}
+        }
+      },
+      "IndiePortable.Formatter/0.2.1.32854": {
+        "type": "package",
+        "compile": {
+          "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
+        },
+        "runtime": {
+          "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "IndiePortable.Collections/0.2.6.32854": {
+      "sha512": "1Ry5Nd0CCHSsMpvx5lrEfYazkvpMmNkrqLhcLJywAgjEqK4kI8fkGv1NjNfbvhIhujDUPis6xLa8Wv9ZYGesLg==",
+      "type": "package",
+      "path": "IndiePortable.Collections/0.2.6.32854",
+      "files": [
+        "IndiePortable.Collections.0.2.6.32854.nupkg.sha512",
+        "IndiePortable.Collections.nuspec",
+        "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.XML",
+        "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll"
+      ]
+    },
+    "IndiePortable.Communication/0.1.2.28060": {
+      "sha512": "vT5sZ4eXYs2TbBufueswzKkiYG8ok1Ne7e7gaKj9wjS6bq+QLa7GBE94eJ4Fz9WDIqamhs7MoLMn2BfxLwdXOg==",
+      "type": "package",
+      "path": "IndiePortable.Communication/0.1.2.28060",
+      "files": [
+        "IndiePortable.Communication.0.1.2.28060.nupkg.sha512",
+        "IndiePortable.Communication.nuspec",
+        "lib/portable45-net45+win8+wpa81/IndiePortable.Communication.XML",
+        "lib/portable45-net45+win8+wpa81/IndiePortable.Communication.dll"
+      ]
+    },
+    "IndiePortable.Formatter/0.2.1.32854": {
+      "sha512": "8kaqBaJMuCHqvhlCeQrpSUTIjY36xNLjp+M4AURbkNP8POq2MmBiFok+F78BabyZNOoTGNmRRJ59H1vIwBXngA==",
+      "type": "package",
+      "path": "IndiePortable.Formatter/0.2.1.32854",
+      "files": [
+        "IndiePortable.Formatter.0.2.1.32854.nupkg.sha512",
+        "IndiePortable.Formatter.nuspec",
+        "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll",
+        "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.xml"
+      ]
+    }
+  },
   "projectFileDependencyGroups": {
-    "": [],
+    "": [
+      "IndiePortable.Collections >= 0.2.6.32854",
+      "IndiePortable.Communication >= 0.1.2.28060",
+      "IndiePortable.Formatter >= 0.2.1.32854"
+    ],
     ".NETPortable,Version=v4.5,Profile=Profile111": []
-  }
+  },
+  "tools": {},
+  "projectFileToolGroups": {}
 }

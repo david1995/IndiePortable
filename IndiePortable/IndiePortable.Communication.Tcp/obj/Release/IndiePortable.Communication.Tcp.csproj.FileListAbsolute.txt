@@ -13,3 +13,17 @@ C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communicat
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Release\IndiePortable.Communication.Tcp.csprojResolveAssemblyReference.cache
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Release\IndiePortable.Communication.Tcp.dll
 C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Release\IndiePortable.Communication.Tcp.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Communication.Tcp.XML
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Communication.Tcp.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Communication.Tcp.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Communication.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Formatter.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Collections.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Formatter.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Formatter.xml
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Communication.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Communication.xml
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Release\IndiePortable.Collections.xml
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Release\IndiePortable.Communication.Tcp.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Release\IndiePortable.Communication.Tcp.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Release\IndiePortable.Communication.Tcp.pdb

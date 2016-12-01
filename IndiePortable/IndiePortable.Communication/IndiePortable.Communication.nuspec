@@ -2,7 +2,7 @@
 <package >
     <metadata>
         <id>$id$</id>
-        <version>0.1.1.1</version>
+        <version>$version$</version>
         <title>$title$</title>
         <authors>$author$</authors>
         <owners>$author$</owners>
@@ -22,7 +22,7 @@ Version 0.1.0
 --------------------------------------------------------------------------------------------
 Initial release
         </releaseNotes>
-        <copyright>Copyright (c) 2016 by David Eiwen</copyright>
+        <copyright>Copyright &#169; 2016 by David Eiwen</copyright>
         <tags>Network Communication Connection IndiePortable</tags>
     </metadata>
 </package>

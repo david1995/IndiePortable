@@ -321,7 +321,9 @@ namespace IndiePortable.Collections
             this.RaiseCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
-
+        /// <summary>
+        /// Assures the lock of the <see cref="ObservableDynamicArray{T}" />.
+        /// </summary>
         protected void AssureLock()
         {
             if (this.monitor > 0)
@@ -333,10 +335,14 @@ namespace IndiePortable.Collections
             }
         }
 
-
+        /// <summary>
+        /// Locks the <see cref="ObservableDynamicArray{T}" />.
+        /// </summary>
         protected void Lock() => ++this.monitor;
 
-
+        /// <summary>
+        /// Unlocks the <see cref="ObservableDynamicArray{T}" />.
+        /// </summary>
         protected void Unlock() => --this.monitor;
 
         #region ICollection & IList method implementations

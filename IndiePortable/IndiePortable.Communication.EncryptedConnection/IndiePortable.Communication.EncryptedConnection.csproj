@@ -46,16 +46,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicKeyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Formatter\Formatter.csproj">
-      <Project>{e774e698-e2c3-4c82-af09-4fb00eb5aa35}</Project>
-      <Name>Formatter</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\IndiePortable.Communication\IndiePortable.Communication.csproj">
-      <Project>{5744B8EF-9F6F-4778-9852-C4B5E463AA1D}</Project>
-      <Name>IndiePortable.Communication</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
