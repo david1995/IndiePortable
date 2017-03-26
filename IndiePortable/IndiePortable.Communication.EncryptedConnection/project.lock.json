@@ -3,10 +3,10 @@
   "version": 2,
   "targets": {
     ".NETPortable,Version=v4.5,Profile=Profile111": {
-      "IndiePortable.Collections/0.2.6.32854": {
+      "IndiePortable.Collections/0.2.8": {
         "type": "package",
         "dependencies": {
-          "IndiePortable.Formatter": "0.2.1.32854"
+          "IndiePortable.Formatter": "0.2.2"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
@@ -15,10 +15,10 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
         }
       },
-      "IndiePortable.Communication/0.1.2.28060": {
+      "IndiePortable.Communication/0.2.0": {
         "type": "package",
         "dependencies": {
-          "IndiePortable.Collections": "0.2.6.32854"
+          "IndiePortable.Collections": "0.2.8"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Communication.dll": {}
@@ -27,7 +27,7 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Communication.dll": {}
         }
       },
-      "IndiePortable.Formatter/0.2.1.32854": {
+      "IndiePortable.Formatter/0.2.2": {
         "type": "package",
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
@@ -39,34 +39,34 @@
     }
   },
   "libraries": {
-    "IndiePortable.Collections/0.2.6.32854": {
-      "sha512": "1Ry5Nd0CCHSsMpvx5lrEfYazkvpMmNkrqLhcLJywAgjEqK4kI8fkGv1NjNfbvhIhujDUPis6xLa8Wv9ZYGesLg==",
+    "IndiePortable.Collections/0.2.8": {
+      "sha512": "GoqOInjRes4SEjQPV1na+XkCoHfTId12S7spXAKQiSKEmKYfYmXkjwUNl0a2CjrUi3ghkoYViT3UxJnQSDsIBw==",
       "type": "package",
-      "path": "IndiePortable.Collections/0.2.6.32854",
+      "path": "IndiePortable.Collections/0.2.8",
       "files": [
-        "IndiePortable.Collections.0.2.6.32854.nupkg.sha512",
+        "IndiePortable.Collections.0.2.8.nupkg.sha512",
         "IndiePortable.Collections.nuspec",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.XML",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll"
       ]
     },
-    "IndiePortable.Communication/0.1.2.28060": {
-      "sha512": "vT5sZ4eXYs2TbBufueswzKkiYG8ok1Ne7e7gaKj9wjS6bq+QLa7GBE94eJ4Fz9WDIqamhs7MoLMn2BfxLwdXOg==",
+    "IndiePortable.Communication/0.2.0": {
+      "sha512": "HTPBG27ai1q4EnHsas7BdnyM3BERQt6zMNk/YdnNjWs4vO4EESnCZ3GND3NU+/+/5UbYuTcRIfKYbnTLijnzVA==",
       "type": "package",
-      "path": "IndiePortable.Communication/0.1.2.28060",
+      "path": "IndiePortable.Communication/0.2.0",
       "files": [
-        "IndiePortable.Communication.0.1.2.28060.nupkg.sha512",
+        "IndiePortable.Communication.0.2.0.nupkg.sha512",
         "IndiePortable.Communication.nuspec",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Communication.XML",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Communication.dll"
       ]
     },
-    "IndiePortable.Formatter/0.2.1.32854": {
-      "sha512": "8kaqBaJMuCHqvhlCeQrpSUTIjY36xNLjp+M4AURbkNP8POq2MmBiFok+F78BabyZNOoTGNmRRJ59H1vIwBXngA==",
+    "IndiePortable.Formatter/0.2.2": {
+      "sha512": "Ehl9/0aCn5Lvgks8Tcmt9AKqS+B29Sb+TZDwGEoF/X5AmYJIIRf4D69waHbDu8CQTajWMjYJGrMhq7LOtsKWyw==",
       "type": "package",
-      "path": "IndiePortable.Formatter/0.2.1.32854",
+      "path": "IndiePortable.Formatter/0.2.2",
       "files": [
-        "IndiePortable.Formatter.0.2.1.32854.nupkg.sha512",
+        "IndiePortable.Formatter.0.2.2.nupkg.sha512",
         "IndiePortable.Formatter.nuspec",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.xml"
@@ -75,9 +75,9 @@
   },
   "projectFileDependencyGroups": {
     "": [
-      "IndiePortable.Collections >= 0.2.6.32854",
-      "IndiePortable.Communication >= 0.1.2.28060",
-      "IndiePortable.Formatter >= 0.2.1.32854"
+      "IndiePortable.Collections >= 0.2.8",
+      "IndiePortable.Communication >= 0.2.0",
+      "IndiePortable.Formatter >= 0.2.2"
     ],
     ".NETPortable,Version=v4.5,Profile=Profile111": []
   },

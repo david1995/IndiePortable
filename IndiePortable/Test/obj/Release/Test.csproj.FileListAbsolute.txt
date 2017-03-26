@@ -1,1 +1,10 @@
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\bin\Release\Test.exe.config
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\bin\Release\Test.exe
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\bin\Release\Test.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\bin\Release\IndiePortable.Collections.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\bin\Release\IndiePortable.Formatter.dll
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\bin\Release\IndiePortable.Collections.pdb
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\bin\Release\IndiePortable.Formatter.xml
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\obj\Release\Test.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\obj\Release\Test.exe
+K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\Test\obj\Release\Test.pdb

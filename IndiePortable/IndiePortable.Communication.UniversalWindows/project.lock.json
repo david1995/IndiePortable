@@ -3,9 +3,9 @@
   "version": 1,
   "targets": {
     "UAP,Version=v10.0": {
-      "IndiePortable.Collections/0.2.6.32854": {
+      "IndiePortable.Collections/0.2.8": {
         "dependencies": {
-          "IndiePortable.Formatter": "0.2.1.32854"
+          "IndiePortable.Formatter": "0.2.2"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
@@ -14,7 +14,7 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
         }
       },
-      "IndiePortable.Formatter/0.2.1.32854": {
+      "IndiePortable.Formatter/0.2.2": {
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
         },
@@ -2052,9 +2052,9 @@
       }
     },
     "UAP,Version=v10.0/win10-arm": {
-      "IndiePortable.Collections/0.2.6.32854": {
+      "IndiePortable.Collections/0.2.8": {
         "dependencies": {
-          "IndiePortable.Formatter": "0.2.1.32854"
+          "IndiePortable.Formatter": "0.2.2"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
@@ -2063,7 +2063,7 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
         }
       },
-      "IndiePortable.Formatter/0.2.1.32854": {
+      "IndiePortable.Formatter/0.2.2": {
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
         },
@@ -4181,9 +4181,9 @@
       }
     },
     "UAP,Version=v10.0/win10-arm-aot": {
-      "IndiePortable.Collections/0.2.6.32854": {
+      "IndiePortable.Collections/0.2.8": {
         "dependencies": {
-          "IndiePortable.Formatter": "0.2.1.32854"
+          "IndiePortable.Formatter": "0.2.2"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
@@ -4192,7 +4192,7 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
         }
       },
-      "IndiePortable.Formatter/0.2.1.32854": {
+      "IndiePortable.Formatter/0.2.2": {
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
         },
@@ -6349,9 +6349,9 @@
       }
     },
     "UAP,Version=v10.0/win10-x64": {
-      "IndiePortable.Collections/0.2.6.32854": {
+      "IndiePortable.Collections/0.2.8": {
         "dependencies": {
-          "IndiePortable.Formatter": "0.2.1.32854"
+          "IndiePortable.Formatter": "0.2.2"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
@@ -6360,7 +6360,7 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
         }
       },
-      "IndiePortable.Formatter/0.2.1.32854": {
+      "IndiePortable.Formatter/0.2.2": {
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
         },
@@ -8487,9 +8487,9 @@
       }
     },
     "UAP,Version=v10.0/win10-x64-aot": {
-      "IndiePortable.Collections/0.2.6.32854": {
+      "IndiePortable.Collections/0.2.8": {
         "dependencies": {
-          "IndiePortable.Formatter": "0.2.1.32854"
+          "IndiePortable.Formatter": "0.2.2"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
@@ -8498,7 +8498,7 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
         }
       },
-      "IndiePortable.Formatter/0.2.1.32854": {
+      "IndiePortable.Formatter/0.2.2": {
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
         },
@@ -10664,9 +10664,9 @@
       }
     },
     "UAP,Version=v10.0/win10-x86": {
-      "IndiePortable.Collections/0.2.6.32854": {
+      "IndiePortable.Collections/0.2.8": {
         "dependencies": {
-          "IndiePortable.Formatter": "0.2.1.32854"
+          "IndiePortable.Formatter": "0.2.2"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
@@ -10675,7 +10675,7 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
         }
       },
-      "IndiePortable.Formatter/0.2.1.32854": {
+      "IndiePortable.Formatter/0.2.2": {
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
         },
@@ -12802,9 +12802,9 @@
       }
     },
     "UAP,Version=v10.0/win10-x86-aot": {
-      "IndiePortable.Collections/0.2.6.32854": {
+      "IndiePortable.Collections/0.2.8": {
         "dependencies": {
-          "IndiePortable.Formatter": "0.2.1.32854"
+          "IndiePortable.Formatter": "0.2.2"
         },
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
@@ -12813,7 +12813,7 @@
           "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll": {}
         }
       },
-      "IndiePortable.Formatter/0.2.1.32854": {
+      "IndiePortable.Formatter/0.2.2": {
         "compile": {
           "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll": {}
         },
@@ -14980,23 +14980,23 @@
     }
   },
   "libraries": {
-    "IndiePortable.Collections/0.2.6.32854": {
-      "sha512": "1Ry5Nd0CCHSsMpvx5lrEfYazkvpMmNkrqLhcLJywAgjEqK4kI8fkGv1NjNfbvhIhujDUPis6xLa8Wv9ZYGesLg==",
+    "IndiePortable.Collections/0.2.8": {
+      "sha512": "GoqOInjRes4SEjQPV1na+XkCoHfTId12S7spXAKQiSKEmKYfYmXkjwUNl0a2CjrUi3ghkoYViT3UxJnQSDsIBw==",
       "type": "package",
-      "path": "IndiePortable.Collections/0.2.6.32854",
+      "path": "IndiePortable.Collections/0.2.8",
       "files": [
-        "IndiePortable.Collections.0.2.6.32854.nupkg.sha512",
+        "IndiePortable.Collections.0.2.8.nupkg.sha512",
         "IndiePortable.Collections.nuspec",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.XML",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Collections.dll"
       ]
     },
-    "IndiePortable.Formatter/0.2.1.32854": {
-      "sha512": "8kaqBaJMuCHqvhlCeQrpSUTIjY36xNLjp+M4AURbkNP8POq2MmBiFok+F78BabyZNOoTGNmRRJ59H1vIwBXngA==",
+    "IndiePortable.Formatter/0.2.2": {
+      "sha512": "Ehl9/0aCn5Lvgks8Tcmt9AKqS+B29Sb+TZDwGEoF/X5AmYJIIRf4D69waHbDu8CQTajWMjYJGrMhq7LOtsKWyw==",
       "type": "package",
-      "path": "IndiePortable.Formatter/0.2.1.32854",
+      "path": "IndiePortable.Formatter/0.2.2",
       "files": [
-        "IndiePortable.Formatter.0.2.1.32854.nupkg.sha512",
+        "IndiePortable.Formatter.0.2.2.nupkg.sha512",
         "IndiePortable.Formatter.nuspec",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.dll",
         "lib/portable45-net45+win8+wpa81/IndiePortable.Formatter.xml"
@@ -21009,6 +21009,8 @@
   },
   "projectFileDependencyGroups": {
     "": [
+      "IndiePortable.Communication.EncryptedConnection >= 0.2.0",
+      "IndiePortable.Communication.Tcp >= 0.2.0",
       "Microsoft.NETCore.UniversalWindowsPlatform >= 5.2.2"
     ],
     "UAP,Version=v10.0": []

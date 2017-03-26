@@ -506,6 +506,7 @@ namespace IndiePortable.Communication.NetClassic
                 this.isConnectedBacking = false;
                 this.messageReaderTask.Stop();
                 this.keepAliveCheckerTask.Stop();
+                this.keepAliveSenderTask.Stop();
                 this.RaiseDisconnected();
                 this.Dispose();
             }
@@ -917,9 +918,12 @@ namespace IndiePortable.Communication.NetClassic
                         {
                             this.Disconnect();
                         }
+                        catch (IOException)
+                        {
+                        }
                         finally
                         {
-                            connection.Stop();
+                            this.keepAliveCheckerTask.Stop();
                             this.Dispose();
                         }
                     }

@@ -1,5 +1,7 @@
 ﻿{
   "dependencies": {
+    "IndiePortable.Communication.EncryptedConnection": "0.2.0",
+    "IndiePortable.Communication.Tcp": "0.2.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2"
   },
   "frameworks": {

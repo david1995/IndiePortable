@@ -17,6 +17,5 @@ K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Release\IndiePortable.Formatter.dll
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Release\IndiePortable.Collections.xml
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Release\IndiePortable.Formatter.xml
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Release\IndiePortable.Communication.csprojResolveAssemblyReference.cache
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Release\IndiePortable.Communication.dll
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Release\IndiePortable.Communication.pdb

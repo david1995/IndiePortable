@@ -300,12 +300,13 @@ namespace IndiePortable.Communication.UniversalWindows
             this.connectionCache.AddMessageHandler(this.handlerDisconnect);
             this.connectionCache.AddMessageHandler(this.handlerKeepAlive);
             this.connectionCache.AddMessageHandler(this.handlerContent);
+            this.connectionCache.AddMessageHandler(this.handlerEncryptionRequest);
         }
 
         /// <summary>
         /// Finalizes an instance of the <see cref="TcpConnection" /> class.
         /// </summary>
-            ~TcpConnection()
+        ~TcpConnection()
         {
             this.Dispose(false);
         }

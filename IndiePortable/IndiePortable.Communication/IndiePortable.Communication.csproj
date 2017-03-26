@@ -67,12 +67,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="IndiePortable.Collections, Version=0.2.6.29635, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\IndiePortable.Collections.0.2.7\lib\portable45-net45+win8+wpa81\IndiePortable.Collections.dll</HintPath>
+    <Reference Include="IndiePortable.Collections, Version=0.2.8.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Collections.0.2.8\lib\portable45-net45+win8+wpa81\IndiePortable.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="IndiePortable.Formatter, Version=0.2.1.32854, Culture=neutral, PublicKeyToken=2fd28104da1f974f, processorArchitecture=MSIL">
-      <HintPath>..\packages\IndiePortable.Formatter.0.2.1.32854\lib\portable45-net45+win8+wpa81\IndiePortable.Formatter.dll</HintPath>
+    <Reference Include="IndiePortable.Formatter, Version=0.2.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\IndiePortable.Formatter.0.2.2\lib\portable45-net45+win8+wpa81\IndiePortable.Formatter.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
