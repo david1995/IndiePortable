@@ -653,7 +653,7 @@ namespace IndiePortable.Communication.UniversalWindows
                 using (var tempstr = new MemoryStream())
                 {
                     // serialize message into stream
-                    this.formatter.Serialize(str, message);
+                    this.formatter.Serialize(tempstr, message);
                     
                     byte[] toWrite;
                     if (this.IsSessionEncrypted)
@@ -720,7 +720,7 @@ namespace IndiePortable.Communication.UniversalWindows
                 using (var tempstr = new MemoryStream())
                 {
                     // serialize message into stream
-                    await Task.Factory.StartNew(() => this.formatter.Serialize(str, message));
+                    await Task.Factory.StartNew(() => this.formatter.Serialize(tempstr, message));
 
                     byte[] toWrite;
                     if (this.IsSessionEncrypted)

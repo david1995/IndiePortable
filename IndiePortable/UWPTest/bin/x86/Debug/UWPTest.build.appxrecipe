@@ -10,19 +10,22 @@
     <PackageArchitecture>x86</PackageArchitecture>
     <PackageIdentityName>75e7b13f-d4ca-42ab-a1f5-6d2c6ed2abea</PackageIdentityName>
     <PackageIdentityPublisher>CN=david</PackageIdentityPublisher>
-    <IntermediateOutputPath>K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\</IntermediateOutputPath>
+    <IntermediateOutputPath>K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\</IntermediateOutputPath>
     <RemoteDeploymentType></RemoteDeploymentType>
     <PackageRegistrationPath></PackageRegistrationPath>
     <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
+    <DeployOptionalPackages>false</DeployOptionalPackages>
+    <WindowsSdkPath>C:\Program Files %28x86%29\Windows Kits\10\</WindowsSdkPath>
+    <LayoutDir>K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\AppX</LayoutDir>
   </PropertyGroup>
   <ItemGroup>
-    <AppXManifest Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\Core\AppxManifest.xml">
+    <AppXManifest Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\UWPTest.exe">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\UWPTest.exe">
       <PackagePath>entrypoint\UWPTest.exe</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\david\.nuget\packages\IndiePortable.AdvancedTasks\0.2.0\lib\portable45-net45+win8+wpa81\IndiePortable.AdvancedTasks.dll">
@@ -376,111 +379,111 @@
     <AppxPackagedFile Include="C:\Users\david\.nuget\packages\System.Xml.XmlSerializer\4.0.11\lib\netcore50\System.Xml.XmlSerializer.dll">
       <PackagePath>System.Xml.XmlSerializer.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Debug\IndiePortable.Communication.dll">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication\bin\Debug\IndiePortable.Communication.dll">
       <PackagePath>IndiePortable.Communication.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Debug\IndiePortable.Communication.EncryptedConnection.dll">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Debug\IndiePortable.Communication.EncryptedConnection.dll">
       <PackagePath>IndiePortable.Communication.EncryptedConnection.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Communication.Tcp.dll">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Communication.Tcp.dll">
       <PackagePath>IndiePortable.Communication.Tcp.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.UniversalWindows\bin\Debug\IndiePortable.Communication.UniversalWindows.dll">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.UniversalWindows\bin\Debug\IndiePortable.Communication.UniversalWindows.dll">
       <PackagePath>IndiePortable.Communication.UniversalWindows.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\TestLib\bin\Debug\TestLib.dll">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\TestLib\bin\Debug\TestLib.dll">
       <PackagePath>TestLib.dll</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\Properties\Default.rd.xml">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\Properties\Default.rd.xml">
       <PackagePath>Properties\Default.rd.xml</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\Assets\LockScreenLogo.scale-200.png">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\Assets\LockScreenLogo.scale-200.png">
       <PackagePath>Assets\LockScreenLogo.scale-200.png</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\Assets\SplashScreen.scale-200.png">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\Assets\SplashScreen.scale-200.png">
       <PackagePath>Assets\SplashScreen.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\Assets\Square150x150Logo.scale-200.png">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\Assets\Square150x150Logo.scale-200.png">
       <PackagePath>Assets\Square150x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\Assets\Square44x44Logo.scale-200.png">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\Assets\Square44x44Logo.scale-200.png">
       <PackagePath>Assets\Square44x44Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\Assets\Square44x44Logo.targetsize-24_altform-unplated.png">
       <PackagePath>Assets\Square44x44Logo.targetsize-24_altform-unplated.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\Assets\StoreLogo.png">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\Assets\StoreLogo.png">
       <PackagePath>Assets\StoreLogo.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\Assets\Wide310x150Logo.scale-200.png">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\Assets\Wide310x150Logo.scale-200.png">
       <PackagePath>Assets\Wide310x150Logo.scale-200.png</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\UWPTest.xr.xml">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\UWPTest.xr.xml">
       <PackagePath>UWPTest.xr.xml</PackagePath>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\resources.pri">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\resources.pri">
       <PackagePath>resources.pri</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
     </AppxPackagedFile>
-    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\Core\UWPTest.exe">
+    <AppxPackagedFile Include="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\Core\UWPTest.exe">
       <PackagePath>UWPTest.exe</PackagePath>
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
-    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
-      <Name>Microsoft.NET.CoreRuntime.1.0</Name>
-      <Version>1.0.23819.0</Version>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.1\">
+      <Name>Microsoft.NET.CoreRuntime.1.1</Name>
+      <Version>1.1.25129.1</Version>
       <Architecture>ARM</Architecture>
-      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23819.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
-      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\ARM\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.1, MinVersion = 1.1.25129.1, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.1\.\AppX\ARM\Microsoft.NET.CoreRuntime.1.1.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
-    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
-      <Name>Microsoft.NET.CoreRuntime.1.0</Name>
-      <Version>1.0.23819.0</Version>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.1\">
+      <Name>Microsoft.NET.CoreRuntime.1.1</Name>
+      <Version>1.1.25129.1</Version>
       <Architecture>x64</Architecture>
-      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23819.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
-      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\x64\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.1, MinVersion = 1.1.25129.1, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.1\.\AppX\x64\Microsoft.NET.CoreRuntime.1.1.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
-    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\">
-      <Name>Microsoft.NET.CoreRuntime.1.0</Name>
-      <Version>1.0.23819.0</Version>
+    <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.1\">
+      <Name>Microsoft.NET.CoreRuntime.1.1</Name>
+      <Version>1.1.25129.1</Version>
       <Architecture>x86</Architecture>
-      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.0, MinVersion = 1.0.23819.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
-      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.0\.\AppX\x86\Microsoft.NET.CoreRuntime.1.0.appx</AppxLocation>
+      <FrameworkIdentity>Name = Microsoft.NET.CoreRuntime.1.1, MinVersion = 1.1.25129.1, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.NET.CoreRuntime\1.1\.\AppX\x86\Microsoft.NET.CoreRuntime.1.1.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.24629.0</Version>
+      <Version>14.0.25019.0</Version>
       <Architecture>ARM</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.24629.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.25019.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\ARM\Microsoft.VCLibs.ARM.Debug.14.00.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.24629.0</Version>
+      <Version>14.0.25019.0</Version>
       <Architecture>x64</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.24629.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.25019.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\x64\Microsoft.VCLibs.x64.Debug.14.00.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>
     <ResolvedSDKReference Include="C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\">
       <Name>Microsoft.VCLibs.140.00.Debug</Name>
-      <Version>14.0.24629.0</Version>
+      <Version>14.0.25019.0</Version>
       <Architecture>x86</Architecture>
-      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.24629.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
+      <FrameworkIdentity>Name = Microsoft.VCLibs.140.00.Debug, MinVersion = 14.0.25019.0, Publisher = %27CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US%27</FrameworkIdentity>
       <AppxLocation>C:\Program Files %28x86%29\Microsoft SDKs\Windows Kits\10\ExtensionSDKs\Microsoft.VCLibs\14.0\.\AppX\Debug\x86\Microsoft.VCLibs.x86.Debug.14.00.appx</AppxLocation>
       <MoreInfo></MoreInfo>
     </ResolvedSDKReference>

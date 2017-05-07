@@ -13,3 +13,7 @@ K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Debug\IndiePortable.Communication.EncryptedConnection.pdb
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Debug\IndiePortable.Communication.EncryptedConnection.dll
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Debug\IndiePortable.Communication.EncryptedConnection.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Debug\IndiePortable.Communication.EncryptedConnection.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\bin\Debug\IndiePortable.Communication.EncryptedConnection.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Debug\IndiePortable.Communication.EncryptedConnection.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Debug\IndiePortable.Communication.EncryptedConnection.pdb

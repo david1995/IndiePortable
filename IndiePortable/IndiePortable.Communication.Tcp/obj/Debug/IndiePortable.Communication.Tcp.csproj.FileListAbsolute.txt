@@ -20,3 +20,14 @@ K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Debug\IndiePortable.Communication.Tcp.csprojResolveAssemblyReference.cache
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Debug\IndiePortable.Communication.Tcp.dll
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Debug\IndiePortable.Communication.Tcp.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Communication.Tcp.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Communication.Tcp.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Communication.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Formatter.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Collections.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Formatter.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Communication.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\bin\Debug\IndiePortable.Collections.xml
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Debug\IndiePortable.Communication.Tcp.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Debug\IndiePortable.Communication.Tcp.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp\obj\Debug\IndiePortable.Communication.Tcp.pdb

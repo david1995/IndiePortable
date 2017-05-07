@@ -1,5 +1,4 @@
 {
-  "locked": false,
   "version": 2,
   "targets": {
     ".NETPortable,Version=v4.5,Profile=Profile111": {
@@ -42,7 +41,7 @@
     "IndiePortable.Collections/0.2.8": {
       "sha512": "GoqOInjRes4SEjQPV1na+XkCoHfTId12S7spXAKQiSKEmKYfYmXkjwUNl0a2CjrUi3ghkoYViT3UxJnQSDsIBw==",
       "type": "package",
-      "path": "IndiePortable.Collections/0.2.8",
+      "path": "indieportable.collections/0.2.8",
       "files": [
         "IndiePortable.Collections.0.2.8.nupkg.sha512",
         "IndiePortable.Collections.nuspec",
@@ -53,7 +52,7 @@
     "IndiePortable.Communication/0.2.0": {
       "sha512": "HTPBG27ai1q4EnHsas7BdnyM3BERQt6zMNk/YdnNjWs4vO4EESnCZ3GND3NU+/+/5UbYuTcRIfKYbnTLijnzVA==",
       "type": "package",
-      "path": "IndiePortable.Communication/0.2.0",
+      "path": "indieportable.communication/0.2.0",
       "files": [
         "IndiePortable.Communication.0.2.0.nupkg.sha512",
         "IndiePortable.Communication.nuspec",
@@ -64,7 +63,7 @@
     "IndiePortable.Formatter/0.2.2": {
       "sha512": "Ehl9/0aCn5Lvgks8Tcmt9AKqS+B29Sb+TZDwGEoF/X5AmYJIIRf4D69waHbDu8CQTajWMjYJGrMhq7LOtsKWyw==",
       "type": "package",
-      "path": "IndiePortable.Formatter/0.2.2",
+      "path": "indieportable.formatter/0.2.2",
       "files": [
         "IndiePortable.Formatter.0.2.2.nupkg.sha512",
         "IndiePortable.Formatter.nuspec",
@@ -81,6 +80,24 @@
     ],
     ".NETPortable,Version=v4.5,Profile=Profile111": []
   },
-  "tools": {},
-  "projectFileToolGroups": {}
+  "packageFolders": {
+    "C:\\Users\\david\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "restore": {
+      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj",
+      "projectName": "IndiePortable.Communication.EncryptedConnection",
+      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj",
+      "projectJsonPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\project.json",
+      "projectStyle": "ProjectJson"
+    },
+    "dependencies": {
+      "IndiePortable.Collections": "0.2.8",
+      "IndiePortable.Communication": "0.2.0",
+      "IndiePortable.Formatter": "0.2.2"
+    },
+    "frameworks": {
+      "portable45-net45+win8+wpa81": {}
+    }
+  }
 }

@@ -1,5 +1,4 @@
 {
-  "locked": false,
   "version": 2,
   "targets": {
     ".NETPortable,Version=v4.5,Profile=Profile111": {}
@@ -8,5 +7,20 @@
   "projectFileDependencyGroups": {
     "": [],
     ".NETPortable,Version=v4.5,Profile=Profile111": []
+  },
+  "packageFolders": {
+    "C:\\Users\\david\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "restore": {
+      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj",
+      "projectName": "Formatter",
+      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj",
+      "projectJsonPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter\\project.json",
+      "projectStyle": "ProjectJson"
+    },
+    "frameworks": {
+      "portable45-net45+win8+wpa81": {}
+    }
   }
 }
