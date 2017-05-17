@@ -11,6 +11,7 @@
 namespace IndiePortable.Formatter.MscorlibSurrogates
 {
     using System;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Provides serialization and de-serialization logic for the <see cref="DateTime" /> type.
@@ -34,7 +35,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
         }
 
 
-        public void GetData(object value, ObjectDataCollection data)
+        public void GetData(object value, SerializationInfo data)
         {
             if (object.ReferenceEquals(data, null))
             {
@@ -53,9 +54,9 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
         }
 
 
-        public void SetData(ref object value, ObjectDataCollection data)
+        public void SetData(ref object value, SerializationInfo data)
         {
-            if (object.ReferenceEquals(data, null))
+            if (data is null)
             {
                 throw new ArgumentNullException(nameof(data));
             }
@@ -67,11 +68,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
                     nameof(value));
             }
 
-            long ticks;
-            if (!data.TryGetValue(nameof(DateTime.Ticks), out ticks))
-            {
-                throw new ArgumentException("The data collection must contain the ticks of the desired DateTime value.", nameof(data));
-            }
+            var ticks = data.GetInt64(nameof(DateTime.Ticks));
 
             value = new DateTime(ticks);
         }

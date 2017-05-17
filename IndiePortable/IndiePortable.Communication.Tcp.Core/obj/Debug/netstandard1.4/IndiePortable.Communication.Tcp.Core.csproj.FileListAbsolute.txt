@@ -1,0 +1,7 @@
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\bin\Debug\netstandard1.4\IndiePortable.Communication.Tcp.Core.deps.json
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\bin\Debug\netstandard1.4\IndiePortable.Collections.Linq.dll
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\bin\Debug\netstandard1.4\IndiePortable.Communication.Core.dll
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\bin\Debug\netstandard1.4\IndiePortable.Formatter.dll
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\bin\Debug\netstandard1.4\IndiePortable.Formatter.pdb
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\obj\Debug\netstandard1.4\IndiePortable.Communication.Tcp.Core.csprojResolveAssemblyReference.cache
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\obj\Debug\netstandard1.4\IndiePortable.Communication.Tcp.Core.AssemblyInfo.cs

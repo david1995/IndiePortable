@@ -1,8 +1,3 @@
-C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\bin\Debug\IndiePortable.AdvancedTasks.dll
-C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\bin\Debug\IndiePortable.AdvancedTasks.pdb
-C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\IndiePortable.AdvancedTasks.dll
-C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\IndiePortable.AdvancedTasks.pdb
-C:\Users\david\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\AdvancedTasks.csprojResolveAssemblyReference.cache
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\AdvancedTasks\bin\Debug\IndiePortable.AdvancedTasks.dll
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\AdvancedTasks\bin\Debug\IndiePortable.AdvancedTasks.pdb
 K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\AdvancedTasks.csprojResolveAssemblyReference.cache
@@ -13,3 +8,7 @@ K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\AdvancedTask
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\AdvancedTasks.csprojResolveAssemblyReference.cache
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\IndiePortable.AdvancedTasks.dll
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\IndiePortable.AdvancedTasks.pdb
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\bin\Debug\IndiePortable.AdvancedTasks.dll
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\bin\Debug\IndiePortable.AdvancedTasks.pdb
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\IndiePortable.AdvancedTasks.dll
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\AdvancedTasks\obj\Debug\IndiePortable.AdvancedTasks.pdb

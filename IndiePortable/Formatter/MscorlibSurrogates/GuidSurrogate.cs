@@ -15,6 +15,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
     using System.Diagnostics;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.Serialization;
     using System.Text;
     using System.Threading.Tasks;
 
@@ -27,7 +28,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
         public Type TargetType { get { return typeof(Guid); } }
 
 
-        public void GetData(object value, ObjectDataCollection data)
+        public void GetData(object value, SerializationInfo data)
         {
             if (!(value is Guid))
             {
@@ -44,23 +45,19 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
             }
         }
 
-        public void SetData(ref object value, ObjectDataCollection data)
+        public void SetData(ref object value, SerializationInfo data)
         {
-            var length = data.GetValue<int>("Length");
+            var length = data.GetInt32("Length");
 
             var bytes = new byte[length];
 
             for (var n = 0; n < length; n++)
             {
-                bytes[n] = data.GetValue<byte>(n.ToString());
+                bytes[n] = data.GetByte(n.ToString());
             }
 
             var type = typeof(Guid).GetTypeInfo();
             value = new Guid(bytes);
-            /*
-            var constructor = type.DeclaredConstructors.First(c => c.GetParameters()[0].ParameterType == typeof(byte[]));
-            constructor.Invoke(value, new object[] { bytes });
-            */
         }
     }
 }

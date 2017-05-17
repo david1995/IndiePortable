@@ -441,9 +441,8 @@ namespace IndiePortable.Communication.Devices
                 this.messageHandlersSemaphore.Release();
             }
 
-            var rsp = e.ReceivedMessage as IMessageResponse;
 
-            if (rsp != null)
+            if (e.ReceivedMessage is IMessageResponse rsp)
             {
                 await this.waitingTasksSemaphore.WaitAsync();
                 this.waitingTasks.ForEach(t => t.PushMessage(rsp));

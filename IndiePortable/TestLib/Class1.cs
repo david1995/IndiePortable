@@ -24,8 +24,7 @@ namespace TestLib
         protected TextMessage(ObjectDataCollection data)
             : base(data)
         {
-            string message;
-            if (!data.TryGetValue(nameof(this.Message), out message))
+            if (!data.TryGetValue(nameof(this.Message), out string message))
             {
                 throw new ArgumentException();
             }

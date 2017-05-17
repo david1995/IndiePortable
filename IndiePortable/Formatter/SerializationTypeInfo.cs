@@ -25,7 +25,7 @@ namespace IndiePortable.Formatter
         /// The type information of the represented <see cref="Type" />.
         /// </summary>
         private TypeInfo typeInfo;
-        
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SerializationTypeInfo" /> class.
         /// </summary>
@@ -38,14 +38,7 @@ namespace IndiePortable.Formatter
         /// </exception>
         public SerializationTypeInfo(Type type)
         {
-            // TODO: implement mechanism support for .NET original SerializableAttribute attribute and ISerializable interface
-            // throw exception if type is null
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            this.ViewedType = type;
+            this.ViewedType = type ?? throw new ArgumentNullException(nameof(type));
             this.typeInfo = type.GetTypeInfo();
 
             // determine whether type is marked with legacy SerializableAttribute attribute
@@ -175,15 +168,11 @@ namespace IndiePortable.Formatter
             {
                 // search for constructor with ObjectData argument
                 this.DeserializationConstructor = (from c in this.typeInfo.DeclaredConstructors
-                                                   where c.GetParameters().Length == 1 &&
-                                                         c.GetParameters().Count(p => p.ParameterType == typeof(ObjectDataCollection)) == 1
-                                                   select c).FirstOrDefault();
-
-                if (this.DeserializationConstructor == null)
-                {
-                    throw new InvalidOperationException(
-                        $"{this.ViewedType} does not contain a constructor with only a {nameof(ObjectDataCollection)} parameter.");
-                }
+                                                   let p = c.GetParameters()
+                                                   where p.Length == 2
+                                                   where p[0].ParameterType == typeof(SerializationInfo)
+                                                   where p[1].ParameterType == typeof(StreamingContext)
+                                                   select c).Single();
             }
         }
 
@@ -198,23 +187,15 @@ namespace IndiePortable.Formatter
             {
                 // only search for a constructor with DeserializationConstructorAttribute when type is marked serializable
                 // set deserialization constructor -> must not be null
-                this.DeserializationConstructor = (from c in this.typeInfo.DeclaredConstructors
-                                                   where c.CustomAttributes.Any(a => a.AttributeType == typeof(DeserializationConstructorAttribute))
-                                                   select c).FirstOrDefault();
+                this.DeserializationConstructor = this.typeInfo.DeclaredConstructors
+                                                               .Where(c => !c.GetParameters().Any())
+                                                               .FirstOrDefault();
 
-                // search for parameterless constructor if no one with DeserializationConstructorAttribute could be found
-                if (this.DeserializationConstructor == null && !this.typeInfo.IsValueType)
+                // throw exception if no constructor with attribute and no parameterless constructor could be found
+                if (this.DeserializationConstructor == null)
                 {
-                    this.DeserializationConstructor = (from c in this.typeInfo.DeclaredConstructors
-                                                       where c.GetParameters().Length == 0
-                                                       select c).FirstOrDefault();
-
-                    // throw exception if no constructor with attribute and no parameterless constructor could be found
-                    if (this.DeserializationConstructor == null)
-                    {
-                        throw new InvalidOperationException(
-                            $"{this.ViewedType} does not contain a constructor with the {nameof(DeserializationConstructorAttribute)} attribute.");
-                    }
+                    throw new InvalidOperationException(
+                        $"{this.ViewedType} does not contain a parameterless constructor.");
                 }
             }
         }

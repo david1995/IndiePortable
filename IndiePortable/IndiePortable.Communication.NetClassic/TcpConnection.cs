@@ -877,8 +877,7 @@ namespace IndiePortable.Communication.NetClassic
 
                         using (var bufferStream = new MemoryStream(buffer, false))
                         {
-                            ConnectionMessageBase message;
-                            if (this.formatter.TryDeserialize(bufferStream, out message))
+                            if (this.formatter.TryDeserialize(bufferStream, out ConnectionMessageBase message))
                             {
                                 this.RaiseConnectionMessageReceived(message);
                             }

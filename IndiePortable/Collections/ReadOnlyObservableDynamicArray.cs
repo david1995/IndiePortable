@@ -47,12 +47,7 @@ namespace IndiePortable.Collections
         /// </exception>
         public ReadOnlyObservableDynamicArray(IObservableList<T> source)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            this.source = source;
+            this.source = source ?? throw new ArgumentNullException(nameof(source));
             this.source.CollectionChanged += this.Source_CollectionChanged;
             this.source.PropertyChanged += this.Source_PropertyChanged;
         }
@@ -90,34 +85,24 @@ namespace IndiePortable.Collections
         /// <remarks>
         ///     <para>Implements <see cref="IReadOnlyCollection{T}.Count" /> implicitly.</para>
         /// </remarks>
-        public int Count
-        {
-            get { return (this.source as IList<T>).Count; }
-        }
-        
-
-        bool IList.IsFixedSize
-        {
-            get { return false; }
-        }
-
-        bool IList.IsReadOnly
-        {
-            get { return true; }
-        }
+        public int Count =>  (this.source as IList<T>).Count;
 
 
-        bool ICollection.IsSynchronized { get; } = false;
+        bool IList.IsFixedSize => false;
+
+        bool IList.IsReadOnly => true;
 
 
-        object ICollection.SyncRoot { get; } = null;
+        bool ICollection.IsSynchronized => false;
+
+
+        object ICollection.SyncRoot => null;
 
 
         object IList.this[int index]
         {
-            get { return this[index]; }
-
-            set { throw new InvalidOperationException(); }
+            get => this[index];
+            set => throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -241,46 +226,34 @@ namespace IndiePortable.Collections
         }
 
 
-        int IList.Add(object value)
-        {
-            throw new InvalidOperationException();
-        }
+        int IList.Add(object value) => throw new InvalidOperationException();
 
-        void IList.Clear()
-        {
-            throw new InvalidOperationException();
-        }
-
+        void IList.Clear() => throw new InvalidOperationException();
 
         bool IList.Contains(object value)
             => value is T
              ? this.Contains((T)value)
              : false;
 
-
         int IList.IndexOf(object value)
             => value is T
              ? this.source.IndexOf((T)value)
              : -1;
-
 
         void IList.Insert(int index, object value)
         {
             throw new InvalidOperationException();
         }
 
-
         void IList.Remove(object value)
         {
             throw new InvalidOperationException();
         }
 
-
         void IList.RemoveAt(int index)
         {
             throw new InvalidOperationException();
         }
-
 
         void ICollection.CopyTo(Array array, int index)
             => (this.source as ICollection).CopyTo(array, index);

@@ -116,10 +116,9 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected override void ReplaceItem(TKey key, TValue newValue)
         {
-            TValue oldValue;
 
             // throw exception if key could not be found.
-            if (!this.TryGetValue(key, out oldValue))
+            if (!this.TryGetValue(key, out var oldValue))
             {
                 throw new ArgumentException("The specified key could not be found.", nameof(key));
             }
@@ -170,8 +169,7 @@ namespace IndiePortable.Collections
         /// </remarks>
         protected override bool RemoveItem(TKey key)
         {
-            TValue oldItem;
-            if (!this.TryGetValue(key, out oldItem))
+            if (!this.TryGetValue(key, out var oldItem))
             {
                 return false;
             }

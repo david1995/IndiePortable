@@ -105,18 +105,8 @@ namespace IndiePortable.Collections
         /// </exception>
         public ViewObservableDynamicArray(ObservableDynamicArray<TIn> source, Func<TIn, TOut> viewModelGenerator)
         {
-            if (source == null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (viewModelGenerator == null)
-            {
-                throw new ArgumentNullException(nameof(viewModelGenerator));
-            }
-            
-            this.sourceBacking = source;
-            this.ViewModelGeneratorCallback = viewModelGenerator;
+            this.sourceBacking = source ?? throw new ArgumentNullException(nameof(source));
+            this.ViewModelGeneratorCallback = viewModelGenerator ?? throw new ArgumentNullException(nameof(viewModelGenerator));
             this.mapping = new ArrayDictionary<TIn, TOut>();
             this.viewModels = new DynamicArray<TOut>();
             this.Source.CollectionChanged += this.Source_CollectionChanged;
@@ -212,9 +202,8 @@ namespace IndiePortable.Collections
 
         object IList.this[int index]
         {
-            get { return this[index]; }
-
-            set { throw new InvalidOperationException(); }
+            get => this[index];
+            set => throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -556,13 +545,7 @@ namespace IndiePortable.Collections
             /// </exception>
             public Enumerator(ViewObservableDynamicArray<TIn, TOut> enumerable)
             {
-                // throw exception if enumerable is null
-                if (enumerable == null)
-                {
-                    throw new ArgumentNullException(nameof(enumerable));
-                }
-
-                this.enumerable = enumerable;
+                this.enumerable = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
                 this.currentIndex = -1;
             }
 

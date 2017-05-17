@@ -240,10 +240,7 @@ namespace IndiePortable.Collections
         /// </value>
         public int Capacity
         {
-            get
-            {
-                return this.capacityBacking;
-            }
+            get => this.capacityBacking;
 
             private set
             {
@@ -263,10 +260,7 @@ namespace IndiePortable.Collections
         /// </exception>
         public double GrowthRate
         {
-            get
-            {
-                return this.growthRateBacking;
-            }
+            get => this.growthRateBacking;
 
             private set
             {
@@ -292,10 +286,7 @@ namespace IndiePortable.Collections
         /// </remarks>
         public int Count
         {
-            get
-            {
-                return this.countBacking;
-            }
+            get => this.countBacking;
 
             private set
             {

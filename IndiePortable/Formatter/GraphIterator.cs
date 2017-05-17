@@ -152,7 +152,7 @@ namespace IndiePortable.Formatter
         /// <exception cref="ArgumentNullException">
         ///     Thrown when <paramref name="surrogateSelectors" /> is <c>null</c>.
         /// </exception>
-        public Dictionary<int, ObjectDataCollection> GetGraphData(object graph, IEnumerable<ISurrogateSelector> surrogateSelectors)
+        public Dictionary<int, (SerializationInfo Info, int ObjectId, object Source)> GetGraphData(object graph, IEnumerable<ISurrogateSelector> surrogateSelectors)
         {
             // throw exception if surrogate selectors is null
             if (surrogateSelectors == null)
@@ -160,7 +160,7 @@ namespace IndiePortable.Formatter
                 throw new ArgumentNullException(nameof(surrogateSelectors));
             }
 
-            var ret = new Dictionary<int, ObjectDataCollection>();
+            var ret = new Dictionary<int, (SerializationInfo Info, int ObjectId, object Source)>();
             int currentID = 0;
             this.GetGraphData(graph, surrogateSelectors, ret, ref currentID);
             return ret;
@@ -304,7 +304,7 @@ namespace IndiePortable.Formatter
         private void GetGraphData(
             object graph,
             IEnumerable<ISurrogateSelector> surrogateSelectors,
-            Dictionary<int, ObjectDataCollection> currentObjects,
+            Dictionary<int, (SerializationInfo Info, int ObjectId, object Source)> currentObjects,
             ref int currentID)
         {
             // throw exception if value cannot be serialized
@@ -319,12 +319,14 @@ namespace IndiePortable.Formatter
                 return;
             }
 
-            var objData = new ObjectDataCollection(graph, currentID);
+            var objData = new SerializationInfo(graph.GetType(), new FormatterConverter());
+            var entry = (objData, currentID, graph);
 
             // special case -> graph is null
             if (graph == null)
             {
-                currentObjects.Add(currentID++, objData);
+                ////currentObjects.Add(currentID++, objData);
+                currentObjects.Add(currentID, entry);
                 return;
             }
 
@@ -338,7 +340,7 @@ namespace IndiePortable.Formatter
                 if (typeInfo.ImplementsISerializable)
                 {
                     // if the type additionally implements the ISerializable interface
-                    (graph as ISerializable).GetObjectData(objData);
+                    (graph as ISerializable).GetObjectData(objData, new StreamingContext());
                 }
                 else if (type.IsValueType && !type.IsPrimitive && !type.IsEnum)
                 {
@@ -409,13 +411,74 @@ namespace IndiePortable.Formatter
                     $"The {nameof(GraphIterator)} cannot collect data from objects of type {type.AssemblyQualifiedName}.");
             }
             
-            currentObjects.Add(currentID++, objData);
+            currentObjects.Add(currentID++, entry);
 
             // recursively check all field values
             foreach (var field in objData)
             {
                 this.GetGraphData(field.Value, surrogateSelectors, currentObjects, ref currentID);
             }
+        }
+
+        internal class FormatterConverter
+            : IFormatterConverter
+        {
+            public object Convert(object value, Type type)
+                => value is null && type.GetTypeInfo().IsClass
+                 ? value
+                 : type.GetTypeInfo().IsAssignableFrom(value.GetType().GetTypeInfo())
+                 ? value
+                 : throw new InvalidCastException();
+
+            public object Convert(object value, TypeCode typeCode)
+                => typeCode == TypeCode.Boolean ? (bool)value
+                 : typeCode == TypeCode.Byte ? (byte)value
+                 : typeCode == TypeCode.Char ? (char)value
+                 : typeCode == TypeCode.DateTime ? (DateTime)value
+                 : typeCode == TypeCode.Decimal ? (decimal)value
+                 : typeCode == TypeCode.Double ? (double)value
+                 : typeCode == TypeCode.Int16 ? (short)value
+                 : typeCode == TypeCode.Int32 ? (int)value
+                 : typeCode == TypeCode.Int64 ? (long)value
+                 : typeCode == TypeCode.SByte ? (sbyte)value
+                 : typeCode == TypeCode.Single ? (float)value
+                 : typeCode == TypeCode.UInt16 ? (ushort)value
+                 : typeCode == TypeCode.UInt32 ? (uint)value
+                 : typeCode == TypeCode.UInt64 ? (ulong)value
+                 : typeCode == TypeCode.String ? (string)value
+                 : typeCode == TypeCode.Object ? value
+                 : typeCode == TypeCode.Empty ? default(object)
+                 : throw new ArgumentException();
+
+            public bool ToBoolean(object value) => value is bool b ? b : throw new InvalidCastException();
+
+            public byte ToByte(object value) => value is byte b ? b : throw new InvalidCastException();
+
+            public char ToChar(object value) => value is char c ? c : throw new InvalidCastException();
+
+            public DateTime ToDateTime(object value) => value is DateTime d ? d : throw new InvalidCastException();
+
+            public decimal ToDecimal(object value) => value is decimal d ? d : throw new InvalidCastException();
+
+            public double ToDouble(object value) => value is double d ? d : throw new InvalidCastException();
+
+            public short ToInt16(object value) => value is short s ? s : throw new InvalidCastException();
+
+            public int ToInt32(object value) => value is int i ? i : throw new InvalidCastException();
+
+            public long ToInt64(object value) => value is long l ? l : throw new InvalidCastException();
+
+            public sbyte ToSByte(object value) => value is sbyte s ? s : throw new InvalidCastException();
+
+            public float ToSingle(object value) => value is float f ? f : throw new InvalidCastException();
+
+            public string ToString(object value) => value.ToString();
+
+            public ushort ToUInt16(object value) => value is ushort u ? u : throw new InvalidCastException();
+
+            public uint ToUInt32(object value) => value is uint u ? u : throw new InvalidCastException();
+
+            public ulong ToUInt64(object value) => value is ulong u ? u : throw new InvalidCastException();
         }
     }
 }

@@ -57,13 +57,7 @@ namespace IndiePortable.Formatter
         /// </exception>
         public SerializedVersionAttribute(Version version)
         {
-            // throw exception if version is null
-            if (version == null)
-            {
-                throw new ArgumentNullException(nameof(version));
-            }
-
-            this.Version = version;
+            this.Version = version ?? throw new ArgumentNullException(nameof(version));
             this.Major = version.Major;
             this.Minor = version.Minor;
             this.Build = version.Build;

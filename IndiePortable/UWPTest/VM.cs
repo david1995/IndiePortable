@@ -25,7 +25,6 @@ namespace UWPTest
         : INotifyPropertyChanged
     {
 
-
         private IConnection<IPPortAddressInfo> connection;
         private string remoteHostName;
         private ushort remotePort;
@@ -50,10 +49,7 @@ namespace UWPTest
 
         public string RemoteHostName
         {
-            get
-            {
-                return this.remoteHostName;
-            }
+            get => this.remoteHostName;
 
             set
             {
@@ -65,10 +61,7 @@ namespace UWPTest
 
         public ushort RemotePort
         {
-            get
-            {
-                return this.remotePort;
-            }
+            get => this.remotePort;
 
             set
             {
@@ -80,10 +73,7 @@ namespace UWPTest
 
         public bool IsInactive
         {
-            get
-            {
-                return this.isInactive;
-            }
+            get => this.isInactive;
 
             private set
             {
@@ -95,10 +85,7 @@ namespace UWPTest
 
         public string Output
         {
-            get
-            {
-                return this.output;
-            }
+            get => this.output;
 
             private set
             {
