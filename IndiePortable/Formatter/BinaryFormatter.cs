@@ -288,8 +288,7 @@ namespace IndiePortable.Formatter
         /// </returns>
         public object Deserialize(Stream source)
         {
-            object ret;
-            var exc = this.SafeDeserialize(source, out ret);
+            var exc = this.SafeDeserialize(source, out var ret);
 
             // throw exception if necessary
             if (exc != null)
@@ -326,8 +325,7 @@ namespace IndiePortable.Formatter
                 throw new ArgumentNullException(nameof(source));
             }
 
-            T ret;
-            var exc = this.SafeDeserialize<T>(source, out ret);
+            var exc = this.SafeDeserialize<T>(source, out var ret);
 
             // throw exception if necessary
             if (exc != null)

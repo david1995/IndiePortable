@@ -259,7 +259,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
             foreach (var obj in structs)
             {
                 // then generate object data
-                var retData = new ObjectDataCollection(obj.Result, obj.ObjectID);
+                var retData = new SerializationInfo(Type.GetType(obj.ClrType), new GraphIterator.FormatterConverter());
 
                 // populate object data
                 foreach (var property in obj.Properties)
@@ -314,7 +314,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
             foreach (var obj in notstructs)
             {
                 // then generate object data
-                var retData = new ObjectDataCollection(obj.Result, obj.ObjectID);
+                var retData = new SerializationInfo(Type.GetType(obj.ClrType), new GraphIterator.FormatterConverter());
 
                 if ((ObjectType)obj.FullType[0] == ObjectType.Array)
                 {
@@ -457,7 +457,11 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                         switch (objType)
                         {
                             case ObjectType.Object: // object -> write properties
-                                SerializeObjectFields(objstr, kv.Value, data);
+                                SerializeObjectFields(
+                                    objstr,
+                                    kv.Value.Info,
+                                    kv.Value.Source,
+                                    data);
                                 break;
 
                             case ObjectType.Primitive: // primitive value
@@ -478,7 +482,11 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                                 break;
 
                             case ObjectType.Array:
-                                SerializeArray(objstr, kv.Value, data);
+                                SerializeArray(
+                                    objstr,
+                                    kv.Value.Info,
+                                    kv.Value.Source,
+                                    data);
                                 break;
 
                             case ObjectType.Null: break; // break when null
@@ -498,7 +506,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                     memstr.Write(objTypeBytes, 0, objTypeBytes.Length);
 
                     // buffer clr type name
-                    var typeName = kv.Value?.ClrType?.AssemblyQualifiedName;
+                    var typeName = kv.Value.Info?.ObjectType?.AssemblyQualifiedName;
                     var typeNameBytes = BinaryFormatter.GetLengthPrefixedString(typeName);
                     memstr.Write(typeNameBytes, 0, typeNameBytes.Length);
 
@@ -731,13 +739,17 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
         }
 
 
-        private static void SerializeArray(MemoryStream target, ObjectDataCollection source, IReadOnlyDictionary<int, ObjectDataCollection> objects)
+        private static void SerializeArray(
+            MemoryStream target,
+            SerializationInfo info,
+            object source,
+            IReadOnlyDictionary<int, (SerializationInfo Info, int ObjectId, object Source)> objects)
         {
             // | ElementClrType : LPStr | rank : 32 | dimensionLength : 32 ... || index : 32 ... | element || ...
-            var array = source.Source as Array;
+            var array = source is Array a ? a : throw new ArgumentException();
 
             // Element Clr Type
-            var clrType = BinaryFormatter.GetLengthPrefixedString(source.ClrType.GetElementType().AssemblyQualifiedName);
+            var clrType = BinaryFormatter.GetLengthPrefixedString(info.ObjectType.GetElementType().AssemblyQualifiedName);
             target.Write(clrType, 0, clrType.Length);
 
             // rank
@@ -844,15 +856,19 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
         /// <param name="target">
         ///     The target <see cref="MemoryStream" />.
         /// </param>
-        /// <param name="source">
+        /// <param name="info">
         ///     The <see cref="ObjectDataCollection" /> providing data for the serialization.
         /// </param>
         /// <param name="objects">
         ///     The list of all objects in the graph.
         /// </param>
-        private static void SerializeObjectFields(MemoryStream target, ObjectDataCollection source, IReadOnlyDictionary<int, ObjectDataCollection> objects)
+        private static void SerializeObjectFields(
+            MemoryStream target,
+            SerializationInfo info,
+            object source,
+            IReadOnlyDictionary<int, (SerializationInfo Info, int ObjectId, object Source)> objects)
         {
-            foreach (var field in source)
+            foreach (var field in info)
             {
                 // write field type
                 var fieldTypeBytes = ObjectAnalyzer.GetObjectType(field.Value);
@@ -865,7 +881,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                 var fieldMinorType = (PrimitiveType)fieldTypeBytes[1];
                 
                 // write field name
-                var fieldNameBytes = BinaryFormatter.GetLengthPrefixedString(field.Key);
+                var fieldNameBytes = BinaryFormatter.GetLengthPrefixedString(field.Name);
                 target.Write(fieldNameBytes, 0, fieldNameBytes.Length);
 
                 // get content
@@ -1003,7 +1019,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
             Type type,
             TypeInfo typeInfo,
             SerializationTypeInfo serType,
-            ObjectDataCollection valueData,
+            SerializationInfo valueData,
             IEnumerable<ISurrogateSelector> surrogateSelectors)
         {
             if (value == null)
@@ -1018,13 +1034,17 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                 if (serType.ImplementsISerializable)
                 {
                     // if the type additionally implements the ISerializable interface
-                    var constructor = typeInfo.DeclaredConstructors.First(
-                        c => c.GetParameters().Length == 1 && c.GetParameters().FirstOrDefault()?.ParameterType == typeof(ObjectDataCollection));
+                    var constructor = typeInfo.DeclaredConstructors.Where(c => c.GetParameters().Length == 2)
+                                                                   .Select(c => (Constructor: c, Params: c.GetParameters()))
+                                                                   .Where(c => c.Params[0].ParameterType == typeof(SerializationInfo))
+                                                                   .Where(c => c.Params[1].ParameterType == typeof(StreamingContext))
+                                                                   .Select(c => c.Constructor)
+                                                                   .SingleOrDefault();
 
                     if (constructor == null)
                     {
                         throw new SerializationException(
-                            $"The type '{typeInfo}' does not contain a constructor providing the first parameter as a {nameof(ObjectDataCollection)} parameter.");
+                            $"The type '{typeInfo}' does not contain the deserialization constructor.");
                     }
 
                     constructor.Invoke(value, new object[] { valueData });
@@ -1034,7 +1054,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                     // else if type is struct -> simply set values
                     foreach (var field in typeInfo.DeclaredFields.Where(f => !f.IsInitOnly))
                     {
-                        field.SetValue(value, valueData.GetValue(field.Name));
+                        field.SetValue(value, valueData.GetValue(field.Name, typeof(object)));
                     }
                 }
                 else
@@ -1043,33 +1063,15 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                     // -> search for DeserializationConstructorAttribute or parameterless constructor
                     var constructor = serType.DeserializationConstructor;
                     ////typeInfo.DeclaredConstructors.FirstOrDefault(c => c.CustomAttributes.Any(a => a.AttributeType == typeof(DeserializationConstructorAttribute)));
-                    var constructorAttribute = constructor.CustomAttributes.First(a => a.AttributeType == typeof(DeserializationConstructorAttribute));
-
-                    object[] constructorArguments;
-                    if (constructorAttribute.ConstructorArguments.Count == 1 &&
-                        constructorAttribute.ConstructorArguments.First().ArgumentType == typeof(string[]))
-                    {
-                        var valueNames = constructorAttribute.ConstructorArguments[0].Value as string[];
-                        constructorArguments = new object[valueNames.Length];
-
-                        for (var n = 0; n < valueNames.Length; n++)
-                        {
-                            constructorArguments[n] = valueData.GetValue(valueNames[n]);
-                        }
-                    }
-                    else
-                    {
-                        constructorArguments = new object[0];
-                    }
-
+                    
                     if (constructor != null)
                     {
-                        constructor.Invoke(value, constructorArguments);
+                        constructor.Invoke(value, new object[0]);
                     }
 
                     foreach (var field in valueData)
                     {
-                        var fieldInfo = typeInfo.GetDeclaredField(field.Key);
+                        var fieldInfo = typeInfo.GetDeclaredField(field.Name);
                         fieldInfo.SetValue(value, field.Value);
                     }
                 }
@@ -1106,8 +1108,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
 
                 foreach (var elem in valueData)
                 {
-                    var arrayElem = elem.Value as ArrayElement;
-                    if (arrayElem != null)
+                    if (elem.Value is ArrayElement arrayElem)
                     {
                         array.SetValue(arrayElem.Value, arrayElem.Indices);
                     }
@@ -1125,25 +1126,13 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                 ////dynamic surrogate = method.MakeGenericMethod(type).Invoke(surrogateSelector, new object[0]);
                 surrogate.SetData(ref value, valueData);
             }
-            else if (typeInfo.IsArray)
+            else if (typeInfo.IsArray && value is Array array)
             {
-                int length;
-                if (!valueData.TryGetValue(nameof(Array.Length), out length))
-                {
-                    throw new SerializationException("The value data for an array must at least contain the Length attribute to be valid.");
-                }
-                
-                var array = value as Array;
+                var length = valueData.GetInt32(nameof(Array.Length));
 
                 for (int n = 0; n < length; n++)
                 {
-                    object indexVal;
-                    if (!valueData.TryGetValue(n.ToString(), out indexVal))
-                    {
-                        throw new SerializationException($"The specified {nameof(ObjectDataCollection)} for the array does not contain the element at position {n}.");
-                    }
-                    
-                    // TODO: multi-dimensional array support
+                    var indexVal = valueData.GetValue(n.ToString(), typeof(object));
                     array.SetValue(indexVal, n);
                 }
             }

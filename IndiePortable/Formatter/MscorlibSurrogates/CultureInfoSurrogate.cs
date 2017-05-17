@@ -14,6 +14,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
     using System.Globalization;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Provides serialization and de-serialization logic for the <see cref="CultureInfo" /> type.
@@ -26,7 +27,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
         public Type TargetType { get { return typeof(CultureInfo); } }
 
 
-        public void GetData(object value, ObjectDataCollection data)
+        public void GetData(object value, SerializationInfo data)
         {
             if (object.ReferenceEquals(data, null))
             {
@@ -42,9 +43,9 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
             data.AddValue(nameof(CultureInfo.Name), val.Name);
         }
 
-        public void SetData(ref object value, ObjectDataCollection data)
+        public void SetData(ref object value, SerializationInfo data)
         {
-            if (object.ReferenceEquals(data, null))
+            if (data is null)
             {
                 throw new ArgumentNullException(nameof(data));
             }
@@ -55,11 +56,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
                 throw new ArgumentException(nameof(value));
             }
 
-            string name;
-            if (!data.TryGetValue(nameof(CultureInfo.Name), out name))
-            {
-                throw new ArgumentException();
-            }
+            var name = data.GetString(nameof(CultureInfo.Name));
 
             var info = new CultureInfo(name);
 

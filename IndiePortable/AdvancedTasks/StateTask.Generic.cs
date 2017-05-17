@@ -63,9 +63,8 @@ namespace IndiePortable.AdvancedTasks
         [Obsolete("The StateTask<T> class is deprecated. Use the StateTask class instead.", true)]
         public T StateObject
         {
-            get { throw new NotImplementedException(); }
-
-            set { throw new NotImplementedException(); }
+            get => throw new NotImplementedException();
+            set => throw new NotImplementedException();
         }
 
         /// <summary>

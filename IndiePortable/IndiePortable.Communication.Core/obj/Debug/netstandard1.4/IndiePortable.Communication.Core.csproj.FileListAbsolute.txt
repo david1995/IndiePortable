@@ -1,0 +1,4 @@
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Core\bin\Debug\netstandard1.4\IndiePortable.Communication.Core.deps.json
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Core\bin\Debug\netstandard1.4\IndiePortable.Communication.Core.dll
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Core\obj\Debug\netstandard1.4\IndiePortable.Communication.Core.csprojResolveAssemblyReference.cache
+C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Core\obj\Debug\netstandard1.4\IndiePortable.Communication.Core.AssemblyInfo.cs

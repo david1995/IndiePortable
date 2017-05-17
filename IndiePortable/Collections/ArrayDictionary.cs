@@ -192,8 +192,7 @@ namespace IndiePortable.Collections
         {
             get
             {
-                TValue ret;
-                var success = this.TryGetValue(key, out ret);
+                var success = this.TryGetValue(key, out var ret);
 
                 if (!success)
                 {
@@ -776,13 +775,7 @@ namespace IndiePortable.Collections
             /// </exception>
             public Enumerator(ArrayDictionary<TKey, TValue> enumerable)
             {
-                // throw exception if enumerable is null
-                if (enumerable == null)
-                {
-                    throw new ArgumentNullException(nameof(enumerable));
-                }
-
-                this.enumerable = enumerable;
+                this.enumerable = enumerable ?? throw new ArgumentNullException(nameof(enumerable));
                 this.currentIndex = -1;
             }
 

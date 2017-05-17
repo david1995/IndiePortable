@@ -12,6 +12,7 @@ namespace IndiePortable.Formatter
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Provides a surrogate for all <see cref="ICollection{T}" /> instances.
@@ -45,17 +46,14 @@ namespace IndiePortable.Formatter
         ///     The <see cref="ICollection{T}" /> that shall be serialized.
         /// </param>
         /// <param name="data">
-        ///     The <see cref="ObjectDataCollection" /> that shall be populated.
+        ///     The <see cref="SerializationInfo" /> to be populated.
         /// </param>
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if:</para>
         ///     <para>  - <paramref name="value" /> is <c>null</c>.</para>
         ///     <para>  - <paramref name="data" /> is <c>null</c>.</para>
         /// </exception>
-        /// <remarks>
-        ///     Implements <see cref="ISurrogate.GetData(object, ObjectDataCollection)" /> implicitly.
-        /// </remarks>
-        public void GetData(object value, ObjectDataCollection data)
+        public void GetData(object value, SerializationInfo data)
         {
             var val = value as ICollection<T>;
 
@@ -88,17 +86,14 @@ namespace IndiePortable.Formatter
         ///     The <see cref="ICollection{T}" /> that shall be populated with values.
         /// </param>
         /// <param name="data">
-        ///     The <see cref="ObjectDataCollection" /> populated with information for <paramref name="value" />.
+        ///     The <see cref="SerializationInfo" /> populated with information for <paramref name="value" />.
         /// </param>
         /// <exception cref="ArgumentNullException">
         ///     <para>Thrown if:</para>
         ///     <para>  - <paramref name="value" /> is <c>null</c>.</para>
         ///     <para>  - <paramref name="data" /> is <c>null</c>.</para>
         /// </exception>
-        /// <remarks>
-        ///     Implements <see cref="ISurrogate.SetData(ref object, ObjectDataCollection)" /> implicitly.
-        /// </remarks>
-        public void SetData(ref object value, ObjectDataCollection data)
+        public void SetData(ref object value, SerializationInfo data)
         {
             var val = value as ICollection<T>;
 
@@ -114,11 +109,11 @@ namespace IndiePortable.Formatter
                 throw new ArgumentNullException(nameof(value));
             }
 
-            var count = data.GetValue<int>("Count");
+            var count = data.GetInt32("Count");
 
             for (var current = 0; current < count; current++)
             {
-                val.Add(data.GetValue<T>(current.ToString()));
+                val.Add((T)data.GetValue(current.ToString(), typeof(T)));
             }
         }
     }

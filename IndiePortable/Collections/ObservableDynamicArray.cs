@@ -168,8 +168,7 @@ namespace IndiePortable.Collections
 
         object IList.this[int index]
         {
-            get { return this[index]; }
-
+            get => this[index];
             set
             {
                 if (value is T)

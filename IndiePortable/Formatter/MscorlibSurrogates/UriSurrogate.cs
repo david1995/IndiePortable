@@ -13,6 +13,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
     using System;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.Serialization;
 
     internal sealed class UriSurrogate
         : ISurrogate
@@ -38,7 +39,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
         public Type TargetType => typeof(Uri);
 
 
-        public void GetData(object value, ObjectDataCollection data)
+        public void GetData(object value, SerializationInfo data)
         {
             if (object.ReferenceEquals(value, null))
             {
@@ -60,14 +61,14 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
         }
 
 
-        public void SetData(ref object value, ObjectDataCollection data)
+        public void SetData(ref object value, SerializationInfo data)
         {
-            if (object.ReferenceEquals(value, null))
+            if (value is null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
 
-            if (object.ReferenceEquals(data, null))
+            if (data is null)
             {
                 throw new ArgumentNullException(nameof(data));
             }
@@ -77,11 +78,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
                 throw new ArgumentException();
             }
 
-            string asString;
-            if (!data.TryGetValue("AsString", out asString))
-            {
-                throw new ArgumentException();
-            }
+            var asString = data.GetString("AsString");
 
             this.constructor.Invoke(value, new object[] { asString });
         }

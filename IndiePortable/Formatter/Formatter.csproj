@@ -2,7 +2,7 @@
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
+    <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Release</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E774E698-E2C3-4C82-AF09-4FB00EB5AA35}</ProjectGuid>
@@ -13,8 +13,9 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile111</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -53,13 +54,9 @@
   <ItemGroup>
     <Compile Include="BinaryFormatter.cs" />
     <Compile Include="DataContractSurrogate.cs" />
-    <Compile Include="DeserializationConstructorAttribute.cs" />
     <Compile Include="FieldData.cs" />
     <Compile Include="CollectionSurrogate.cs" />
-    <Compile Include="Protocol2_0_0_0\FormatterState.cs" />
-    <Compile Include="Protocol2_0_0_0\IProtocol.cs" />
     <Compile Include="IProtocolFormatter.cs" />
-    <Compile Include="ISerializable.cs" />
     <Compile Include="ISurrogate.cs" />
     <Compile Include="ISurrogateSelector.cs" />
     <Compile Include="MscorlibSurrogates\CultureInfoSurrogate.cs" />
@@ -69,7 +66,6 @@
     <Compile Include="MscorlibSurrogates\TimeSpanSurrogate.cs" />
     <Compile Include="MscorlibSurrogates\UriSurrogate.cs" />
     <Compile Include="ObjectAnalyzer.cs" />
-    <Compile Include="ObjectDataCollection.cs" />
     <Compile Include="Protocol1_0_0_0\ArrayElement.cs" />
     <Compile Include="Protocol1_0_0_0\BinaryArrayElement.cs" />
     <Compile Include="Protocol1_0_0_0\BinaryArrayRepresentation.cs" />
@@ -79,26 +75,7 @@
     <Compile Include="Protocol1_0_0_0\BinaryObjectRepresentation.cs" />
     <Compile Include="Protocol1_0_0_0\BinaryValueRepresentation.cs" />
     <Compile Include="Protocol1_0_0_0\ProtocolFormatter.cs" />
-    <Compile Include="Protocol1_1_0_0\ObjectPrimitiveType.cs" />
-    <Compile Include="Protocol1_1_0_0\ObjectPropertyPrimitiveValue.cs" />
-    <Compile Include="Protocol1_1_0_0\ObjectPropertyRefValue.cs" />
-    <Compile Include="Protocol1_1_0_0\ObjectPropertyValue.cs" />
-    <Compile Include="Protocol1_1_0_0\PrimitiveByteObject.cs" />
-    <Compile Include="Protocol1_1_0_0\RefByteObject.cs" />
-    <Compile Include="Protocol1_1_0_0\ByteObjectProperty.cs" />
-    <Compile Include="Protocol1_1_0_0\HeaderInformation.cs" />
-    <Compile Include="Protocol1_1_0_0\ByteObjectBase.cs" />
-    <Compile Include="Protocol1_1_0_0\ObjectFormatter.cs" />
-    <Compile Include="Protocol1_1_0_0\ByteObjectHeader.cs" />
-    <Compile Include="Protocol1_1_0_0\ObjectType.cs" />
-    <Compile Include="Protocol1_1_0_0\Package.cs" />
-    <Compile Include="Protocol1_1_0_0\PackagePart.cs" />
-    <Compile Include="Protocol1_1_0_0\ProtocolFormatter.cs" />
-    <Compile Include="Protocol2_0_0_0\NullRule.cs" />
-    <Compile Include="Protocol2_0_0_0\ProtocolRule.cs" />
-    <Compile Include="Protocol2_0_0_0\ReferenceTypeRule.cs" />
     <Compile Include="ProtocolVersionNotSupportedException.cs" />
-    <Compile Include="SerializableAttribute.cs" />
     <Compile Include="GraphIterator.cs" />
     <Compile Include="SerializableSurrogate.cs" />
     <Compile Include="SerializedAttribute.cs" />
@@ -106,9 +83,7 @@
     <Compile Include="SerializedVersionAttribute.cs" />
     <Compile Include="SerializationTypeInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Protocol2_0_0_0\Binary\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

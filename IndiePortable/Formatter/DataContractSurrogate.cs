@@ -70,7 +70,7 @@ namespace IndiePortable.Formatter
         ///         and properties and fields that shall be (de-)serialized must be marked with the <see cref="DataMemberAttribute" /> attribute.
         ///     </para>
         /// </remarks>
-        void ISurrogate.GetData(object value, ObjectDataCollection data)
+        void ISurrogate.GetData(object value, SerializationInfo data)
         {
             // throw exception if value is null
             if (value == null)
@@ -141,7 +141,7 @@ namespace IndiePortable.Formatter
         ///         and properties and fields that shall be (de-)serialized must be marked with the <see cref="DataMemberAttribute" /> attribute.
         ///     </para>
         /// </remarks>
-        void ISurrogate.SetData(ref object value, ObjectDataCollection data)
+        void ISurrogate.SetData(ref object value, SerializationInfo data)
         {
             // throw exception if value is null
             if (value == null)
@@ -168,7 +168,7 @@ namespace IndiePortable.Formatter
             // enumerate fields
             foreach (var field in type.DeclaredFields.Where(f => f.GetCustomAttribute<DataMemberAttribute>() != null))
             {
-                field.SetValue(value, data.GetValue(field.Name));
+                field.SetValue(value, data.GetValue(field.Name, field.FieldType));
             }
 
             // enumerate properties
@@ -181,7 +181,7 @@ namespace IndiePortable.Formatter
                         $"The property {property.Name} of type {type.AssemblyQualifiedName} must have a getter as well as a setter method.");
                 }
 
-                property.SetValue(value, data.GetValue(property.Name));
+                property.SetValue(value, data.GetValue(property.Name, property.PropertyType));
             }
         }
     }

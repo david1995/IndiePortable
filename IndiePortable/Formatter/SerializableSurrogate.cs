@@ -14,6 +14,7 @@ namespace IndiePortable.Formatter
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Provides a serialization surrogate for all types that are marked with the <see cref="SerializableAttribute" /> attribute
@@ -81,7 +82,7 @@ namespace IndiePortable.Formatter
         ///         but must not implement the <see cref="ISerializable" /> interface.
         ///     </para>
         /// </remarks>
-        void ISurrogate.GetData(object value, ObjectDataCollection data)
+        void ISurrogate.GetData(object value, SerializationInfo data)
         {
             // throw exception if value is null
             if (value == null)
@@ -122,33 +123,8 @@ namespace IndiePortable.Formatter
             }
         }
 
-        /// <summary>
-        /// Retrieves data from an <see cref="ObjectDataCollection" /> instance and uses it for populating an object.
-        /// </summary>
-        /// <param name="value">
-        ///     The target <see cref="object" /> that shall be populated with data.
-        /// </param>
-        /// <param name="data">
-        ///     The <see cref="ObjectDataCollection" /> populated with data.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown when:</para>
-        ///     <para>  - <paramref name="value" /> is <c>null</c>.</para>
-        ///     <para>  - <paramref name="data" /> is <c>null</c>.</para>
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        ///     <para>Thrown when:</para>
-        ///     <para>  - the type of <paramref name="value" /> is not marked with the <see cref="SerializableAttribute" /> attribute.</para>
-        ///     <para>  - the type of <paramref name="value" /> implements the <see cref="ISerializable" /> interface.</para>
-        /// </exception>
-        /// <remarks>
-        ///     <para>Implements <see cref="ISurrogate.SetData(ref object, ObjectDataCollection)" /> explicitly.</para>
-        ///     <para>
-        ///         The type of <paramref name="value" /> must be marked with the <see cref="SerializableAttribute" /> attribute,
-        ///         but must not implement the <see cref="ISerializable" /> interface.
-        ///     </para>
-        /// </remarks>
-        void ISurrogate.SetData(ref object value, ObjectDataCollection data)
+        /// <inheritdocs />
+        void ISurrogate.SetData(ref object value, SerializationInfo data)
         {
             // throw exception if value is null
             if (value == null)
@@ -192,14 +168,7 @@ namespace IndiePortable.Formatter
                 // if no matching version span could be found -> simply don't set the field's value
                 if (fieldVersionSpans.Count() == 0 || versionSpans.Length >= 1)
                 {
-                    // the deserialization data MUST contain each field (with correct version) of the type
-                    if (!data.ContainsKey(field.Name))
-                    {
-                        throw new InvalidOperationException(
-                            $@"The field ""{field.Name}"" of the type {type.AssemblyQualifiedName} could not be found in the specified {nameof(ObjectDataCollection)}.");
-                    }
-
-                    field.SetValue(value, data.GetValue(field.Name));
+                    field.SetValue(value, data.GetValue(field.Name, field.FieldType));
                 }
             }
         }

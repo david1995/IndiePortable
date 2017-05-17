@@ -272,8 +272,7 @@ namespace IndiePortable.Communication.UniversalWindows
             }
 
             if (maxKeepAliveTimeout <= keepAliveFrequency ||
-                maxKeepAliveTimeout >= TimeSpan.MaxValue ||
-                maxKeepAliveTimeout.TotalMilliseconds > keepAliveFrequency.TotalMilliseconds * 4)
+                maxKeepAliveTimeout >= TimeSpan.MaxValue)
             { 
                 throw new ArgumentOutOfRangeException(nameof(maxKeepAliveTimeout));
             }
@@ -850,8 +849,7 @@ namespace IndiePortable.Communication.UniversalWindows
 
                         using (var bufferStream = new MemoryStream(messageBuffer, false))
                         {
-                            ConnectionMessageBase message;
-                            if (this.formatter.TryDeserialize(bufferStream, out message))
+                            if (this.formatter.TryDeserialize(bufferStream, out ConnectionMessageBase message))
                             {
                                 new Task(() => this.RaiseConnectionMessageReceived(message)).Start();
                             }

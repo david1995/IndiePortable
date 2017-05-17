@@ -75,10 +75,11 @@ namespace IndiePortable.Communication.NetClassic
             this.aesSymmetricEncrypter.GenerateKey();
             this.aesEncryptor = this.aesSymmetricEncrypter.CreateEncryptor();
 
-            this.aesSymmetricDecrypter = new AesCryptoServiceProvider();
-            this.aesSymmetricDecrypter.Mode = CipherMode.CBC;
-            this.aesSymmetricDecrypter.Padding = PaddingMode.None;
-            
+            this.aesSymmetricDecrypter = new AesCryptoServiceProvider()
+            {
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.None,
+            };
             this.localPublicKeyBacking = new PublicKeyInfo(this.localRSA.ExportCspBlob(false));
         }
 
@@ -108,10 +109,11 @@ namespace IndiePortable.Communication.NetClassic
             this.aesSymmetricEncrypter.GenerateKey();
             this.aesEncryptor = this.aesSymmetricEncrypter.CreateEncryptor();
 
-            this.aesSymmetricDecrypter = new AesCryptoServiceProvider();
-            this.aesSymmetricDecrypter.Mode = CipherMode.CBC;
-            this.aesSymmetricDecrypter.Padding = PaddingMode.None;
-
+            this.aesSymmetricDecrypter = new AesCryptoServiceProvider()
+            {
+                Mode = CipherMode.CBC,
+                Padding = PaddingMode.None
+            };
             this.localPublicKeyBacking = new PublicKeyInfo(this.localRSA.ExportCspBlob(false));
         }
 

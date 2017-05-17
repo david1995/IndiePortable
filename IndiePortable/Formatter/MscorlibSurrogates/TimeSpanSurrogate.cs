@@ -12,6 +12,7 @@
 namespace IndiePortable.Formatter.MscorlibSurrogates
 {
     using System;
+    using System.Runtime.Serialization;
 
     /// <summary>
     /// Provides serialization and de-serialization logic for the <see cref="TimeSpan" /> type.
@@ -34,22 +35,9 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
             get { return typeof(TimeSpan); }
         }
 
-        /// <summary>
-        /// Populates an <see cref="ObjectDataCollection" /> instance with data from a <see cref="TimeSpan" /> value.
-        /// </summary>
-        /// <param name="value">
-        ///     The source <see cref="TimeSpan" /> providing the data.
-        /// </param>
-        /// <param name="data">
-        ///     The <see cref="ObjectDataCollection" /> that shall be populated with data.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        ///     <para>Thrown if <paramref name="value" /> is not of type <see cref="TimeSpan" />.</para>
-        /// </exception>
-        public void GetData(object value, ObjectDataCollection data)
+        
+        /// <inheritdoc />
+        public void GetData(object value, SerializationInfo data)
         {
             if (object.ReferenceEquals(data, null))
             {
@@ -67,24 +55,8 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
             data.AddValue(nameof(TimeSpan.Ticks), time.Ticks);
         }
 
-        /// <summary>
-        /// Populates a <see cref="TimeSpan" /> value with data from an <see cref="ObjectDataCollection" /> instance.
-        /// </summary>
-        /// <param name="value">
-        ///     The object that shall be populated with data. This parameter is to be passed by reference.
-        /// </param>
-        /// <param name="data">
-        ///     The <see cref="ObjectDataCollection" /> providing the data.
-        /// </param>
-        /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if <paramref name="data" /> is <c>null</c>.</para>
-        /// </exception>
-        /// <exception cref="ArgumentException">
-        ///     <para>Thrown if <paramref name="value" /> is not of type <see cref="TimeSpan" />.</para>
-        ///     <para>or</para>
-        ///     <para><paramref name="data" /> does not contain the <see cref="TimeSpan.Ticks" /> property.</para>
-        /// </exception>
-        public void SetData(ref object value, ObjectDataCollection data)
+        /// <inheritdoc />
+        public void SetData(ref object value, SerializationInfo data)
         {
             if (object.ReferenceEquals(data, null))
             {
@@ -98,12 +70,7 @@ namespace IndiePortable.Formatter.MscorlibSurrogates
                     nameof(value));
             }
 
-            long ticks;
-            if (!data.TryGetValue(nameof(TimeSpan.Ticks), out ticks))
-            {
-                throw new ArgumentException("The data collection must contain the ticks of the desired TimeSpan value.", nameof(data));
-            }
-
+            var ticks = data.GetInt64(nameof(TimeSpan.Ticks));
             value = new TimeSpan(ticks);
         }
     }
