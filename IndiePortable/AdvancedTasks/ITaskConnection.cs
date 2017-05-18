@@ -19,10 +19,15 @@ namespace IndiePortable.AdvancedTasks
     public interface ITaskConnection
     {
         /// <summary>
+        /// Occurs when a stop has been requested.
+        /// </summary>
+        event EventHandler StopRequested;
+
+        /// <summary>
         /// Gets a value indicating whether the <see cref="StateTask" /> must finish.
         /// </summary>
         /// <value>
-        ///     <c>true</c> if the <see cref="StateTask" /> must finish; otherwise <c>false</c>.
+        /// <c>true</c> if the <see cref="StateTask" /> must finish; otherwise <c>false</c>.
         /// </value>
         bool MustFinish { get; }
 
@@ -36,11 +41,11 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
-        ///         is never called by the task method,
-        ///         calls to the <see cref="Await()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
+        /// is never called by the task method,
+        /// calls to the <see cref="Await()" /> method will never return.
+        /// </para>
         /// </remarks>
         void Await();
 
@@ -49,14 +54,14 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <returns>
-        ///     Returns the executing <see cref="Task" />.
+        /// Returns the executing <see cref="Task" />.
         /// </returns>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
-        ///         is never called by the task method,
-        ///         calls to the <see cref="AwaitAsync()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
+        /// is never called by the task method,
+        /// calls to the <see cref="AwaitAsync()" /> method will never return.
+        /// </para>
         /// </remarks>
         Task AwaitAsync();
 
@@ -65,14 +70,14 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
+        /// <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
         /// </returns>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
-        ///         is never called by the task method,
-        ///         calls to the <see cref="TryAwait()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
+        /// is never called by the task method,
+        /// calls to the <see cref="TryAwait()" /> method will never return.
+        /// </para>
         /// </remarks>
         bool TryAwait();
 
@@ -81,14 +86,14 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
+        /// <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
         /// </returns>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
-        ///         is never called by the task method,
-        ///         calls to the <see cref="TryAwaitAsync()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="Return()" /> method or the <see cref="ThrowException(Exception)" /> method
+        /// is never called by the task method,
+        /// calls to the <see cref="TryAwaitAsync()" /> method will never return.
+        /// </para>
         /// </remarks>
         Task<bool> TryAwaitAsync();
 
@@ -101,11 +106,11 @@ namespace IndiePortable.AdvancedTasks
         /// Notifies the <see cref="StateTask" /> of a thrown exception.
         /// </summary>
         /// <param name="exc">
-        ///     The thrown <see cref="Exception" />.
-        ///     Must not be <c>null</c>.
+        /// The thrown <see cref="Exception" />.
+        /// Must not be <c>null</c>.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if <paramref name="exc" /> is <c>null</c>.</para>
+        /// <para>Thrown if <paramref name="exc" /> is <c>null</c>.</para>
         /// </exception>
         void ThrowException(Exception exc);
     }

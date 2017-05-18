@@ -5,37 +5,31 @@
 namespace IndiePortable.Communication.Core.Devices.Connections.Decorators
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
     using IndiePortable.AdvancedTasks;
     using IndiePortable.Communication.Core.Messages;
 
     public class KeepAliveConnection<TAddress>
-        : ConnectionBase<MessageBase, TAddress>
+        : ConnectionDecorator<MessageBase, TAddress>
     {
-
-        private ConnectionBase<MessageBase, TAddress> decoratedConnection;
-
         private AutoResetEvent keepAliveEvent;
-
         private StateTask keepAliveSender;
 
         public KeepAliveConnection(
             ConnectionBase<MessageBase, TAddress> decoratedConnection,
             TimeSpan keepAliveFrequency)
+            : base(decoratedConnection)
         {
-            this.decoratedConnection =
-                decoratedConnection ?? throw new ArgumentNullException(nameof(decoratedConnection));
-
             this.KeepAliveFrequency = keepAliveFrequency <= TimeSpan.Zero
                                     ? throw new ArgumentOutOfRangeException(nameof(keepAliveFrequency))
                                     : keepAliveFrequency;
 
-            this.decoratedConnection.Disconnected += (s, e) => this.OnDisconnected();
-            this.decoratedConnection.ConnectionStateChanged += (s, e) => this.OnConnectionStateChanged();
-            this.decoratedConnection.MessageReceived += (s, e) => this.OnMessageReceived(e.ReceivedMessage);
+            this.DecoratedConnection.Disconnected += (s, e) => this.OnDisconnected();
+            this.DecoratedConnection.ConnectionStateChanged += (s, e) => this.OnConnectionStateChanged();
+            this.DecoratedConnection.MessageReceived += (s, e) => this.OnMessageReceived(e.ReceivedMessage);
+
+            this.keepAliveSender = new StateTask(this.SendKeepAlives, false);
 
             this.Disconnected += (s, e) =>
             {
@@ -45,7 +39,7 @@ namespace IndiePortable.Communication.Core.Devices.Connections.Decorators
 
         public TimeSpan KeepAliveFrequency { get; }
 
-        public override TAddress RemoteAddress => this.decoratedConnection.RemoteAddress;
+        public override TAddress RemoteAddress => this.DecoratedConnection.RemoteAddress;
 
         protected override void ActivateOverride()
         {
@@ -54,27 +48,8 @@ namespace IndiePortable.Communication.Core.Devices.Connections.Decorators
                 throw new InvalidOperationException();
             }
 
-            this.decoratedConnection.Activate();
-        }
-
-        protected override void SendOverride(MessageBase message)
-        {
-            if (!this.IsActivated)
-            {
-                throw new InvalidOperationException();
-            }
-
-            this.decoratedConnection.Send(message);
-        }
-
-        protected override async Task SendAsyncOverride(MessageBase message)
-        {
-            if (!this.IsActivated)
-            {
-                throw new InvalidOperationException();
-            }
-
-            await this.decoratedConnection.SendAsync(message);
+            base.ActivateOverride();
+            this.keepAliveSender.Start();
         }
 
         protected override void DisconnectOverride()
@@ -84,8 +59,8 @@ namespace IndiePortable.Communication.Core.Devices.Connections.Decorators
                 throw new InvalidOperationException();
             }
 
-            this.keepAliveSender.Stop();
-            this.decoratedConnection.Disconnect();
+            this.keepAliveSender.StopAndAwait();
+            base.DisconnectOverride();
         }
 
         protected override async Task DisconnectAsyncOverride()
@@ -95,19 +70,18 @@ namespace IndiePortable.Communication.Core.Devices.Connections.Decorators
                 throw new InvalidOperationException();
             }
 
-            await this.decoratedConnection.DisconnectAsync();
+            await this.keepAliveSender.StopAndAwaitAsync();
+            await base.DisconnectAsyncOverride();
         }
 
         protected override void DisposeUnmanaged()
         {
-            this.decoratedConnection.Dispose();
             this.keepAliveSender.Stop();
             base.DisposeUnmanaged();
         }
 
         private async void SendKeepAlives(ITaskConnection conn)
         {
-            // TODO: add StopRequested event to ITaskConnection interface
             while (!conn.MustFinish)
             {
                 using (var ct = new CancellationTokenSource())

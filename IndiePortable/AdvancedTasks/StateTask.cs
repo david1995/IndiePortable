@@ -29,31 +29,40 @@ namespace IndiePortable.AdvancedTasks
         /// </summary>
         private readonly Task task;
 
-        /// <summary>
-        /// The backing field for the <see cref="CurrentState" /> property.
-        /// </summary>
-        private TaskState currentStateBacking = TaskState.NotStarted;
+        private readonly object startLock = new object();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StateTask" /> class.
         /// </summary>
         /// <param name="method">
-        ///     The method the <see cref="StateTask" /> shall process.
-        ///     Must not be <c>null</c>.
+        /// The method the <see cref="StateTask" /> shall process.
+        /// Must not be <c>null</c>.
+        /// </param>
+        /// <param name="autoStart">
+        /// Determines whether the task should start directly after constructing it.
+        /// The default value is <c>true</c>.
         /// </param>
         /// <exception cref="ArgumentNullException">
-        ///     <para>Thrown if <paramref name="method" /> is <c>null</c>.</para>
+        /// <para><paramref name="method" /> is <c>null</c>.</para>
         /// </exception>
-        public StateTask(Action<ITaskConnection> method)
+        public StateTask(Action<ITaskConnection> method, bool autoStart = true)
         {
-            if (object.ReferenceEquals(method, null))
+            if (method is null)
             {
                 throw new ArgumentNullException(nameof(method));
             }
 
             this.connection = new TaskConnection(this);
-            this.task = Task.Factory.StartNew(() => method(this.connection));
-            this.currentStateBacking = TaskState.Started;
+            this.task = new Task(() => method(this.connection));
+
+            if (autoStart)
+            {
+                this.task.Start();
+            }
+
+            this.CurrentState = autoStart
+                              ? TaskState.Started
+                              : TaskState.NotStarted;
         }
 
         /// <summary>
@@ -70,9 +79,22 @@ namespace IndiePortable.AdvancedTasks
         /// Gets the current state of the <see cref="StateTask" />.
         /// </summary>
         /// <value>
-        ///     Contains the current state of the <see cref="StateTask" />.
+        /// Contains the current state of the <see cref="StateTask" />.
         /// </value>
-        public TaskState CurrentState => this.currentStateBacking;
+        public TaskState CurrentState { get; private set; }
+
+        public void Start()
+        {
+            lock (this.startLock)
+            {
+                if (this.CurrentState == TaskState.Started)
+                {
+                    throw new InvalidOperationException($"The {nameof(StateTask)} has already been started.");
+                }
+
+                this.task.Start();
+            }
+        }
 
         /// <summary>
         /// Signals the <see cref="StateTask" /> to stop.
@@ -84,11 +106,11 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="ITaskConnection.Return()" /> method or the
-        ///         <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
-        ///         calls to the <see cref="StopAndAwait()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="ITaskConnection.Return()" /> method or the
+        /// <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
+        /// calls to the <see cref="StopAndAwait()" /> method will never return.
+        /// </para>
         /// </remarks>
         public void StopAndAwait()
         {
@@ -101,14 +123,14 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <returns>
-        ///     Returns the executing <see cref="Task" />.
+        /// Returns the executing <see cref="Task" />.
         /// </returns>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="ITaskConnection.Return()" /> method or the
-        ///         <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
-        ///         calls to the <see cref="StopAndAwaitAsync()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="ITaskConnection.Return()" /> method or the
+        /// <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
+        /// calls to the <see cref="StopAndAwaitAsync()" /> method will never return.
+        /// </para>
         /// </remarks>
         public async Task StopAndAwaitAsync()
         {
@@ -121,11 +143,11 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="ITaskConnection.Return()" /> method or the
-        ///         <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
-        ///         calls to the <see cref="Await()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="ITaskConnection.Return()" /> method or the
+        /// <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
+        /// calls to the <see cref="Await()" /> method will never return.
+        /// </para>
         /// </remarks>
         public void Await() => this.connection.Await();
 
@@ -134,14 +156,14 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <returns>
-        ///     Returns the executing <see cref="Task" />.
+        /// Returns the executing <see cref="Task" />.
         /// </returns>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="ITaskConnection.Return()" /> method or the
-        ///         <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
-        ///         calls to the <see cref="Await()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="ITaskConnection.Return()" /> method or the
+        /// <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
+        /// calls to the <see cref="Await()" /> method will never return.
+        /// </para>
         /// </remarks>
         public Task AwaitAsync() => this.connection.AwaitAsync();
         
@@ -150,14 +172,14 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
+        /// <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
         /// </returns>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="ITaskConnection.Return()" /> method or the
-        ///         <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
-        ///         calls to the <see cref="TryAwait()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="ITaskConnection.Return()" /> method or the
+        /// <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
+        /// calls to the <see cref="TryAwait()" /> method will never return.
+        /// </para>
         /// </remarks>
         public bool TryAwait() => this.connection.TryAwait();
         
@@ -166,14 +188,14 @@ namespace IndiePortable.AdvancedTasks
         /// If the <see cref="StateTask" /> has already finished, the call immediately returns.
         /// </summary>
         /// <returns>
-        ///     <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
+        /// <c>true</c> if no exception has been thrown; otherwise <c>false</c>.
         /// </returns>
         /// <remarks>
-        ///     <para>
-        ///         If the <see cref="ITaskConnection.Return()" /> method or the
-        ///         <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
-        ///         calls to the <see cref="TryAwaitAsync()" /> method will never return.
-        ///     </para>
+        /// <para>
+        /// If the <see cref="ITaskConnection.Return()" /> method or the
+        /// <see cref="ITaskConnection.ThrowException(Exception)" /> method is never called by the task method,
+        /// calls to the <see cref="TryAwaitAsync()" /> method will never return.
+        /// </para>
         /// </remarks>
         public Task<bool> TryAwaitAsync() => this.connection.TryAwaitAsync();
 
@@ -186,7 +208,7 @@ namespace IndiePortable.AdvancedTasks
         /// Raises the <see cref="ExceptionThrown" /> event.
         /// </summary>
         /// <param name="exc">
-        ///     The <see cref="Exception" /> that has been thrown.
+        /// The <see cref="Exception" /> that has been thrown.
         /// </param>
         protected void RaiseExceptionThrown(Exception exc) => this.ExceptionThrown?.Invoke(this, new ExceptionThrownEventArgs(exc));
 
@@ -228,13 +250,16 @@ namespace IndiePortable.AdvancedTasks
             /// </exception>
             public TaskConnection(StateTask task)
             {
-                if (object.ReferenceEquals(task, null))
+                if (task is null)
                 {
                     throw new ArgumentNullException(nameof(task));
                 }
 
                 this.task = task;
             }
+
+            /// <inheritdoc/>
+            public event EventHandler StopRequested;
 
             /// <summary>
             /// Gets a value indicating whether the <see cref="StateTask" /> must finish.
@@ -258,7 +283,7 @@ namespace IndiePortable.AdvancedTasks
             {
                 this.waitHandle.Wait();
                 if (this.task.CurrentState == TaskState.ExceptionThrown &&
-                    !object.ReferenceEquals(this.thrownException, null))
+                    !(this.thrownException is null))
                 {
                     throw this.thrownException;
                 }
@@ -269,7 +294,7 @@ namespace IndiePortable.AdvancedTasks
             {
                 await Task.Factory.StartNew(() => this.waitHandle.Wait());
                 if (this.task.CurrentState == TaskState.ExceptionThrown &&
-                    !object.ReferenceEquals(this.thrownException, null))
+                    !(this.thrownException is null))
                 {
                     throw this.thrownException;
                 }
@@ -279,14 +304,14 @@ namespace IndiePortable.AdvancedTasks
             public bool TryAwait()
             {
                 this.waitHandle.Wait();
-                return this.task.currentStateBacking == TaskState.Finished;
+                return this.task.CurrentState == TaskState.Finished;
             }
 
 
             public async Task<bool> TryAwaitAsync()
             {
                 await Task.Factory.StartNew(() => this.waitHandle.Wait());
-                return this.task.currentStateBacking == TaskState.Finished;
+                return this.task.CurrentState == TaskState.Finished;
             }
 
             /// <summary>
@@ -294,7 +319,7 @@ namespace IndiePortable.AdvancedTasks
             /// </summary>
             public void Return()
             {
-                this.task.currentStateBacking = TaskState.Finished;
+                this.task.CurrentState = TaskState.Finished;
                 this.mustFinishBacking = true;
                 this.waitHandle.Set();
                 this.task.RaiseReturned();
@@ -317,12 +342,14 @@ namespace IndiePortable.AdvancedTasks
                     throw new ArgumentNullException(nameof(exc));
                 }    
 
-                this.task.currentStateBacking = TaskState.ExceptionThrown;
+                this.task.CurrentState = TaskState.ExceptionThrown;
                 this.mustFinishBacking = true;
                 this.thrownException = exc;
                 this.waitHandle.Set();
                 this.task.RaiseExceptionThrown(exc);
             }
+
+            public void OnStopRequested() => this.StopRequested?.Invoke(this, EventArgs.Empty);
         }
     }
 }
