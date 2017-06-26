@@ -1,0 +1,4 @@
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Json\bin\Debug\netstandard1.4\Formatter.Json.deps.json
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Json\bin\Debug\netstandard1.4\Formatter.Json.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Json\obj\Debug\netstandard1.4\Formatter.Json.AssemblyInfo.cs
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Json\obj\Debug\netstandard1.4\Formatter.Json.csprojResolveAssemblyReference.cache

@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>IndiePortable.Communication.Connection.NetCore</AssemblyName>
+    <RootNamespace>IndiePortable.Communication.Connection</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IndiePortable.Collections.Linq\IndiePortable.Collections.Linq.csproj" />
+    <ProjectReference Include="..\IndiePortable.Communication.Core\IndiePortable.Communication.Core.csproj" />
+  </ItemGroup>
+
+</Project>

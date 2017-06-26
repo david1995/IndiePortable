@@ -23,6 +23,7 @@ namespace IndiePortable.Communication.Connection.NetFX
         private ICryptoTransform aesEncryptor;
         private AesCryptoServiceProvider aesSymmetricDecrypter;
         private PublicKeyInfo remotePublicKey;
+        private bool isDisposed;
 
         public RsaAesCrypter(Guid signature)
             : base(signature)

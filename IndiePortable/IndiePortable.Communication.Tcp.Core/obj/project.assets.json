@@ -4107,15 +4107,15 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\David\\.nuget\\packages\\": {}
+    "C:\\Users\\david\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp.Core\\IndiePortable.Communication.Tcp.Core.csproj",
+      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp.Core\\IndiePortable.Communication.Tcp.Core.csproj",
       "projectName": "IndiePortable.Communication.Tcp.Core",
-      "projectPath": "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp.Core\\IndiePortable.Communication.Tcp.Core.csproj",
-      "outputPath": "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp.Core\\obj\\",
+      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp.Core\\IndiePortable.Communication.Tcp.Core.csproj",
+      "outputPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp.Core\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netstandard1.4"
@@ -4123,14 +4123,14 @@
       "frameworks": {
         "netstandard1.4": {
           "projectReferences": {
-            "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj": {
-              "projectPath": "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj"
+            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj": {
+              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj"
             },
-            "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\AdvancedTasks\\AdvancedTasks.csproj": {
-              "projectPath": "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\AdvancedTasks\\AdvancedTasks.csproj"
+            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\AdvancedTasks\\AdvancedTasks.csproj": {
+              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\AdvancedTasks\\AdvancedTasks.csproj"
             },
-            "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj": {
-              "projectPath": "C:\\Users\\David\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj"
+            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj": {
+              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj"
             }
           }
         }

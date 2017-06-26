@@ -11,3 +11,4 @@ C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communicat
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Debug\IndiePortable.Communication.EncryptedConnection.csprojResolveAssemblyReference.cache
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Debug\IndiePortable.Communication.EncryptedConnection.dll
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Debug\IndiePortable.Communication.EncryptedConnection.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.EncryptedConnection\obj\Debug\IndiePortable.Communication.EncryptedConnection.csprojResolveAssemblyReference.cache

@@ -11,12 +11,13 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("IndiePortable.Collections.Linq")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("David Eiwen")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyDescriptionAttribute("Package Description")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("© David Eiwen 2017")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("Provides LINQ extensions for collection types.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("IndiePortable.Collections.Linq")]
+[assembly: System.Reflection.AssemblyProductAttribute("IndiePortable.Collections")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IndiePortable.Collections.Linq")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 

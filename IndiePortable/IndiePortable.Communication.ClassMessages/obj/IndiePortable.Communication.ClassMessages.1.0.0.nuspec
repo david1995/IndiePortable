@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>IndiePortable.Communication.ClassMessages</id>
+    <version>1.0.0</version>
+    <authors>David Eiwen</authors>
+    <owners>David Eiwen</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Provides types for message-based communication by using classes as message types.</description>
+    <copyright>© David Eiwen 2017</copyright>
+    <tags>Communication Connection Layer Serialization</tags>
+    <repository type="Git" />
+    <dependencies>
+      <group targetFramework=".NETStandard1.4">
+        <dependency id="IndiePortable.Communication.Core" version="1.0.0-beta-001" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Serialization.Primitives" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="System.Runtime.Serialization.Formatters" version="4.3.0" exclude="Build,Analyzers" />
+        <dependency id="NETStandard.Library" version="1.6.1" exclude="Build,Analyzers" />
+        <dependency id="StyleCop.Analyzers" version="1.1.0-beta004" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.ClassMessages\bin\Debug\netstandard1.4\IndiePortable.Communication.ClassMessages.dll" target="lib\netstandard1.4\IndiePortable.Communication.ClassMessages.dll" />
+  </files>
+</package>

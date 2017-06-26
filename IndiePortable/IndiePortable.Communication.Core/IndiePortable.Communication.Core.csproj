@@ -2,6 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <Authors>David Eiwen</Authors>
+    <Company />
+    <Product>IndiePortable.Communication</Product>
+    <Description>This is the core library for the Communication library family. It provides base types, like StreamConnectionBase&lt;TAddress&gt;, for other libraries to implement logical connection layers.</Description>
+    <Copyright>© David Eiwen 2017</Copyright>
+    <RepositoryType>Git</RepositoryType>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.0.0-beta-001</Version>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,12 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta001" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AdvancedTasks\AdvancedTasks.csproj" />
-    <ProjectReference Include="..\Formatter\Formatter.csproj" />
+    <ProjectReference Include="..\IndiePortable.AdvancedTasks.Core\IndiePortable.AdvancedTasks.Core.csproj" />
     <ProjectReference Include="..\IndiePortable.Collections.Linq\IndiePortable.Collections.Linq.csproj" />
   </ItemGroup>
 

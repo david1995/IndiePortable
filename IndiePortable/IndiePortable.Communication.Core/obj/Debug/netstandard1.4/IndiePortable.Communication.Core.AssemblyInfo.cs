@@ -11,12 +11,15 @@
 using System;
 using System.Reflection;
 
-[assembly: System.Reflection.AssemblyCompanyAttribute("IndiePortable.Communication.Core")]
+[assembly: System.Reflection.AssemblyCompanyAttribute("David Eiwen")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
-[assembly: System.Reflection.AssemblyDescriptionAttribute("Package Description")]
+[assembly: System.Reflection.AssemblyCopyrightAttribute("© David Eiwen 2017")]
+[assembly: System.Reflection.AssemblyDescriptionAttribute("This is the core library for the Communication library family. It provides base t" +
+    "ypes, like StreamConnectionBase<TAddress>, for other libraries to implement logi" +
+    "cal connection layers.")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
-[assembly: System.Reflection.AssemblyProductAttribute("IndiePortable.Communication.Core")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0-beta-001")]
+[assembly: System.Reflection.AssemblyProductAttribute("IndiePortable.Communication")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IndiePortable.Communication.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
 

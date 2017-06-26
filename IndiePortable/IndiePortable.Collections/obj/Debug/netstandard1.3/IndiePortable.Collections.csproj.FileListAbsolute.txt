@@ -1,0 +1,4 @@
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections\bin\Debug\netstandard1.3\IndiePortable.Collections.deps.json
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections\bin\Debug\netstandard1.3\IndiePortable.Collections.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections\obj\Debug\netstandard1.3\IndiePortable.Collections.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections\obj\Debug\netstandard1.3\IndiePortable.Collections.AssemblyInfo.cs

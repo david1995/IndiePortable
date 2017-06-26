@@ -2,7 +2,8 @@
   "dependencies": {
     "IndiePortable.Communication.EncryptedConnection": "0.2.0",
     "IndiePortable.Communication.Tcp": "0.2.0",
-    "Microsoft.NETCore.UniversalWindowsPlatform": "5.2.2"
+    "Microsoft.NETCore.UniversalWindowsPlatform": "5.3.3",
+    "StyleCop.Analyzers": "1.1.0-beta004"
   },
   "frameworks": {
     "uap10.0": {}

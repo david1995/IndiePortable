@@ -9,9 +9,11 @@
     ".NETStandard,Version=v1.4/": {
       "indieportable.communication.tcp.core/1.0.0": {
         "dependencies": {
+          "AdvancedTasks": "1.0.0",
           "Formatter": "1.0.0",
           "IndiePortable.Communication.Core": "1.0.0",
           "NETStandard.Library": "1.6.1",
+          "System.Runtime.Serialization.Formatters": "4.3.0",
           "System.Runtime.Serialization.Primitives": "4.3.0"
         },
         "runtime": {
@@ -624,6 +626,11 @@
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
         }
       },
+      "advancedtasks/1.0.0": {
+        "runtime": {
+          "IndiePortable.AdvancedTasks.dll": {}
+        }
+      },
       "formatter/1.0.0": {
         "dependencies": {
           "Microsoft.NETCore.Portable.Compatibility": "1.0.1",
@@ -638,7 +645,8 @@
       },
       "indieportable.collections.linq/1.0.0": {
         "dependencies": {
-          "NETStandard.Library": "1.6.1"
+          "NETStandard.Library": "1.6.1",
+          "System.ValueTuple": "4.3.0"
         },
         "runtime": {
           "IndiePortable.Collections.Linq.dll": {}
@@ -646,6 +654,7 @@
       },
       "indieportable.communication.core/1.0.0": {
         "dependencies": {
+          "AdvancedTasks": "1.0.0",
           "Formatter": "1.0.0",
           "IndiePortable.Collections.Linq": "1.0.0",
           "NETStandard.Library": "1.6.1",
@@ -1152,6 +1161,11 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
+    },
+    "advancedtasks/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "formatter/1.0.0": {
       "type": "project",

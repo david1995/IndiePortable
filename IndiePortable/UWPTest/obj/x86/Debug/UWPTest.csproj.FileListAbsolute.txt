@@ -679,3 +679,11 @@ C:\Users\David\Source\Repos\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\qu
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\qualifiers.txt.intermediate
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\MultipleQualifiersPerDimensionFound.txt
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\ProjectArchitectures.txt
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\System.Console.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\System.Runtime.Serialization.Formatters.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\bin\x86\Debug\System.ValueTuple.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\FxResources.System.Console.SR.resw
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\FxResources.System.Runtime.InteropServices.RuntimeInformation.SR.resw
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\FxResources.System.Runtime.Serialization.Formatters.SR.resw
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\UWPTest\obj\x86\Debug\FxResources.System.ValueTuple.SR.resw

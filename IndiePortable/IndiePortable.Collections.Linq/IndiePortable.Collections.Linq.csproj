@@ -2,10 +2,18 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>David Eiwen</Authors>
+    <Company />
+    <Product>IndiePortable.Collections</Product>
+    <Description>Provides LINQ extensions for collection types.</Description>
+    <Copyright>© David Eiwen 2017</Copyright>
+    <PackageTags>Collections LINQ Extensions</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="4.3.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
+    <PackageReference Include="System.ValueTuple" Version="4.3.1" />
   </ItemGroup>
 
 </Project>

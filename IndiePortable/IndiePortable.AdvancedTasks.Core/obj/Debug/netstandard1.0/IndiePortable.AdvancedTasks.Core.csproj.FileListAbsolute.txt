@@ -1,0 +1,7 @@
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.AdvancedTasks.Core\bin\Debug\netstandard1.0\IndiePortable.AdvancedTasks.Core.deps.json
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.AdvancedTasks.Core\bin\Debug\netstandard1.0\IndiePortable.AdvancedTasks.Core.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.AdvancedTasks.Core\bin\Debug\netstandard1.0\IndiePortable.AdvancedTasks.Core.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.AdvancedTasks.Core\obj\Debug\netstandard1.0\IndiePortable.AdvancedTasks.Core.AssemblyInfo.cs
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.AdvancedTasks.Core\obj\Debug\netstandard1.0\IndiePortable.AdvancedTasks.Core.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.AdvancedTasks.Core\obj\Debug\netstandard1.0\IndiePortable.AdvancedTasks.Core.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.AdvancedTasks.Core\obj\Debug\netstandard1.0\IndiePortable.AdvancedTasks.Core.csprojResolveAssemblyReference.cache

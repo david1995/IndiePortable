@@ -24,3 +24,4 @@ C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communicat
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.csprojResolveAssemblyReference.cache
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.dll
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication\obj\Debug\IndiePortable.Communication.csprojResolveAssemblyReference.cache

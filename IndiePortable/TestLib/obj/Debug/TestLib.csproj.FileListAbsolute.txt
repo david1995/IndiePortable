@@ -29,3 +29,4 @@ C:\Users\David\Source\Repos\IndiePortable\IndiePortable\TestLib\bin\Debug\IndieP
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\TestLib\bin\Debug\IndiePortable.Formatter.xml
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\TestLib\obj\Debug\TestLib.dll
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\TestLib\obj\Debug\TestLib.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\TestLib\obj\Debug\TestLib.csprojResolveAssemblyReference.cache

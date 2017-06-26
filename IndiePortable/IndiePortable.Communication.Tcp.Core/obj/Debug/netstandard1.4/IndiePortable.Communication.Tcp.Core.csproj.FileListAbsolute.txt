@@ -5,3 +5,6 @@ C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communicat
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\bin\Debug\netstandard1.4\IndiePortable.Formatter.pdb
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\obj\Debug\netstandard1.4\IndiePortable.Communication.Tcp.Core.csprojResolveAssemblyReference.cache
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\obj\Debug\netstandard1.4\IndiePortable.Communication.Tcp.Core.AssemblyInfo.cs
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\bin\Debug\netstandard1.4\IndiePortable.Communication.Tcp.Core.deps.json
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\obj\Debug\netstandard1.4\IndiePortable.Communication.Tcp.Core.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Tcp.Core\obj\Debug\netstandard1.4\IndiePortable.Communication.Tcp.Core.AssemblyInfo.cs

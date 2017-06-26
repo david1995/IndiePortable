@@ -1,0 +1,3 @@
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.JsonConnection\bin\Debug\netstandard1.4\IndiePortable.Communication.Connection.JsonConnection.deps.json
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.JsonConnection\bin\Debug\netstandard1.4\IndiePortable.Communication.Connection.JsonConnection.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.JsonConnection\obj\Debug\netstandard1.4\IndiePortable.Communication.Connection.JsonConnection.AssemblyInfo.cs

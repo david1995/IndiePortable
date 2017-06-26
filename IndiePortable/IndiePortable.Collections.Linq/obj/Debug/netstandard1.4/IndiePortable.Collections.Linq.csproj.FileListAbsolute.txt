@@ -2,3 +2,10 @@ C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collection
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\bin\Debug\netstandard1.4\IndiePortable.Collections.Linq.dll
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\obj\Debug\netstandard1.4\IndiePortable.Collections.Linq.csprojResolveAssemblyReference.cache
 C:\Users\David\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\obj\Debug\netstandard1.4\IndiePortable.Collections.Linq.AssemblyInfo.cs
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\bin\Debug\netstandard1.4\IndiePortable.Collections.Linq.deps.json
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\bin\Debug\netstandard1.4\IndiePortable.Collections.Linq.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\bin\Debug\netstandard1.4\IndiePortable.Collections.Linq.pdb
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\obj\Debug\netstandard1.4\IndiePortable.Collections.Linq.csprojResolveAssemblyReference.cache
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\obj\Debug\netstandard1.4\IndiePortable.Collections.Linq.AssemblyInfo.cs
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\obj\Debug\netstandard1.4\IndiePortable.Collections.Linq.dll
+K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections.Linq\obj\Debug\netstandard1.4\IndiePortable.Collections.Linq.pdb

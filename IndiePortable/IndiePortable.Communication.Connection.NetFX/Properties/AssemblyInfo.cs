@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("IndiePortable.Communication.Connection.NetFX")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Provides .NET Framework platform-specific implementations of connections.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("IndiePortable.Communication.Connection.NetFX")]
-[assembly: AssemblyCopyright("Copyright ©  2017")]
+[assembly: AssemblyCompany("David Eiwen")]
+[assembly: AssemblyProduct("IndiePortable.Communication")]
+[assembly: AssemblyCopyright("© David Eiwen 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

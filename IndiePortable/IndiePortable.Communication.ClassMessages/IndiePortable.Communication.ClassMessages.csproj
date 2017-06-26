@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.4</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>David Eiwen</Authors>
+    <Company />
+    <Product>IndiePortable.Communication</Product>
+    <Copyright>© David Eiwen 2017</Copyright>
+    <PackageTags>Communication Connection Layer Serialization</PackageTags>
+    <Description>Provides types for message-based communication by using classes as message types.</Description>
+    <RepositoryType>Git</RepositoryType>
+    <Version>1.0.0-beta-001</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.0-beta004" />
+    <PackageReference Include="System.Runtime.Serialization.Formatters" Version="4.3.0" />
+    <PackageReference Include="System.Runtime.Serialization.Primitives" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IndiePortable.Communication.Core\IndiePortable.Communication.Core.csproj" />
+  </ItemGroup>
+
+</Project>
