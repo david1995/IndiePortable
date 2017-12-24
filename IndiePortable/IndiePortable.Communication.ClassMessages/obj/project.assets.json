@@ -3945,10 +3945,10 @@
   "project": {
     "version": "1.0.0-beta-001",
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.ClassMessages\\IndiePortable.Communication.ClassMessages.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.ClassMessages\\IndiePortable.Communication.ClassMessages.csproj",
       "projectName": "IndiePortable.Communication.ClassMessages",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.ClassMessages\\IndiePortable.Communication.ClassMessages.csproj",
-      "outputPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.ClassMessages\\obj\\",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.ClassMessages\\IndiePortable.Communication.ClassMessages.csproj",
+      "outputPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.ClassMessages\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netstandard1.4"
@@ -3956,8 +3956,8 @@
       "frameworks": {
         "netstandard1.4": {
           "projectReferences": {
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj"
             }
           }
         }

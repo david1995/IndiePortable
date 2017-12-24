@@ -8,3 +8,16 @@ K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortabl
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.AdvancedTasks.Core.pdb
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\obj\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.csprojResolveAssemblyReference.cache
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\obj\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.AssemblyInfo.cs
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.deps.json
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.AdvancedTasks.Core.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.Collections.Linq.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.Communication.Core.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.Collections.Linq.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.Communication.Core.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\bin\Debug\netcoreapp1.1\IndiePortable.AdvancedTasks.Core.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\obj\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.csprojResolveAssemblyReference.cache
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\obj\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.AssemblyInfo.cs
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\obj\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetCore\obj\Debug\netcoreapp1.1\IndiePortable.Communication.Connection.NetCore.pdb

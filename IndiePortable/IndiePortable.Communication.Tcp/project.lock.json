@@ -4092,19 +4092,19 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\IndiePortable.Communication.Tcp.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\IndiePortable.Communication.Tcp.csproj",
       "projectName": "IndiePortable.Communication.Tcp",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\IndiePortable.Communication.Tcp.csproj",
-      "projectJsonPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\project.json",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\IndiePortable.Communication.Tcp.csproj",
+      "projectJsonPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\project.json",
       "projectStyle": "ProjectJson",
       "frameworks": {
         "netstandard1.4": {
           "projectReferences": {
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter\\Formatter.csproj"
             },
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication\\IndiePortable.Communication.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication\\IndiePortable.Communication.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication\\IndiePortable.Communication.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication\\IndiePortable.Communication.csproj"
             }
           }
         }

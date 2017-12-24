@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v1.1",
-    "signature": "f6dd242924c315e1e4c6d0cd36b8f3cb4c08821d"
+    "signature": "bb94b8b2e2ab9db4b065e5a9b2073639c03d219d"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,32 +9,37 @@
       "indieportable.communication.connection.netcore/1.0.0": {
         "dependencies": {
           "IndiePortable.Collections.Linq": "1.0.0",
-          "IndiePortable.Communication.Core": "1.0.0"
+          "IndiePortable.Communication.Core": "1.0.0-beta-001",
+          "StyleCop.Analyzers": "1.1.0-beta004"
         },
         "runtime": {
           "IndiePortable.Communication.Connection.NetCore.dll": {}
         }
       },
       "stylecop.analyzers/1.1.0-beta004": {},
-      "system.valuetuple/4.3.0": {
+      "system.valuetuple/4.3.1": {
         "runtime": {
           "lib/netstandard1.0/System.ValueTuple.dll": {}
         }
       },
       "indieportable.advancedtasks.core/1.0.0": {
+        "dependencies": {
+          "StyleCop.Analyzers": "1.1.0-beta004"
+        },
         "runtime": {
           "IndiePortable.AdvancedTasks.Core.dll": {}
         }
       },
       "indieportable.collections.linq/1.0.0": {
         "dependencies": {
-          "System.ValueTuple": "4.3.0"
+          "StyleCop.Analyzers": "1.1.0-beta004",
+          "System.ValueTuple": "4.3.1"
         },
         "runtime": {
           "IndiePortable.Collections.Linq.dll": {}
         }
       },
-      "indieportable.communication.core/1.0.0": {
+      "indieportable.communication.core/1.0.0-beta-001": {
         "dependencies": {
           "IndiePortable.AdvancedTasks.Core": "1.0.0",
           "IndiePortable.Collections.Linq": "1.0.0",
@@ -59,12 +64,12 @@
       "path": "stylecop.analyzers/1.1.0-beta004",
       "hashPath": "stylecop.analyzers.1.1.0-beta004.nupkg.sha512"
     },
-    "system.valuetuple/4.3.0": {
+    "system.valuetuple/4.3.1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-cNLEvBX3d6MMQRZe3SMFNukVbitDAEpVZO17qa0/2FHxZ7Y7PpFRpr6m2615XYM/tYYYf0B+WyHNujqIw8Luwg==",
-      "path": "system.valuetuple/4.3.0",
-      "hashPath": "system.valuetuple.4.3.0.nupkg.sha512"
+      "sha512": "sha512-xzDmg26Wb2x2rFDjwziaMYQJqxhrK+b4OUC008o7CnZhUMb2p5XfwgOgAQ/WlKhqxMUSDWRUm5/lNTKdh27pJA==",
+      "path": "system.valuetuple/4.3.1",
+      "hashPath": "system.valuetuple.4.3.1.nupkg.sha512"
     },
     "indieportable.advancedtasks.core/1.0.0": {
       "type": "project",
@@ -76,7 +81,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "indieportable.communication.core/1.0.0": {
+    "indieportable.communication.core/1.0.0-beta-001": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

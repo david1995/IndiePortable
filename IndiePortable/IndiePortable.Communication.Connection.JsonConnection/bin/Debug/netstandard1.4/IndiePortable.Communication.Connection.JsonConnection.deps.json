@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v1.4/",
-    "signature": "2b5fbbb70f55dbebd64fed16c302840d9a06c582"
+    "signature": "5cc4cee1d7d802c4813b05e7cd88a75ad5fc141a"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,7 +9,10 @@
     ".NETStandard,Version=v1.4/": {
       "indieportable.communication.connection.jsonconnection/1.0.0": {
         "dependencies": {
-          "NETStandard.Library": "1.6.1"
+          "IndiePortable.Communication.ClassMessages": "1.0.0-beta-001",
+          "IndiePortable.Communication.Core": "1.0.0-beta-001",
+          "NETStandard.Library": "1.6.1",
+          "StyleCop.Analyzers": "1.1.0-beta004"
         },
         "runtime": {
           "IndiePortable.Communication.Connection.JsonConnection.dll": {}
@@ -108,6 +111,7 @@
       "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0": {},
       "runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0": {},
       "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0": {},
+      "stylecop.analyzers/1.1.0-beta004": {},
       "system.appcontext/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
@@ -423,6 +427,27 @@
           "lib/netstandard1.3/System.Runtime.Numerics.dll": {}
         }
       },
+      "system.runtime.serialization.formatters/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.4/System.Runtime.Serialization.Formatters.dll": {}
+        }
+      },
+      "system.runtime.serialization.primitives/4.3.0": {
+        "dependencies": {
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Runtime.Serialization.Primitives.dll": {}
+        }
+      },
       "system.security.cryptography.algorithms/4.3.0": {
         "dependencies": {
           "System.IO": "4.3.0",
@@ -521,6 +546,16 @@
           "System.Runtime": "4.3.0"
         }
       },
+      "system.valuetuple/4.3.1": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.0/System.ValueTuple.dll": {}
+        }
+      },
       "system.xml.readerwriter/4.3.0": {
         "dependencies": {
           "System.Collections": "4.3.0",
@@ -560,6 +595,48 @@
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
+        }
+      },
+      "indieportable.advancedtasks.core/1.0.0": {
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "StyleCop.Analyzers": "1.1.0-beta004"
+        },
+        "runtime": {
+          "IndiePortable.AdvancedTasks.Core.dll": {}
+        }
+      },
+      "indieportable.collections.linq/1.0.0": {
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "StyleCop.Analyzers": "1.1.0-beta004",
+          "System.ValueTuple": "4.3.1"
+        },
+        "runtime": {
+          "IndiePortable.Collections.Linq.dll": {}
+        }
+      },
+      "indieportable.communication.classmessages/1.0.0-beta-001": {
+        "dependencies": {
+          "IndiePortable.Communication.Core": "1.0.0-beta-001",
+          "NETStandard.Library": "1.6.1",
+          "StyleCop.Analyzers": "1.1.0-beta004",
+          "System.Runtime.Serialization.Formatters": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
+        },
+        "runtime": {
+          "IndiePortable.Communication.ClassMessages.dll": {}
+        }
+      },
+      "indieportable.communication.core/1.0.0-beta-001": {
+        "dependencies": {
+          "IndiePortable.AdvancedTasks.Core": "1.0.0",
+          "IndiePortable.Collections.Linq": "1.0.0",
+          "NETStandard.Library": "1.6.1",
+          "StyleCop.Analyzers": "1.1.0-beta004"
+        },
+        "runtime": {
+          "IndiePortable.Communication.Core.dll": {}
         }
       }
     }
@@ -688,6 +765,13 @@
       "sha512": "sha512-VB5cn/7OzUfzdnC8tqAIMQciVLiq2epm2NrAm1E9OjNRyG4lVhfR61SMcLizejzQP8R8Uf/0l5qOIbUEi+RdEg==",
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
+    },
+    "stylecop.analyzers/1.1.0-beta004": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Vh4hpJfXuNyXwfo7FC5GmhAm4nVf4BzcxxW1MTtbCS+a9h5Y9u/TOEEzM/g/NuzaADMdsYjnMpvVPo5i9AQzww==",
+      "path": "stylecop.analyzers/1.1.0-beta004",
+      "hashPath": "stylecop.analyzers.1.1.0-beta004.nupkg.sha512"
     },
     "system.appcontext/4.3.0": {
       "type": "package",
@@ -913,6 +997,20 @@
       "path": "system.runtime.numerics/4.3.0",
       "hashPath": "system.runtime.numerics.4.3.0.nupkg.sha512"
     },
+    "system.runtime.serialization.formatters/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KT591AkTNFOTbhZlaeMVvfax3RqhH1EJlcwF50Wm7sfnBLuHiOeZRRKrr1ns3NESkM20KPZ5Ol/ueMq5vg4QoQ==",
+      "path": "system.runtime.serialization.formatters/4.3.0",
+      "hashPath": "system.runtime.serialization.formatters.4.3.0.nupkg.sha512"
+    },
+    "system.runtime.serialization.primitives/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Wz+0KOukJGAlXjtKr+5Xpuxf8+c8739RI1C+A2BoQZT+wMCCoMDDdO8/4IRHfaVINqL78GO8dW8G2lW/e45Mcw==",
+      "path": "system.runtime.serialization.primitives/4.3.0",
+      "hashPath": "system.runtime.serialization.primitives.4.3.0.nupkg.sha512"
+    },
     "system.security.cryptography.algorithms/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -990,6 +1088,13 @@
       "path": "system.threading.timer/4.3.0",
       "hashPath": "system.threading.timer.4.3.0.nupkg.sha512"
     },
+    "system.valuetuple/4.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-xzDmg26Wb2x2rFDjwziaMYQJqxhrK+b4OUC008o7CnZhUMb2p5XfwgOgAQ/WlKhqxMUSDWRUm5/lNTKdh27pJA==",
+      "path": "system.valuetuple/4.3.1",
+      "hashPath": "system.valuetuple.4.3.1.nupkg.sha512"
+    },
     "system.xml.readerwriter/4.3.0": {
       "type": "package",
       "serviceable": true,
@@ -1003,6 +1108,26 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
+    },
+    "indieportable.advancedtasks.core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "indieportable.collections.linq/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "indieportable.communication.classmessages/1.0.0-beta-001": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "indieportable.communication.core/1.0.0-beta-001": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

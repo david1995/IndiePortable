@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------------------------------------------------------------
 // <copyright file="AssemblyInfo.cs" company="David Eiwen">
-// Copyright © 2015 by David Eiwen
+// Copyright (c) David Eiwen. All rights reserved.
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>

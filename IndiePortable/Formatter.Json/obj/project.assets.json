@@ -4504,10 +4504,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Json\\Formatter.Json.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Json\\Formatter.Json.csproj",
       "projectName": "Formatter.Json",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Json\\Formatter.Json.csproj",
-      "outputPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Json\\obj\\",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Json\\Formatter.Json.csproj",
+      "outputPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Json\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netstandard1.4"

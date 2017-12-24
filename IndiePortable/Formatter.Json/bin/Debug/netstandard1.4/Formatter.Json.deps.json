@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v1.4/",
-    "signature": "15487df56c6943fa05d1c93df9fd29831ed8ff97"
+    "signature": "12ab112490df2a0fd579713c033b35a8afad1b8d"
   },
   "compilationOptions": {},
   "targets": {
@@ -10,7 +10,8 @@
       "formatter.json/1.0.0": {
         "dependencies": {
           "NETStandard.Library": "1.6.1",
-          "Newtonsoft.Json": "10.0.2",
+          "Newtonsoft.Json": "10.0.3",
+          "StyleCop.Analyzers": "1.1.0-beta004",
           "System.Runtime.Serialization.Formatters": "4.3.0",
           "System.Runtime.Serialization.Primitives": "4.3.0"
         },
@@ -98,7 +99,7 @@
           "System.Xml.XDocument": "4.3.0"
         }
       },
-      "newtonsoft.json/10.0.2": {
+      "newtonsoft.json/10.0.3": {
         "dependencies": {
           "Microsoft.CSharp": "4.3.0",
           "NETStandard.Library": "1.6.1",
@@ -147,6 +148,7 @@
       "runtime.ubuntu.14.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0": {},
       "runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0": {},
       "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0": {},
+      "stylecop.analyzers/1.1.0-beta004": {},
       "system.appcontext/4.3.0": {
         "dependencies": {
           "System.Runtime": "4.3.0"
@@ -767,12 +769,12 @@
       "path": "netstandard.library/1.6.1",
       "hashPath": "netstandard.library.1.6.1.nupkg.sha512"
     },
-    "newtonsoft.json/10.0.2": {
+    "newtonsoft.json/10.0.3": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-iwElSU2IXmwGvytJsezyDML2ZWDkG2JzTYzlU/BNlmzMdlmRvbnwITsGGY74gwVEpDli1UdOLkMT7/3jxWvXzA==",
-      "path": "newtonsoft.json/10.0.2",
-      "hashPath": "newtonsoft.json.10.0.2.nupkg.sha512"
+      "sha512": "sha512-wBM7i7i3U2WX0ecor4zdVGvgrwFUjuigBoHKiL+nH39fCOpCPjBY3RDqJM32edvdyTAVdjzlccHsg41+/+zpSA==",
+      "path": "newtonsoft.json/10.0.3",
+      "hashPath": "newtonsoft.json.10.0.3.nupkg.sha512"
     },
     "runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl/4.3.0": {
       "type": "package",
@@ -864,6 +866,13 @@
       "sha512": "sha512-VB5cn/7OzUfzdnC8tqAIMQciVLiq2epm2NrAm1E9OjNRyG4lVhfR61SMcLizejzQP8R8Uf/0l5qOIbUEi+RdEg==",
       "path": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0",
       "hashPath": "runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512"
+    },
+    "stylecop.analyzers/1.1.0-beta004": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Vh4hpJfXuNyXwfo7FC5GmhAm4nVf4BzcxxW1MTtbCS+a9h5Y9u/TOEEzM/g/NuzaADMdsYjnMpvVPo5i9AQzww==",
+      "path": "stylecop.analyzers/1.1.0-beta004",
+      "hashPath": "stylecop.analyzers.1.1.0-beta004.nupkg.sha512"
     },
     "system.appcontext/4.3.0": {
       "type": "package",

@@ -3855,10 +3855,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections\\IndiePortable.Collections.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections\\IndiePortable.Collections.csproj",
       "projectName": "IndiePortable.Collections",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections\\IndiePortable.Collections.csproj",
-      "outputPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections\\obj\\",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections\\IndiePortable.Collections.csproj",
+      "outputPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netstandard1.3"
@@ -3887,7 +3887,7 @@
           },
           "StyleCop.Analyzers": {
             "target": "Package",
-            "version": "[1.1.0-beta004, )"
+            "version": "1.1.0-beta004"
           }
         }
       }

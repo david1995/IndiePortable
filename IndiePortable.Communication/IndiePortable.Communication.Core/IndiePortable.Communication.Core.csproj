@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>David Eiwen</Authors>
+    <Version>1.0.0-alpha001</Version>
+    <Company>David Eiwen</Company>
+    <Product>IndiePortable.Communication</Product>
+    <Copyright>© David Eiwen 2017</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/david1995/IndiePortable/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/david1995/IndiePortable/tree/master/IndiePortable/IndiePortable.Communication</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/david1995/IndiePortable.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <PackageTags>Communication Connection</PackageTags>
+    <Description>This package contains base classes for connections.</Description>
+    <PackageReleaseNotes># v1.0.0
+## v1.0.0-alpha001
+Initial alpha release</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Resources.ResourceManager" Version="4.3.0" />
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="IndiePortable.Collections.Linq">
+      <HintPath>..\..\IndiePortable.Collections\IndiePortable.Collections.Linq\bin\Debug\netstandard1.0\IndiePortable.Collections.Linq.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\ExceptionMessages.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

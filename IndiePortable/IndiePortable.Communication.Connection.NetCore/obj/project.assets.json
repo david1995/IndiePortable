@@ -7151,10 +7151,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Connection.NetCore\\IndiePortable.Communication.Connection.NetCore.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Connection.NetCore\\IndiePortable.Communication.Connection.NetCore.csproj",
       "projectName": "IndiePortable.Communication.Connection.NetCore",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Connection.NetCore\\IndiePortable.Communication.Connection.NetCore.csproj",
-      "outputPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Connection.NetCore\\obj\\",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Connection.NetCore\\IndiePortable.Communication.Connection.NetCore.csproj",
+      "outputPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Connection.NetCore\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netcoreapp1.1"
@@ -7162,11 +7162,11 @@
       "frameworks": {
         "netcoreapp1.1": {
           "projectReferences": {
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj"
             },
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj"
             }
           }
         }

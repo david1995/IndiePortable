@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------------------------------------------------------------
 // <copyright file="ProtocolFormatter.cs" company="David Eiwen">
-// Copyright © 2016 by David Eiwen
+// Copyright (c) David Eiwen. All rights reserved.
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>
@@ -244,10 +244,10 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                         break;
 
                     case ObjectType.Enum:
-                        
 
-                    default: throw new SerializationException(
-                        $"The current {nameof(IProtocolFormatter)} cannot deserialize an object with the specified object type.");
+                    default:
+                        throw new SerializationException(
+                   $"The current {nameof(IProtocolFormatter)} cannot deserialize an object with the specified object type.");
                 }
             }
 
@@ -409,7 +409,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                     obj.Result = ChooseDeserializationMethod(ref res, obj, type, typeInfo, serType, retData, surrogateSelectors);
                 }
             }
-            
+
             return binaryObjects.First(b => b.ObjectID == 0).Result;
         }
 
@@ -625,9 +625,10 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                 case PrimitiveType.Char: return BitConverter.ToChar(source, 0);
                 case PrimitiveType.Float: return BitConverter.ToSingle(source, 0);
                 case PrimitiveType.Double: return BitConverter.ToDouble(source, 0);
-                default: throw new ArgumentException(
-                    $"The specified {nameof(PrimitiveType)} is not supported by the current {nameof(IProtocolFormatter)}.",
-                    nameof(type));
+                default:
+                    throw new ArgumentException(
+               $"The specified {nameof(PrimitiveType)} is not supported by the current {nameof(IProtocolFormatter)}.",
+               nameof(type));
             }
         }
 
@@ -635,7 +636,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
         private static byte[] GetPrimitiveBytes(PrimitiveType type, object value)
         {
             byte[] primitiveBytes;
-            
+
             switch (type)
             {
                 case PrimitiveType.Bool:
@@ -879,7 +880,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
 
                 // get field minor type
                 var fieldMinorType = (PrimitiveType)fieldTypeBytes[1];
-                
+
                 // write field name
                 var fieldNameBytes = BinaryFormatter.GetLengthPrefixedString(field.Name);
                 target.Write(fieldNameBytes, 0, fieldNameBytes.Length);
@@ -896,7 +897,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                             byte[] enumBytes = GetEnumBytes(fieldMinorType, field.Value);
                             fieldstr.Write(enumBytes, 0, enumBytes.Length);
                             break;
-                            
+
                         case ObjectType.Array: // write array obj ref
                         case ObjectType.Object: // write obj ref
                             var objRef = objects.First(o => o.Value.Source == field.Value).Key;
@@ -1063,7 +1064,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                     // -> search for DeserializationConstructorAttribute or parameterless constructor
                     var constructor = serType.DeserializationConstructor;
                     ////typeInfo.DeclaredConstructors.FirstOrDefault(c => c.CustomAttributes.Any(a => a.AttributeType == typeof(DeserializationConstructorAttribute)));
-                    
+
                     if (constructor != null)
                     {
                         constructor.Invoke(value, new object[0]);
@@ -1217,7 +1218,7 @@ namespace IndiePortable.Formatter.Protocol1_0_0_0
                     var bodyBytes = new byte[fieldLength];
                     BinaryFormatter.ReadStream(memstr, bodyBytes, fieldLength);
                     currentLength += fieldLength;
-                    
+
                     var arrayElem = new BinaryArrayElement(indices, elemCount, fieldTypeBytes, bodyBytes);
                     source.Elements.Add(arrayElem);
                     elemCount++;

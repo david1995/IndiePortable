@@ -2,3 +2,9 @@ K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortabl
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections\bin\Debug\netstandard1.3\IndiePortable.Collections.dll
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections\obj\Debug\netstandard1.3\IndiePortable.Collections.csprojResolveAssemblyReference.cache
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Collections\obj\Debug\netstandard1.3\IndiePortable.Collections.AssemblyInfo.cs
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections\bin\Debug\netstandard1.3\IndiePortable.Collections.deps.json
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections\bin\Debug\netstandard1.3\IndiePortable.Collections.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections\bin\Debug\netstandard1.3\IndiePortable.Collections.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections\obj\Debug\netstandard1.3\IndiePortable.Collections.AssemblyInfo.cs
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections\obj\Debug\netstandard1.3\IndiePortable.Collections.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Collections\obj\Debug\netstandard1.3\IndiePortable.Collections.pdb

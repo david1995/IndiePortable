@@ -2,3 +2,10 @@ K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Js
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Json\bin\Debug\netstandard1.4\Formatter.Json.dll
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Json\obj\Debug\netstandard1.4\Formatter.Json.AssemblyInfo.cs
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Json\obj\Debug\netstandard1.4\Formatter.Json.csprojResolveAssemblyReference.cache
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Json\bin\Debug\netstandard1.4\Formatter.Json.deps.json
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Json\bin\Debug\netstandard1.4\Formatter.Json.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Json\bin\Debug\netstandard1.4\Formatter.Json.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Json\obj\Debug\netstandard1.4\Formatter.Json.csprojResolveAssemblyReference.cache
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Json\obj\Debug\netstandard1.4\Formatter.Json.AssemblyInfo.cs
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Json\obj\Debug\netstandard1.4\Formatter.Json.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Json\obj\Debug\netstandard1.4\Formatter.Json.pdb

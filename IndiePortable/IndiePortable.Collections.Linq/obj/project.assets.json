@@ -3774,10 +3774,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj",
       "projectName": "IndiePortable.Collections.Linq",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj",
-      "outputPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\obj\\",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj",
+      "outputPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netstandard1.4"

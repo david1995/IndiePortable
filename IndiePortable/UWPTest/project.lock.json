@@ -17928,12 +17928,12 @@
   },
   "libraries": {
     "IndiePortable.AdvancedTasks/0.2.0": {
-      "sha512": "jTp/F9coccRExJL9kp7hze+Pcoj3ZHRpI7SJeKQ7CybYwttYIhTyHn/t549pt5mxjCn7fzvIMlaqddhnkQUSHA==",
+      "sha512": "hersSoEEaKs09eSuYTqj+jHet3tv9hLqoFxocZy8dklwa/z/S7nc+lkiIJcbnKVTwMVtmTNMibnXrG0Rdm0rhQ==",
       "type": "package",
       "path": "indieportable.advancedtasks/0.2.0",
       "files": [
-        "IndiePortable.AdvancedTasks.0.2.0.nupkg.sha512",
-        "IndiePortable.AdvancedTasks.nuspec",
+        "indieportable.advancedtasks.0.2.0.nupkg.sha512",
+        "indieportable.advancedtasks.nuspec",
         "lib/portable45-net45+win8+wpa81/IndiePortable.AdvancedTasks.dll",
         "lib/portable45-net45+win8+wpa81/IndiePortable.AdvancedTasks.xml"
       ]
@@ -26665,28 +26665,28 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\UWPTest\\UWPTest.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\UWPTest\\UWPTest.csproj",
       "projectName": "UWPTest",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\UWPTest\\UWPTest.csproj",
-      "projectJsonPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\UWPTest\\project.json",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\UWPTest\\UWPTest.csproj",
+      "projectJsonPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\UWPTest\\project.json",
       "projectStyle": "ProjectJson",
       "frameworks": {
         "uap10.0": {
           "projectReferences": {
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj"
             },
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\IndiePortable.Communication.Tcp.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\IndiePortable.Communication.Tcp.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\IndiePortable.Communication.Tcp.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Tcp\\IndiePortable.Communication.Tcp.csproj"
             },
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.UniversalWindows\\IndiePortable.Communication.UniversalWindows.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.UniversalWindows\\IndiePortable.Communication.UniversalWindows.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.UniversalWindows\\IndiePortable.Communication.UniversalWindows.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.UniversalWindows\\IndiePortable.Communication.UniversalWindows.csproj"
             },
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication\\IndiePortable.Communication.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication\\IndiePortable.Communication.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication\\IndiePortable.Communication.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication\\IndiePortable.Communication.csproj"
             },
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\TestLib\\TestLib.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\TestLib\\TestLib.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\TestLib\\TestLib.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\TestLib\\TestLib.csproj"
             }
           }
         }

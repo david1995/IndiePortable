@@ -1896,10 +1896,10 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\IndiePortable.AdvancedTasks.Core.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\IndiePortable.AdvancedTasks.Core.csproj",
       "projectName": "IndiePortable.AdvancedTasks.Core",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\IndiePortable.AdvancedTasks.Core.csproj",
-      "outputPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\obj\\",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\IndiePortable.AdvancedTasks.Core.csproj",
+      "outputPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netstandard1.0"

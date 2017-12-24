@@ -17,7 +17,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyDescriptionAttribute("Provides types for message-based communication by using classes as message types." +
     "")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0-beta-001")]
 [assembly: System.Reflection.AssemblyProductAttribute("IndiePortable.Communication")]
 [assembly: System.Reflection.AssemblyTitleAttribute("IndiePortable.Communication.ClassMessages")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

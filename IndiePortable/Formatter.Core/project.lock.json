@@ -4070,10 +4070,10 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Core\\Formatter.Core.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Core\\Formatter.Core.csproj",
       "projectName": "Formatter.Core",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Core\\Formatter.Core.csproj",
-      "projectJsonPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Core\\project.json",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Core\\Formatter.Core.csproj",
+      "projectJsonPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Core\\project.json",
       "projectStyle": "ProjectJson"
     },
     "dependencies": {

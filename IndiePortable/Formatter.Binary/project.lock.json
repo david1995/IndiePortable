@@ -3645,10 +3645,10 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Binary\\Formatter.Binary.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Binary\\Formatter.Binary.csproj",
       "projectName": "Formatter.Binary",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Binary\\Formatter.Binary.csproj",
-      "projectJsonPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\Formatter.Binary\\project.json",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Binary\\Formatter.Binary.csproj",
+      "projectJsonPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\Formatter.Binary\\project.json",
       "projectStyle": "ProjectJson"
     },
     "dependencies": {

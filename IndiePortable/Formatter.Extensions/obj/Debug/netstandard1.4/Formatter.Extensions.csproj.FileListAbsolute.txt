@@ -5,3 +5,10 @@ K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Ex
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Extensions\bin\Debug\netstandard1.4\Formatter.Extensions.pdb
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Extensions\obj\Debug\netstandard1.4\Formatter.Extensions.dll
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Extensions\obj\Debug\netstandard1.4\Formatter.Extensions.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Extensions\bin\Debug\netstandard1.4\Formatter.Extensions.deps.json
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Extensions\bin\Debug\netstandard1.4\Formatter.Extensions.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Extensions\bin\Debug\netstandard1.4\Formatter.Extensions.pdb
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Extensions\obj\Debug\netstandard1.4\Formatter.Extensions.csprojResolveAssemblyReference.cache
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Extensions\obj\Debug\netstandard1.4\Formatter.Extensions.AssemblyInfo.cs
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Extensions\obj\Debug\netstandard1.4\Formatter.Extensions.dll
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\Formatter.Extensions\obj\Debug\netstandard1.4\Formatter.Extensions.pdb

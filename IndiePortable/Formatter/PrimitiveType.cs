@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------------------------------------------------------------
 // <copyright file="PrimitiveType.cs" company="David Eiwen">
-// Copyright © 2016 by David Eiwen
+// Copyright (c) David Eiwen. All rights reserved.
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Authors>David Eiwen</Authors>
+    <Company>David Eiwen</Company>
+    <Product>IndiePortable.Communication</Product>
+    <Description>This package contains classes for building connections over TCP.</Description>
+    <Copyright>© David Eiwen 2017</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/david1995/IndiePortable/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/david1995/IndiePortable/tree/master/IndiePortable/IndiePortable.Communication</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/david1995/IndiePortable.git</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>Communication Connection</PackageTags>
+    <Version>1.0.0-alpha001</Version>
+    <PackageReleaseNotes># v1.0.0
+## v1.0.0-alpha001
+Initial alpha release</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IndiePortable.Communication.Binary\IndiePortable.Communication.Binary.csproj" />
+    <ProjectReference Include="..\IndiePortable.Communication.Core\IndiePortable.Communication.Core.csproj" />
+  </ItemGroup>
+
+</Project>

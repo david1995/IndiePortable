@@ -41,29 +41,29 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formatter.Binary", "Formatt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Communication", "Communication", "{B13EFDCD-E61D-4563-BB28-EF0B0AAFD8DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiePortable.Communication.Core", "IndiePortable.Communication.Core\IndiePortable.Communication.Core.csproj", "{29BD8644-C1FE-4CAE-8408-64773A62558F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndiePortable.Communication.Core", "IndiePortable.Communication.Core\IndiePortable.Communication.Core.csproj", "{29BD8644-C1FE-4CAE-8408-64773A62558F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IndiePortable.Collections", "IndiePortable.Collections", "{4CDB272D-2AFC-4824-B085-78C155563D94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiePortable.Collections.Linq", "IndiePortable.Collections.Linq\IndiePortable.Collections.Linq.csproj", "{B76473BD-5BD6-4588-847C-BB53B5BF4B96}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndiePortable.Collections.Linq", "IndiePortable.Collections.Linq\IndiePortable.Collections.Linq.csproj", "{B76473BD-5BD6-4588-847C-BB53B5BF4B96}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiePortable.Communication.Connection.NetFX", "IndiePortable.Communication.Connection.NetFX\IndiePortable.Communication.Connection.NetFX.csproj", "{E2AD3548-9879-48C5-9A19-55AA45B46C68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiePortable.Communication.ClassMessages", "IndiePortable.Communication.ClassMessages\IndiePortable.Communication.ClassMessages.csproj", "{0D176637-E67B-4169-BE84-A56AFF2EE2A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndiePortable.Communication.ClassMessages", "IndiePortable.Communication.ClassMessages\IndiePortable.Communication.ClassMessages.csproj", "{0D176637-E67B-4169-BE84-A56AFF2EE2A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formatter.Extensions", "Formatter.Extensions\Formatter.Extensions.csproj", "{4C882E4A-CD57-48B3-9E23-0ED8EE6153D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Formatter.Extensions", "Formatter.Extensions\Formatter.Extensions.csproj", "{4C882E4A-CD57-48B3-9E23-0ED8EE6153D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Formatter.Json", "Formatter.Json\Formatter.Json.csproj", "{EBC62C6E-7580-496B-ABDB-A8B465D62042}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Formatter.Json", "Formatter.Json\Formatter.Json.csproj", "{EBC62C6E-7580-496B-ABDB-A8B465D62042}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiePortable.Collections", "IndiePortable.Collections\IndiePortable.Collections.csproj", "{D50F30A3-3A4C-42AC-A16E-C24A5AF401ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndiePortable.Collections", "IndiePortable.Collections\IndiePortable.Collections.csproj", "{D50F30A3-3A4C-42AC-A16E-C24A5AF401ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiePortable.Communication.Connection.NetCore", "IndiePortable.Communication.Connection.NetCore\IndiePortable.Communication.Connection.NetCore.csproj", "{386FC14A-EA94-4E66-AF69-3775FEA3BFC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndiePortable.Communication.Connection.NetCore", "IndiePortable.Communication.Connection.NetCore\IndiePortable.Communication.Connection.NetCore.csproj", "{386FC14A-EA94-4E66-AF69-3775FEA3BFC5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IndiePortable.AdvancedTasks", "IndiePortable.AdvancedTasks", "{ACA505B0-CF5A-4692-9363-80507D9562B3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiePortable.AdvancedTasks.Core", "IndiePortable.AdvancedTasks.Core\IndiePortable.AdvancedTasks.Core.csproj", "{54DB6B4F-CA8E-41FE-B96F-B51BC8E8C714}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndiePortable.AdvancedTasks.Core", "IndiePortable.AdvancedTasks.Core\IndiePortable.AdvancedTasks.Core.csproj", "{54DB6B4F-CA8E-41FE-B96F-B51BC8E8C714}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IndiePortable.Communication.Connection.JsonConnection", "IndiePortable.Communication.Connection.JsonConnection\IndiePortable.Communication.Connection.JsonConnection.csproj", "{84D9DA84-9139-4794-BB11-6512E8C75192}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IndiePortable.Communication.Connection.JsonConnection", "IndiePortable.Communication.Connection.JsonConnection\IndiePortable.Communication.Connection.JsonConnection.csproj", "{84D9DA84-9139-4794-BB11-6512E8C75192}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

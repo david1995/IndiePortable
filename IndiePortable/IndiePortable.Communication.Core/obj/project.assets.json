@@ -3802,10 +3802,10 @@
   "project": {
     "version": "1.0.0-beta-001",
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj",
       "projectName": "IndiePortable.Communication.Core",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj",
-      "outputPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\obj\\",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\IndiePortable.Communication.Core.csproj",
+      "outputPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.Core\\obj\\",
       "projectStyle": "PackageReference",
       "originalTargetFrameworks": [
         "netstandard1.4"
@@ -3813,11 +3813,11 @@
       "frameworks": {
         "netstandard1.4": {
           "projectReferences": {
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\IndiePortable.AdvancedTasks.Core.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\IndiePortable.AdvancedTasks.Core.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\IndiePortable.AdvancedTasks.Core.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.AdvancedTasks.Core\\IndiePortable.AdvancedTasks.Core.csproj"
             },
-            "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj": {
-              "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj"
+            "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj": {
+              "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Collections.Linq\\IndiePortable.Collections.Linq.csproj"
             }
           }
         }

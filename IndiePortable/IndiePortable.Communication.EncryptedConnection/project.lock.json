@@ -109,10 +109,10 @@
   },
   "project": {
     "restore": {
-      "projectUniqueName": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj",
+      "projectUniqueName": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj",
       "projectName": "IndiePortable.Communication.EncryptedConnection",
-      "projectPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj",
-      "projectJsonPath": "K:\\David\\Programmieren\\Projects\\GitHub2\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\project.json",
+      "projectPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\IndiePortable.Communication.EncryptedConnection.csproj",
+      "projectJsonPath": "C:\\Users\\david\\Source\\Repos\\IndiePortable\\IndiePortable\\IndiePortable.Communication.EncryptedConnection\\project.json",
       "projectStyle": "ProjectJson"
     },
     "dependencies": {

@@ -19,6 +19,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Core\bin\Debug\netstandard1.4\IndiePortable.Communication.Core.dll" target="lib\netstandard1.4\IndiePortable.Communication.Core.dll" />
+    <file src="C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Core\bin\Debug\netstandard1.4\IndiePortable.Communication.Core.dll" target="lib\netstandard1.4\IndiePortable.Communication.Core.dll" />
   </files>
 </package>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\IndiePortable.Communication.Binary\IndiePortable.Communication.Binary.csproj" />
+    <ProjectReference Include="..\IndiePortable.Communication.Core\IndiePortable.Communication.Core.csproj" />
+    <ProjectReference Include="..\IndiePortable.Communication.Message\IndiePortable.Communication.Message.csproj" />
+  </ItemGroup>
+
+</Project>

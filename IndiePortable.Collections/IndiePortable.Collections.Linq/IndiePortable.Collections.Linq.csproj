@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.0</TargetFramework>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>David Eiwen</Authors>
+    <Company>David Eiwen</Company>
+    <Product>IndiePortable</Product>
+    <Description>Provides useful LINQ extensions for the IEnumerable&lt;T&gt; interface.</Description>
+    <Copyright>© David Eiwen 2017</Copyright>
+    <RepositoryType></RepositoryType>
+    <PackageTags>LINQ extensions IEnumerable</PackageTags>
+    <Version>1.0.0-alpha001</Version>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/david1995/IndiePortable/master/LICENSE</PackageLicenseUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.4.0" />
+  </ItemGroup>
+
+</Project>

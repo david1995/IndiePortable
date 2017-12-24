@@ -7,9 +7,10 @@
     <PackageId>IndiePortable.Formatter.Extensions</PackageId>
     <Company>DavidEiwen</Company>
     <Product>IndiePortable.Formatter</Product>
-    <Description>Provides useful extensions to .NET formatting logic.</Description>
+    <Description>Provides useful extensions to .NET serialization logic.</Description>
     <Copyright>© David Eiwen 2017</Copyright>
     <PackageTags>Formatter Extensions Serialization</PackageTags>
+    <Version>1.0.0-alpha001</Version>
   </PropertyGroup>
 
   <ItemGroup>

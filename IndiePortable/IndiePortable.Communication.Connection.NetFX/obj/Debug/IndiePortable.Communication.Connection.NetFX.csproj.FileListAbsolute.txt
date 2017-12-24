@@ -1,1 +1,2 @@
 K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetFX\obj\Debug\IndiePortable.Communication.Connection.NetFX.csprojResolveAssemblyReference.cache
+C:\Users\david\Source\Repos\IndiePortable\IndiePortable\IndiePortable.Communication.Connection.NetFX\obj\Debug\IndiePortable.Communication.Connection.NetFX.csprojResolveAssemblyReference.cache

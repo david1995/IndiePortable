@@ -1,6 +1,6 @@
 ﻿// ----------------------------------------------------------------------------------------------------------------------------------------
 // <copyright file="BinaryFormatter.cs" company="David Eiwen">
-// Copyright © 2016 by David Eiwen
+// Copyright (c) David Eiwen. All rights reserved.
 // </copyright>
 // <author>David Eiwen</author>
 // <summary>
@@ -34,7 +34,7 @@ namespace IndiePortable.Formatter
         public static readonly IReadOnlyCollection<IProtocolFormatter> SupportedFormatters = new ReadOnlyCollection<IProtocolFormatter>(
             new[]
             {
-                new Protocol1_0_0_0.ProtocolFormatter()
+                new Protocol1_0_0_0.ProtocolFormatter(),
             });
 
         /// <summary>
