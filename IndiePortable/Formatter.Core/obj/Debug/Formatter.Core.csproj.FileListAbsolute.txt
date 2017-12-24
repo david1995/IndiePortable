@@ -1,2 +1,0 @@
-K:\David\Programmieren\Projects\GitHub2\IndiePortable\IndiePortable\Formatter.Core\obj\Debug\Formatter.Core.csprojResolveAssemblyReference.cache
-C:\Users\David\Source\Repos\IndiePortable\IndiePortable\Formatter.Core\obj\Debug\Formatter.Core.csprojResolveAssemblyReference.cache

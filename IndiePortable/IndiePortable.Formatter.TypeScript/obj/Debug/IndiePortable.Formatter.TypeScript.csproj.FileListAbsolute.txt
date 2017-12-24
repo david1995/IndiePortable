@@ -1,6 +1,0 @@
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\bin\IndiePortable.Formatter.TypeScript.dll.config
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\bin\IndiePortable.Formatter.TypeScript.dll
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\bin\IndiePortable.Formatter.TypeScript.pdb
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\obj\Debug\IndiePortable.Formatter.TypeScript.csprojResolveAssemblyReference.cache
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\obj\Debug\IndiePortable.Formatter.TypeScript.dll
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\obj\Debug\IndiePortable.Formatter.TypeScript.pdb

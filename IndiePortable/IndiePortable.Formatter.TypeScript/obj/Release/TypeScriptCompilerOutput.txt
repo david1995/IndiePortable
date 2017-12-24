@@ -1,3 +1,0 @@
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\app.js
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\BinaryFormatter.js
-K:\David\Programmieren\Projects\GitHub\IndiePortable\IndiePortable\IndiePortable.Formatter.TypeScript\SerializableAttribute.js

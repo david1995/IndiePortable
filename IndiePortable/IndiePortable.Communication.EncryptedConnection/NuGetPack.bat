@@ -1,1 +1,0 @@
-nuget pack IndiePortable.Communication.EncryptedConnection.csproj -Prop Configuration=Release -IncludeReferencedProjects

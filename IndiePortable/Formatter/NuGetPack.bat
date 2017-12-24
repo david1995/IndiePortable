@@ -1,1 +1,0 @@
-nuget pack Formatter.csproj -Prop Configuration=Release -IncludeReferencedProjects

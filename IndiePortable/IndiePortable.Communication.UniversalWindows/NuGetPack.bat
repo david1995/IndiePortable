@@ -1,1 +1,0 @@
-nuget pack IndiePortable.Communication.UniversalWindows.csproj -Prop Configuration=Release -IncludeReferencedProjects
